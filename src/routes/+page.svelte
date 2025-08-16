@@ -10,6 +10,7 @@
     import Pat3 from "$lib/assets/images/home_page/petpet3.gif"
 
     import { onMount, onDestroy } from "svelte"
+    import { API_URL } from "$lib/config";
 
     let bg1Y = $state(0)
     function bg1Scroll() {
@@ -32,8 +33,14 @@
     //     }
     // })
 
-    let data = $state({
+    let data: { cnt: string | null } = $state({
         "cnt": null
+    })
+
+    onMount(() => {
+        fetch(`${API_URL}/nikos/count`)
+            .then(v => v.text())
+            .then(v => data.cnt = v)
     })
 </script>
 

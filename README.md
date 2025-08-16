@@ -1,6 +1,10 @@
 # Nikodex V2 (front-end)
 This repository hold the front-end components for the Nikodex. This project uses Svelte with TailwindCSS.
 
+## Setting Up
+This project connects to the back-end API on https://github.com/Niko-Dex/nikodex2-backend/, so you'd want to also clone the repo and configure the API server.
+After that, head into `src/lib/config.ts` to change the configuration.
+
 ## Developing
 
 To start developing for the Nikodex front-end, install dependencies with `npm install` (or `pnpm install` or `yarn`), then start a development server:

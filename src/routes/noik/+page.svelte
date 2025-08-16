@@ -2,13 +2,16 @@
     import Background from "$lib/assets/images/noik_page/bg1.png"
     import Card from "$lib/components/Card.svelte"
     import CardContainer from "$lib/components/CardContainer.svelte"
+    import { API_URL } from "$lib/config"
+    import { onMount } from "svelte";
 
     function replace_img(ev: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement; }) {
         const elm = ev.target as HTMLImageElement
         elm.src = elm.getAttribute("data-secsrc") ?? elm.src
     }
 
-    let dataLoaded = false
+    let dataLoaded = $state(false)
+    let dataErr = $state(false)
     let apiData: {
         name: string,
         author: string,
@@ -17,6 +20,28 @@
         description: string,
         abilities: string[]
     }[] = $state([])
+
+    onMount(() => {
+        fetch(`${API_URL}/nikos/all`)
+            .then(d => d.json())
+            .then(data => {
+                for (let d of data) {
+                    apiData.push({
+                        name: d["name"],
+                        author: d["author"],
+                        description: d["full_desc"],
+                        short_desc: d["description"],
+                        abilities: d["abilities"].map((v: { name: string }) => v.name),
+                        img_link: d["image"]
+                    })
+                }
+                dataLoaded = true
+            })
+            .catch(err => {
+                console.log(err)
+                dataErr = true
+            })
+    })
 </script>
 
 <svelte:head>
@@ -42,6 +67,8 @@
                 />
             {/each}
         </CardContainer>
+        {:else if dataErr}
+        <p class="text-center"><em>woops! something has gone wrong while connecting to the API server :83c... check developer console for more info</em></p>
         {:else}
         <p class="text-center"><em>loading data from API, please wait...</em></p>
         {/if}
