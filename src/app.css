@@ -1,3 +1,32 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
+
+@font-face {
+    font-family: "Terminus";
+    src: url("$lib/assets/fonts/Terminus/TerminusTTF-4.49.3.ttf");
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Terminus";
+    src: url("$lib/assets/fonts/Terminus/TerminusTTF-Bold-4.49.3.ttf");
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Terminus";
+    src: url("$lib/assets/fonts/Terminus/TerminusTTF-Bold-Italic-4.49.3.ttf");
+    font-weight: 700;
+    font-style: italic;
+}
+@font-face {
+    font-family: "Terminus";
+    src: url("$lib/assets/fonts/Terminus/TerminusTTF-Italic-4.49.3.ttf");
+    font-weight: 400;
+    font-style: italic;
+}
+
+@theme {
+    --font-display: "Terminus", monospace;
+}
