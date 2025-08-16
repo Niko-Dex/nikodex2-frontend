@@ -3,6 +3,7 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import Link from "$lib/components/Link.svelte";
 	import logo from "$lib/assets/images/logo.png"
+    import Transition from '$lib/components/Transition.svelte';
 
 	let { children } = $props();
 
@@ -11,7 +12,7 @@
 <svelte:head>
 	<link rel="icon" href={favicon} />
 </svelte:head>
-
+<Transition />
 <nav class="bg-black sticky top-0 w-full border-b-4 border-amber-600 px-4 py-2 justify-between items-center flex flex-col gap-2 lg:flex-row z-3">
 	<div class="logo">
 		<img src={logo} alt="Logo" class="max-h-12">
