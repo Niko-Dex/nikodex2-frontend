@@ -2,7 +2,6 @@
     import Background from "$lib/assets/images/noik_page/bg1.png"
     import Card from "$lib/components/Card.svelte"
     import CardContainer from "$lib/components/CardContainer.svelte"
-    import { API_URL } from "$lib/config"
     import { onMount } from "svelte";
 
     function replace_img(ev: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement; }) {
@@ -20,6 +19,8 @@
         description: string,
         abilities: string[]
     }[] = $state([])
+
+    const API_URL = import.meta.env["VITE_API_SERVER_URL"]
 
     onMount(() => {
         fetch(`${API_URL}/nikos/all`)

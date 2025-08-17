@@ -10,7 +10,7 @@
     import Pat3 from "$lib/assets/images/home_page/petpet3.gif"
 
     import { onMount, onDestroy } from "svelte"
-    import { API_URL } from "$lib/config";
+    import TwmWindow from "$lib/components/TWMWindow.svelte";
 
     let bg1Y = $state(0)
     function bg1Scroll() {
@@ -36,6 +36,7 @@
     let data: { cnt: string | null } = $state({
         "cnt": null
     })
+    const API_URL = import.meta.env["VITE_API_SERVER_URL"]
 
     onMount(() => {
         fetch(`${API_URL}/nikos/count`)

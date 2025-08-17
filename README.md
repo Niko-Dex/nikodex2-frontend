@@ -3,7 +3,11 @@ This repository hold the front-end components for the Nikodex. This project uses
 
 ## Setting Up
 This project connects to the back-end API on https://github.com/Niko-Dex/nikodex2-backend/, so you'd want to also clone the repo and configure the API server.
-After that, head into `src/lib/config.ts` to change the configuration.
+After that, create a .env file with the following data:
+```
+VITE_API_SERVER_URL="<url_of_api_server>" # for instance: https://api.somewhere.com/ or http://localhost:8080/
+JWT_SECRET="" # the same JWT secret that you setup in the API server
+```
 
 ## Developing
 

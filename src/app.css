@@ -43,6 +43,14 @@
     @apply text-3xl md:text-6xl lg:text-7xl font-bold;
 }
 
+.btn {
+    @apply border-4 border-amber-600 px-2 py-1 lg:w-60 transition duration-200 hover:bg-amber-600 hover:text-black hover:cursor-pointer;
+}
+
+p {
+    overflow-wrap: anywhere;
+}
+
 .no-antialias {
     image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
     image-rendering: -moz-crisp-edges;          /* Firefox                        */
