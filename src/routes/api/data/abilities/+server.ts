@@ -1,9 +1,9 @@
-import { API_SERVER_URL } from "$env/static/private"
+import { env } from "$env/dynamic/private"
 import { json } from "@sveltejs/kit"
 
 export async function POST({ request, fetch, cookies }) {
     try {
-        const res = await fetch(`${API_SERVER_URL}/abilities`, {
+        const res = await fetch(`${env.API_SERVER_URL}/abilities`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${cookies.get("token")}`,
@@ -21,7 +21,7 @@ export async function POST({ request, fetch, cookies }) {
 export async function PUT({ request, fetch, cookies }) {
     try {
         const url = new URL(request.url)
-        const res = await fetch(`${API_SERVER_URL}/abilities?id=${url.searchParams.get("id")}`, {
+        const res = await fetch(`${env.API_SERVER_URL}/abilities?id=${url.searchParams.get("id")}`, {
             method: "PUT",
             headers: {
                 "Authorization": `Bearer ${cookies.get("token")}`,
@@ -39,7 +39,7 @@ export async function PUT({ request, fetch, cookies }) {
 export async function DELETE({ request, fetch, cookies }) {
     try {
         const url = new URL(request.url)
-        const res = await fetch(`${API_SERVER_URL}/abilities?id=${url.searchParams.get("id")}`, {
+        const res = await fetch(`${env.API_SERVER_URL}/abilities?id=${url.searchParams.get("id")}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${cookies.get("token")}`,

@@ -1,10 +1,10 @@
 import { json } from '@sveltejs/kit';
 
-import { API_SERVER_URL } from "$env/static/private"
+import { env } from "$env/dynamic/private"
 export async function GET({ request, fetch, cookies }) {
     try {
         const url = new URL(request.url)
-        const res = await fetch(`${API_SERVER_URL}/image?id=${url.searchParams.get("id")}`)
+        const res = await fetch(`${env.API_SERVER_URL}/image?id=${url.searchParams.get("id")}`)
 
         return res
     } catch (e) {
@@ -15,7 +15,7 @@ export async function GET({ request, fetch, cookies }) {
 export async function POST({ request, fetch, cookies }) {
     try {
         const url = new URL(request.url)
-        const res = await fetch(`${API_SERVER_URL}/image?id=${url.searchParams.get("id")}`, {
+        const res = await fetch(`${env.API_SERVER_URL}/image?id=${url.searchParams.get("id")}`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${cookies.get("token")}`,

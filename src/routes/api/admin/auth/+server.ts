@@ -1,10 +1,10 @@
 import { json } from '@sveltejs/kit';
 
-import { API_SERVER_URL } from "$env/static/private"
+import { env } from "$env/dynamic/private"
 export async function POST({ request, fetch, cookies }) {
     const { username, password } = await request.json()
     try {
-        const res = await fetch(`${API_SERVER_URL}/token`, {
+        const res = await fetch(`${env.API_SERVER_URL}/token`, {
             method: "POST",
             body: new URLSearchParams({ username, password })
         })

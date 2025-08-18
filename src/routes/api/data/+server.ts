@@ -1,9 +1,9 @@
 import { json } from '@sveltejs/kit';
 
-import { API_SERVER_URL } from "$env/static/private"
+import { env } from "$env/dynamic/private"
 export async function GET({ request, fetch, cookies }) {
     try {
-        const res = await fetch(`${API_SERVER_URL}/nikos`)
+        const res = await fetch(`${env.API_SERVER_URL}/nikos`)
 
         if (!res.ok) {
             return json({ error: "buh" }, { status: res.status })
@@ -26,7 +26,7 @@ export async function GET({ request, fetch, cookies }) {
 
 export async function POST({ request, fetch, cookies }) {
     try {
-        const res = await fetch(`${API_SERVER_URL}/nikos`, {
+        const res = await fetch(`${env.API_SERVER_URL}/nikos`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${cookies.get("token")}`,
@@ -44,7 +44,7 @@ export async function POST({ request, fetch, cookies }) {
 export async function PUT({ request, fetch, cookies }) {
     try {
         const url = new URL(request.url)
-        const res = await fetch(`${API_SERVER_URL}/nikos?id=${url.searchParams.get("id")}`, {
+        const res = await fetch(`${env.API_SERVER_URL}/nikos?id=${url.searchParams.get("id")}`, {
             method: "PUT",
             headers: {
                 "Authorization": `Bearer ${cookies.get("token")}`,
@@ -62,7 +62,7 @@ export async function PUT({ request, fetch, cookies }) {
 export async function DELETE({ request, fetch, cookies }) {
     try {
         const url = new URL(request.url)
-        const res = await fetch(`${API_SERVER_URL}/nikos?id=${url.searchParams.get("id")}`, {
+        const res = await fetch(`${env.API_SERVER_URL}/nikos?id=${url.searchParams.get("id")}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${cookies.get("token")}`,
