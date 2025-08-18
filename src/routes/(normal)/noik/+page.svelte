@@ -31,7 +31,7 @@
                         description: d["full_desc"],
                         short_desc: d["description"],
                         abilities: d["abilities"].map((v: { name: string }) => v.name),
-                        img_link: d["image"]
+                        img_link: `${d["image"]}`
                     })
                 }
                 dataLoaded = true

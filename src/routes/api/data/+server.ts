@@ -9,7 +9,15 @@ export async function GET({ request, fetch, cookies }) {
             return json({ error: "buh" }, { status: res.status })
         }
 
-        return json(await res.json())
+        let json_res = await res.json().then(r => {
+            for (const element of r) {
+                const new_img = `${API_SERVER_URL}/images/${element["image"]}`
+                element["image"] = new_img
+            }
+            return r
+        })
+
+        return json(json_res)
     } catch (e) {
         return json({ error: "Cannot connect or problem while connecting to API server!" }, { status: 500 })
     }
