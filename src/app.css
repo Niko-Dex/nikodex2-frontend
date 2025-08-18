@@ -51,6 +51,14 @@ p {
     overflow-wrap: anywhere;
 }
 
+input, textarea {
+    @apply bg-black text-white
+}
+
+input:disabled, textarea:disabled {
+    @apply bg-gray-800
+}
+
 .no-antialias {
     image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
     image-rendering: -moz-crisp-edges;          /* Firefox                        */

@@ -36,10 +36,9 @@
     let data: { cnt: string | null } = $state({
         "cnt": null
     })
-    const API_URL = import.meta.env["VITE_API_SERVER_URL"]
 
     onMount(() => {
-        fetch(`${API_URL}/nikos/count`)
+        fetch(`/api/data/count`)
             .then(v => v.text())
             .then(v => data.cnt = v)
     })

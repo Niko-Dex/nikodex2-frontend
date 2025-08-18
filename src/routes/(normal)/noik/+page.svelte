@@ -20,10 +20,8 @@
         abilities: string[]
     }[] = $state([])
 
-    const API_URL = import.meta.env["VITE_API_SERVER_URL"]
-
     onMount(() => {
-        fetch(`${API_URL}/nikos/all`)
+        fetch(`/api/data`)
             .then(d => d.json())
             .then(data => {
                 for (let d of data) {
