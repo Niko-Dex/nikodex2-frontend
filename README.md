@@ -7,7 +7,7 @@ After that, create a .env file with the following data:
 ```
 API_SERVER_URL="<url_of_api_server>" # for instance: https://api.somewhere.com/ or http://localhost:8080/
 JWT_SECRET="" # the same JWT secret that you setup in the API server
-ORIGIN=""
+ORIGIN="" # you may need to specify the address that Vite provide here if you are not able to access this page
 ```
 
 ## Developing

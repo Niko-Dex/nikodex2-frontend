@@ -140,8 +140,7 @@
 
 <div class="xl:px-4 flex flex-col gap-4">
     <h2 class="h2-txt-size">Blog Entries</h2>
-    <button class="btn" onclick={async (e) => {await createData(e)}}>Add Entry</button>
-    <div>
+    <div class="flex flex-col gap-4">
         <table class="table-auto text-left rtl:text-right bg-slate-800 text-gray-500 dark:text-gray-400 w-full">
             <thead class="text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -176,5 +175,6 @@
                 {/each}
             </tbody>
         </table>
+        <button class="btn" onclick={async (e) => {await createData(e)}}>Add Entry</button>
     </div>
 </div>

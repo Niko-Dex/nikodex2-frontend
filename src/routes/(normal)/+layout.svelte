@@ -29,12 +29,13 @@
 
 <footer class="bg-white text-black p-4">
 	<p>The NikoDex v2 is a project created by the contributors of <a class="underline" href="https://github.com/Niko-Dex">Niko-Dex</a>, which are fans of OneShot, and are part of the OSDS server.</p>
-	<p>Unless explicitly stated, all assets and codes are created by the Niko-Dex contributors.</p>
+	<p>Unless explicitly stated under Acknowledgements, all assets and codes are created by the Niko-Dex contributors.</p>
 
 	<details>
 		<summary>Acknowledgements</summary>
-		<p>Background in the Home page, along with the Niko sprites are taken from OneShot and OneShot WME.</p>
-		<p>All Nikosonas belongs to their respective owners.</p>
+		<p>Background for the Home page, the Niko List page, and the Blog page, along with the Niko sprites are taken from the game OneShot and OneShot WME. All rights for these media belongs to nightmargin.</p>
+		<p>All Nikosonas belongs to their respective owners and artists.</p>
 		<p>Terminus TTF font used in the website are licensed under the SIL Open Font License, downloaded from <a class="underline" href="https://files.ax86.net/terminus-ttf/">https://files.ax86.net/terminus-ttf/</a></p>
+		<p>Svelte, TailwindCSS, along with a few dependecies, were used in the creation of the front-end.</p>
 	</details>
 </footer>
