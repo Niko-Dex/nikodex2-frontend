@@ -12,7 +12,7 @@ export async function GET({ request, fetch, cookies }) {
         let json_res = await res.json().then(r => {
             for (const element of r) {
                 const new_img = `${API_SERVER_URL}/images/${element["image"]}`
-                element["image"] = new_img
+                element["full_img_path"] = new_img
             }
             return r
         })
