@@ -3,6 +3,7 @@
     import toast from "svelte-french-toast"
 
     let editMode: { [id: number]: boolean } = $state({})
+    let oldData: { [id: number]: (typeof apiData)[number] } = {}
     let apiData: {
         id: number,
         title: string
@@ -63,6 +64,74 @@
         btn.disabled = false
     }
 
+    function startEdit(row: (typeof apiData)[number]) {
+        editMode[row.id] = true
+        oldData[row.id] = {...row}
+    }
+
+    async function saveEdit(row: (typeof apiData)[number]) {
+        try {
+            const out = await fetch(`/api/data/blogs?id=${row.id}`, {
+                method: 'PUT',
+                body: JSON.stringify({
+                    "title": row.title,
+                    "author": row.author,
+                    "content": row.content
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            if (out.status == 401) location.reload()
+            if (out.status != 200) throw Error(await out.text())
+
+            toast.success("Blog was successfully updated.")
+            delete oldData[row.id]
+            editMode[row.id] = false
+        }
+        catch (e) {
+            console.log(e)
+            toast.error(`Something has gone wrong while trying to update data! ${e}`)
+        }
+    }
+
+    function cancelEdit(row: (typeof apiData)[number]) {
+        editMode[row.id] = false
+        const old = oldData[row.id]
+        if (old) {
+            for (let key in row) {
+                //@ts-ignore
+                row[key] = oldData[row.id][key]
+            }
+        }
+        delete oldData[row.id]
+    }
+
+    async function deleteEntry(row: (typeof apiData)[number]) {
+        if (!confirm("Are you sure you wanna delete this blog?")) return
+        try {
+            const res = await fetch(`/api/data/blogs?id=${row.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            if (res.status == 401) location.reload()
+            if (res.status != 200) throw Error(await res.text())
+
+            toast.success("Blog was successfully deleted")
+            delete oldData[row.id]
+            apiData = apiData.filter((b) => b.id != row.id)
+            editMode[row.id] = false
+        }
+        catch (e) {
+            console.log(e)
+            toast.error(`Something has gone wrong while trying to delete data! ${e}`)
+        }
+    }
+
     onMount(async () => {
         await getData()
     })
@@ -84,7 +153,7 @@
             </thead>
             <tbody>
                 {#each apiData as blog}
-                    <tr class="text-[16px]">
+                    <tr class="text-[16px] odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                         <td class="px-3 py-2">
                             <input class="w-full min-w-[80px]" disabled={!editMode[blog.id]} bind:value={blog.title}>
                         </td>
@@ -92,10 +161,16 @@
                             <input class="w-full min-w-[80px]" disabled={!editMode[blog.id]} bind:value={blog.author}>
                         </td>
                         <td class="px-3 py-2">
-                            <input class="w-full min-w-[80px]" disabled={!editMode[blog.id]} bind:value={blog.content}>
+                            <textarea class="w-full min-w-[80px]" disabled={!editMode[blog.id]} bind:value={blog.content}></textarea>
                         </td>
                         <td class="px-3 py-2">
-                            <p>Actions..</p>
+                            {#if !editMode[blog.id]}
+                                <button class="hover:cursor-pointer hover:text-white" onclick={() => startEdit(blog)}>[Edit]</button>
+                                <button class="hover:cursor-pointer hover:text-red-500" onclick={async() => { await deleteEntry(blog) }}>[Delete]</button>
+                            {:else}
+                                <button class="hover:cursor-pointer hover:text-green-500" onclick={async() => { await saveEdit(blog) }}>[Save]</button>
+                                <button class="hover:cursor-pointer hover:text-red-500" onclick={() => cancelEdit(blog)}>[Cancel]</button>
+                            {/if}
                         </td>
                     </tr>
                 {/each}
