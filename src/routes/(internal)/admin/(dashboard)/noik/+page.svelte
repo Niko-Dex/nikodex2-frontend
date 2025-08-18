@@ -20,6 +20,7 @@
     let oldData: { [id: number]: (typeof apiData)[number] } = {}
 
     let editAbilitiesRow: (typeof apiData)[number] | null = $state(null)
+    let editImage: {  [id: number]: HTMLInputElement } = $state({})
     let markedDeletionAbilities: Set<number> = new Set()
 
     function startEdit(row: (typeof apiData)[number]) {
@@ -29,12 +30,11 @@
 
     async function saveEdit(row: (typeof apiData)[number]) {
         try {
-            const out = await fetch(`/api/data?id=${row.id}`, {
+            let out = await fetch(`/api/data?id=${row.id}`, {
                 method: "PUT",
                 body: JSON.stringify({
                     "name": row.name,
                     "description": row.short_desc,
-                    "image": row.img_link,
                     "author": row.author,
                     "full_desc": row.description
                 }),
@@ -45,6 +45,20 @@
 
             if (out.status == 401) location.reload()
             if (out.status != 200) throw new Error(await out.text())
+
+            const imageList = editImage[row.id].files
+            if (imageList) {
+                const formData = new FormData()
+                formData.append("file", imageList[0])
+                out = await fetch(`/api/image?id=${row.id}`, {
+                    method: "POST",
+                    body: formData
+                })
+            }
+
+            if (out.status == 401) location.reload()
+            if (out.status != 200) throw new Error(await out.text())
+
             toast.success("Successfully saved Noiksona!")
             delete oldData[row.id]
             editMode[row.id] = false
@@ -165,7 +179,6 @@
             author: "placeholder",
             full_desc: "placeholder",
             description: "placeholder",
-            image: "img.png"
         }
 
         try {
@@ -218,7 +231,14 @@
                         <input type="text" disabled={!editMode[noik.id]} bind:value={noik.name} class="w-full min-w-[80px]">
                     </td>
                     <td class="px-3 py-2">
-                        <input type="text" disabled={!editMode[noik.id]} bind:value={noik.img_link} class="w-full min-w-[100px]">
+                        <label>
+                            Upload image by selecting an image file
+                            <input type="file" disabled={!editMode[noik.id]} accept="image/*" onchange={(ev) => editImage[noik.id] = (ev.target as HTMLInputElement)}>
+                        </label>
+                        <br>
+                        <br>
+                        <a href="/api/image?id={noik.id}">[View image]</a>
+                        <!-- <input type="text" disabled={!editMode[noik.id]} bind:value={noik.img_link} class="w-full min-w-[100px]"> -->
                     </td>
                     <td class="px-3 py-2">
                         <input type="text" disabled={!editMode[noik.id]} bind:value={noik.author} class="w-full min-w-[100px]">
