@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { onMount } from 'svelte'
     let expanded = $state(false)
 
     let {
@@ -12,8 +13,30 @@
     } = $props()
 
     let img: HTMLImageElement
+    let resetTimer: ReturnType<typeof setTimeout> | null = null
+    let firstPatUrl = ""
+    let firstPatUsed = false
+
+    onMount(() => {
+        // Preload first pat GIF so the initial click starts instantly
+        firstPatUrl = `/api/patpat?id=${id}&seed=${Math.random().toString(36).slice(2)}`
+        const pre = new Image()
+        pre.src = firstPatUrl
+    })
+
     function patpat() {
-        img.src = `/api/patpat?id=${id}`
+        // Use preloaded URL for the first pat; then cache-bust per click
+        const url = firstPatUsed && firstPatUrl
+            ? `/api/patpat?id=${id}&t=${Date.now()}`
+            : (firstPatUrl || `/api/patpat?id=${id}&t=${Date.now()}`)
+        img.src = url
+        firstPatUsed = true
+
+        // Revert back to original static image after 1s from the last click
+        if (resetTimer) clearTimeout(resetTimer)
+        resetTimer = setTimeout(() => {
+            img.src = img_link
+        }, 1000)
     }
 
 </script>
@@ -21,7 +44,7 @@
 <div class={expanded ? "transition duration-200 fixed w-screen h-screen top-0 left-0 z-5 bg-black/75 flex justify-center items-center" : "w-full"}>
     <div class="border-4 border-amber-600 p-4 bg-black flex gap-4 {expanded ? "max-w-[1200px] m-8" : "max-w-full lg:max-w-[640px]"} w-full flex-col md:flex-row">
         <div class="img flex flex-col gap-2">
-            <button class="max-w-[256px] h-fit hover:cursor-grab" onclick={patpat}>
+            <button class="max-w-[256px] h-fit hover:cursor-grab" onpointerdown={patpat}>
                 <img src={img_link} alt="nikosona of {name} by {author}" class="no-antialias w-100 h-auto" bind:this={img}>
             </button>
             <button class="btn" onclick={() => { expanded = !expanded }}>{expanded ? "Close" : "View More"}</button>

@@ -20,7 +20,8 @@ export async function GET({ request, fetch, cookies }) {
         const handImg = await loadImage(handFrames)
 
         gifMaker.setFrameRate(20)
-        gifMaker.setRepeat(0)
+        // Ensure the GIF plays exactly once (no repeat)
+        gifMaker.setRepeat(-1)
 
         gifMaker.writeHeader()
         for (let offset of frameOffsets) {
