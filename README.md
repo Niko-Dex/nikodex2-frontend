@@ -1,17 +1,20 @@
 # Nikodex V2 (front-end)
 This repository hold the front-end components for the Nikodex. This project uses Svelte with TailwindCSS.
 
+## Dependecies
+To setup Nikodex V2 (front-end), you will need:
+ - NodeJS (>=24)
+
 ## Setting Up
-This project connects to the back-end API on https://github.com/Niko-Dex/nikodex2-backend/, so you'd want to also clone the repo and configure the API server.
-After that, create a .env file with the following data:
+This project connects to the back-end API on https://github.com/Niko-Dex/nikodex2-backend/, so you want to also clone the repo and configure the API server.
+After that, create a .env file at the root of the project with the following data:
 ```
-API_SERVER_URL="<url_of_api_server>" # for instance: https://api.somewhere.com/ or http://localhost:8080/
+API_SERVER_URL="<url_of_api_server>" # the backend API server address. in many cases, you shouldn't have to expose the back-end API server, so you can use "localhost:8000" or whichever address fastapi give you or you bind using gunicorn
 JWT_SECRET="" # the same JWT secret that you setup in the API server
-ORIGIN="" # you may need to specify the address that Vite provide here if you are not able to access this page
+ORIGIN="" # you may need to specify the address that Vite provide here if you are not able to access this page. otherwise, leave this BLANK
 ```
 
 ## Developing
-
 To start developing for the Nikodex front-end, install dependencies with `npm install` (or `pnpm install` or `yarn`), then start a development server:
 
 ```sh
@@ -30,5 +33,7 @@ npm run build
 ```
 
 You can preview the production build with `npm run preview`.
-
-> To deploy Nikodex, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+To run the production build of Nikodex, run
+```sh
+node --env-file=.env build
+```
