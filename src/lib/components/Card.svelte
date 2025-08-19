@@ -16,7 +16,6 @@
     let resetTimer: ReturnType<typeof setTimeout> | null = null
     let firstPatUrl = ""
     let firstPatUsed = false
-    let patSeq = 0
 
     onMount(() => {
         // Preload first pat GIF so the initial click starts instantly
@@ -26,12 +25,6 @@
     })
 
     function patpat() {
-        // Cancel any pending revert immediately so continuous clicks don't revert mid-pat
-        if (resetTimer) {
-            clearTimeout(resetTimer)
-            resetTimer = null
-        }
-
         // Use preloaded URL for the first pat; then cache-bust per click
         const url = firstPatUsed && firstPatUrl
             ? `/api/patpat?id=${id}&t=${Date.now()}`
@@ -39,15 +32,11 @@
         img.src = url
         firstPatUsed = true
 
-        const token = ++patSeq
-        img.addEventListener("load", () => {
-            // Start/refresh revert timer 1s after the LAST successfully loaded pat
+        img.addEventListener("load", (e) => {
+            // Revert back to original static image after 2s from the last click
             if (resetTimer) clearTimeout(resetTimer)
             resetTimer = setTimeout(() => {
-                // Only revert if this is still the latest pat
-                if (token === patSeq) {
-                    img.src = img_link
-                }
+                img.src = img_link
             }, 1000)
         }, { once: true })
     }
