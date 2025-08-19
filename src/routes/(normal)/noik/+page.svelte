@@ -51,7 +51,7 @@
     <div style="background-image: url({Background})" class="absolute -z-1 top-0 left-0 w-full h-full bg-no-repeat bg-cover bg-center no-antialias bg-fixed"></div>
     <div class="max-w-[1200px] w-[1200px] flex flex-col gap-4 min-h-screen">
         <h1 class="h1-txt-size">The Noik List!</h1>
-        <p><em>again, patpat functionality will be added later :3</em></p>
+        <p><em>click on any of the noik below to patpat! :3</em></p>
 
         {#if dataLoaded}
         <CardContainer>
