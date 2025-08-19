@@ -76,6 +76,7 @@
     }
 
     async function getSearchData() {
+        if (searchQuery.length === 0) return
         apiData = []
         isSearching = true
         currentPage = 1
