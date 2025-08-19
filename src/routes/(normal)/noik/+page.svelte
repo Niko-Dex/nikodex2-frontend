@@ -20,9 +20,27 @@
         abilities: string[],
         id: number
     }[] = $state([])
+    let maxPages = $state(1)
+    let currentPage = $state(1)
 
-    onMount(() => {
-        fetch(`/api/data`)
+    async function prevPage() {
+        if (currentPage != 1) {
+            currentPage--;
+            await getData()
+        }
+    }
+
+    async function nextPage() {
+        if (currentPage + 1 <= maxPages) {
+            currentPage++;
+            await getData()
+        }
+    }
+
+    async function getData() {
+        if (currentPage < 1 || currentPage > maxPages) return
+        apiData = []
+        fetch(`/api/data/page?page=${currentPage}`)
             .then(d => d.json())
             .then(data => {
                 for (let d of data) {
@@ -42,6 +60,19 @@
                 console.log(err)
                 dataErr = true
             })
+    }
+
+    async function getMaxPages() {
+        fetch(`/api/data/count`)
+            .then(d => d.text())
+            .then(data => {
+                maxPages = Math.ceil((Number.parseFloat(data)) / 14.0);
+            })
+    }
+
+    onMount(async () => {
+        await getMaxPages()
+        await getData()
     })
 </script>
 
@@ -54,7 +85,6 @@
     <div class="max-w-[1200px] w-[1200px] flex flex-col gap-4 min-h-screen">
         <h1 class="h1-txt-size">The Noik List!</h1>
         <p><em>click on any of the nikosona to patpat! :3</em></p>
-
         {#if dataLoaded}
         <CardContainer>
             {#each apiData as data}
@@ -76,3 +106,15 @@
         {/if}
     </div>
 </section>
+{#if !dataErr}
+    <div class="bg-gray-700 w-full flex justify-center gap-4 p-2">
+        <button 
+        class="transition duration-100 hover:bg-white hover:text-black hover:cursor-pointer border-2 border-white"
+        onclick={async() => await prevPage()}>Prev</button>
+        <input class="text-center border-2 border-white min-w-2"
+        type="number" min={1} max={maxPages} bind:value={currentPage} onchange={async () => await getData()}>
+        <button 
+        class="transition duration-100 hover:bg-white hover:text-black hover:cursor-pointer border-2 border-white"
+        onclick={async() => await nextPage()}>Next</button>
+    </div>
+{/if}
