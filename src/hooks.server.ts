@@ -3,7 +3,7 @@ import chalk, { type ChalkInstance } from "chalk"
 
 export const handle: Handle = async ({ event, resolve }) => {
     const method = event.request.method;
-	const url = event.url.pathname;
+	const url = event.url.pathname + event.url.search;
 
     // Process request & capture response
     const start = Date.now()
