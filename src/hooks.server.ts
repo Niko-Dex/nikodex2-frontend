@@ -3,11 +3,7 @@ import chalk, { type ChalkInstance } from "chalk"
 
 export const handle: Handle = async ({ event, resolve }) => {
     const method = event.request.method;
-	const url = event.url.href;
-	const ip =
-		event.getClientAddress?.() ??
-		event.request.headers.get('x-forwarded-for') ??
-		'unknown';
+	const url = event.url.pathname;
 
     // Process request & capture response
     const start = Date.now()
@@ -23,7 +19,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	else if (status >= 200) statusColor = chalk.green;
 
 	console.log(
-		`[${new Date().toISOString()} | ${chalk.greenBright(duration + "ms")}] (${statusColor(response.status)}) ${chalk.cyan(method)} ${chalk.blueBright(url)} from ${ip}`
+		`[${new Date().toISOString()} | ${chalk.greenBright(duration + "ms")}] (${statusColor(response.status)}) ${chalk.cyan(method)} ${chalk.blueBright(url)}`
 	);
 
     return response
