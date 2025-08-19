@@ -51,7 +51,7 @@
 
 	<details>
 		<summary>Acknowledgements</summary>
-		<p>Background for the Home page, the Niko List page, and the Blog page, along with the Niko sprites are taken from the game OneShot and OneShot WME. All rights for these media belongs to nightmargin.</p>
+		<p>Background for the Home page, the Niko List page, the Blog page, and the Error page, along with the Niko sprites are taken from the game OneShot and OneShot WME. All rights for these media belongs to nightmargin.</p>
 		<p>All Nikosonas belongs to their respective owners and artists.</p>
 		<p>Terminus TTF font used in the website are licensed under the SIL Open Font License, downloaded from <a class="underline" href="https://files.ax86.net/terminus-ttf/">https://files.ax86.net/terminus-ttf/</a></p>
 		<p>Svelte, TailwindCSS, along with a few dependecies, were used in the creation of the front-end.</p>
