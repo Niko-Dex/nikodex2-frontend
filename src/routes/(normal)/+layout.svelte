@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../../app.css';
-	import favicon from '$lib/assets/favicon.svg';
+	import favicon from '$lib/assets/favicon.png';
 	import Link from "$lib/components/Link.svelte";
 	import logo from "$lib/assets/images/logo.png"
     import Transition from '$lib/components/Transition.svelte';
