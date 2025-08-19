@@ -32,7 +32,7 @@
         img.src = url
         firstPatUsed = true
 
-        // Revert back to original static image after 1s from the last click
+        // Revert back to original static image after 2s from the last click
         if (resetTimer) clearTimeout(resetTimer)
         resetTimer = setTimeout(() => {
             img.src = img_link
