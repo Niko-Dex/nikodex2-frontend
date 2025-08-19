@@ -20,7 +20,7 @@
         </div>
         <div class="info">
             <h2 class="h2-txt-size w-fit">{name}</h2>
-            <p>Creted By <span class="bg-white text-black w-fit px-1">{author}</span></p>
+            <p>Created By <span class="bg-white text-black w-fit px-1">{author}</span></p>
             {#if !expanded}
             <p class="wrap-anywhere"><em>"{short_desc}"</em></p>
             {/if}
