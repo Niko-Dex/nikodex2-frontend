@@ -15,7 +15,7 @@
         <div class="main-info flex flex-col">
             <h2 class="h2-txt-size w-fit">{title}</h2>
             <p class="w-fit px-1 bg-white text-black">by {author}</p>
-            <p class="w-fit px-1">Posted on {format(Date.parse(post_datetime), 'dd MMM yyyy')}</p>
+            <p class="w-fit px-1">Posted on {format(Date.parse(post_datetime), 'dd MMM yyyy - HH:mm:ss')}</p>
         </div>
         {#if expanded}
             <div>

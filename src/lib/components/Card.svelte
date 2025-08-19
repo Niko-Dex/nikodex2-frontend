@@ -32,11 +32,13 @@
         img.src = url
         firstPatUsed = true
 
-        // Revert back to original static image after 2s from the last click
-        if (resetTimer) clearTimeout(resetTimer)
-        resetTimer = setTimeout(() => {
-            img.src = img_link
-        }, 1000)
+        img.addEventListener("load", (e) => {
+            // Revert back to original static image after 2s from the last click
+            if (resetTimer) clearTimeout(resetTimer)
+            resetTimer = setTimeout(() => {
+                img.src = img_link
+            }, 1000)
+        }, { once: true })
     }
 
 </script>
