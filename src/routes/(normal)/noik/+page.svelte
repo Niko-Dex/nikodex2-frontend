@@ -17,7 +17,8 @@
         img_link: string,
         short_desc: string,
         description: string,
-        abilities: string[]
+        abilities: string[],
+        id: number
     }[] = $state([])
 
     onMount(() => {
@@ -31,7 +32,8 @@
                         description: d["full_desc"],
                         short_desc: d["description"],
                         abilities: d["abilities"].map((v: { name: string }) => v.name),
-                        img_link: d["full_img_path"]
+                        img_link: d["full_img_path"],
+                        id: d["id"]
                     })
                 }
                 dataLoaded = true
@@ -63,6 +65,7 @@
                     img_link={data.img_link}
                     name={data.name}
                     short_desc={data.short_desc}
+                    id={data.id}
                 />
             {/each}
         </CardContainer>

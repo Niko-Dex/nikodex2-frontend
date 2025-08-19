@@ -33,8 +33,11 @@
 		"vite": "^7.0.4"
 	},
 	"dependencies": {
+		"@types/gif-encoder": "^0.7.4",
 		"@types/jsonwebtoken": "^9.0.10",
+		"canvas": "^3.2.0",
 		"date-fns": "^4.1.0",
+		"gif-encoder": "^0.7.2",
 		"jsonwebtoken": "^9.0.2",
 		"svelte-french-toast": "^2.0.0-alpha.0"
 	}
