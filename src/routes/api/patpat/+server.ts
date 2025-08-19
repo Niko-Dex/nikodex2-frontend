@@ -19,9 +19,9 @@ export async function GET({ request, fetch, cookies }) {
         const ctx = canvas.getContext("2d")
         const handImg = await loadImage(handFrames)
 
-        gifMaker.setFrameRate(25)
-        // Ensure the GIF plays inf times for no reason :3
-        gifMaker.setRepeat(0)
+        gifMaker.setFrameRate(20)
+        // no
+        gifMaker.setRepeat(-1)
 
         gifMaker.writeHeader()
         for (let offset of frameOffsets) {
