@@ -46,14 +46,17 @@
             if (out.status == 401) location.reload()
             if (out.status != 200) throw new Error(await out.text())
 
-            const imageList = editImage[row.id].files
-            if (imageList) {
-                const formData = new FormData()
-                formData.append("file", imageList[0])
-                out = await fetch(`/api/image?id=${row.id}`, {
-                    method: "POST",
-                    body: formData
-                })
+            if (editImage[row.id]) {
+                const imageList = editImage[row.id].files
+                console.log(imageList)
+                if (imageList && imageList.length > 0) {
+                    const formData = new FormData()
+                    formData.append("file", imageList[0])
+                    out = await fetch(`/api/image?id=${row.id}`, {
+                        method: "POST",
+                        body: formData
+                    })
+                }
             }
 
             if (out.status == 401) location.reload()
@@ -234,6 +237,7 @@
                         <label>
                             Upload image by selecting an image file
                             <input type="file" disabled={!editMode[noik.id]} accept="image/*" onchange={(ev) => editImage[noik.id] = (ev.target as HTMLInputElement)}>
+                            <button class="hover:cursor-pointer hover:text-white" disabled={!editMode[noik.id]} onclick={() => { if (editImage[noik.id]) editImage[noik.id].value = "" }}>[Clear uploaded]</button>
                         </label>
                         <br>
                         <br>
