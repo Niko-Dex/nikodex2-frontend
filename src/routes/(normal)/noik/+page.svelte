@@ -25,6 +25,8 @@
     }[] = $state([])
     let maxPages = $state(1)
     let currentPage = $state(1)
+    let isSearching = $state(false)
+    let searchQuery = $state("")
 
     async function prevPage() {
         if (currentPage != 1) {
@@ -73,6 +75,39 @@
             })
     }
 
+    async function getSearchData() {
+        apiData = []
+        isSearching = true
+        currentPage = 1
+        dataLoaded = false
+        fetch(`/api/data/name?name=${searchQuery}`)
+            .then(d => d.json())
+            .then(data => {
+                for (let d of data) {
+                    apiData.push({
+                        name: d["name"],
+                        author: d["author"],
+                        description: d["full_desc"],
+                        short_desc: d["description"],
+                        abilities: d["abilities"].map((v: { name: string }) => v.name),
+                        img_link: d["full_img_path"],
+                        id: d["id"]
+                    })
+                }
+                dataLoaded = true
+            })
+            .catch(err => {
+                console.log(err)
+                dataErr = true
+            })
+    }
+
+    async function clearSearch() {
+        isSearching = false
+        searchQuery = ""
+        await getData()
+    }
+
     onMount(async () => {
         await getMaxPages()
         await getData()
@@ -99,6 +134,14 @@
         </p>
 
         {#if dataLoaded}
+        <div class="p-4 bg-black border-4 border-amber-600 w-full flex flex-row gap-4">
+            <input class="border-4 border-amber-600 w-full" placeholder="Search nikos by name.."
+            bind:value={searchQuery}>
+            <button class="btn" onclick={async() => await getSearchData()}>Search..</button>
+            {#if searchQuery.length > 0}
+                <button class="btn" onclick={async() => await clearSearch()}>Close</button>
+            {/if}
+        </div>
         <CardContainer>
             {#each apiData as data}
                 <Card
@@ -119,7 +162,7 @@
         {/if}
     </div>
 </section>
-{#if !dataErr}
+{#if !dataErr && !isSearching}
     <div class="bg-gray-700 w-full flex justify-center gap-4 p-2">
         <button 
         class="transition duration-100 hover:bg-white hover:text-black hover:cursor-pointer border-2 border-white"
