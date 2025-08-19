@@ -13,7 +13,7 @@
     let img: HTMLImageElement
     let patpatAPI = "https://tt7homa.eu.pythonanywhere.com/petpet.gif?image="
     function patpat() {
-        img.src = patpatAPI + img.src
+        img.src = patpatAPI + encodeURIComponent(img.src)
     }
 
 </script>
