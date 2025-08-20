@@ -175,6 +175,6 @@
                 {/each}
             </tbody>
         </table>
-        <button class="btn" onclick={async (e) => {await createData(e)}}>Add Entry</button>
+        <button class="btn lg:w-60" onclick={async (e) => {await createData(e)}}>Add Entry</button>
     </div>
 </div>

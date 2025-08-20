@@ -4,7 +4,7 @@ import { env } from "$env/dynamic/private"
 export async function GET({ request, fetch, cookies }) {
     try {
         const url = new URL(request.url)
-        const res = await fetch(`${env.API_SERVER_URL}/nikos/page?page=${url.searchParams.get('page')}`)
+        const res = await fetch(`${env.API_SERVER_URL}/nikos/page?page=${url.searchParams.get('page')}&sort_by=${url.searchParams.get('sort_by')}`)
         if (!res.ok) {
             return json({ error: "buh" }, { status: res.status })
         }

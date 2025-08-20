@@ -4,9 +4,6 @@
     import CardContainer from "$lib/components/CardContainer.svelte"
     import { onMount } from "svelte";
 
-    // Adjustable text size for the warning line
-    let warnSize = $state("text-sm")
-
     function replace_img(ev: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement; }) {
         const elm = ev.target as HTMLImageElement
         elm.src = elm.getAttribute("data-secsrc") ?? elm.src
@@ -27,6 +24,7 @@
     let currentPage = $state(1)
     let isSearching = $state(false)
     let searchQuery = $state("")
+    let orderingOpt = $state("upload_time")
 
     async function prevPage() {
         if (currentPage != 1) {
@@ -44,8 +42,9 @@
 
     async function getData() {
         if (currentPage < 1 || currentPage > maxPages) return
+        dataLoaded = false
         apiData = []
-        fetch(`/api/data/page?page=${currentPage}`)
+        fetch(`/api/data/page?page=${currentPage}&sort_by=${orderingOpt}`)
             .then(d => d.json())
             .then(data => {
                 for (let d of data) {
@@ -124,7 +123,7 @@
     <div class="max-w-[1200px] w-[1200px] flex flex-col gap-4 min-h-screen">
         <h1 class="h1-txt-size">The Noik List!</h1>
         <p><em>click on any of the nikosona to patpat! :3</em></p>
-        <p class={`flex items-center gap-2 ${warnSize}`}>
+        <p class={`flex items-center gap-2 text-sm`}>
             <span>don't use autoclicker it will give the noik brain damage</span>
             <img
                 src="https://cdn.discordapp.com/emojis/1083482257198682214.webp?size=128"
@@ -134,7 +133,6 @@
             />
         </p>
 
-        {#if dataLoaded}
         <div class="p-4 bg-black border-4 border-amber-600 w-full flex flex-row gap-4">
             <input class="border-4 border-amber-600 w-full" placeholder="Search nikos by name.."
             bind:value={searchQuery}>
@@ -143,6 +141,12 @@
                 <button class="btn" onclick={async() => await clearSearch()}>Close</button>
             {/if}
         </div>
+        <select bind:value={orderingOpt} onchange={ async() => await getData() }>
+            <option selected value="upload_time">Sort by: default ordering</option>
+            <option value="name_ascending">Sort by: name ascending</option>
+            <option value="name_descending">Sort by: name descending</option>
+        </select>
+        {#if dataLoaded}
         <CardContainer>
             {#each apiData as data}
                 <Card

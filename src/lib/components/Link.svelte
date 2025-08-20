@@ -5,6 +5,6 @@
     $: isActive = $page.url.pathname == href
 </script>
 
-<a href={href} class={`no-underline btn ${isActive ? "bg-amber-600 text-black" : ""}`}>
+<a href={href} class={`no-underline btn lg:w-60 ${isActive ? "bg-amber-600 text-black" : ""}`}>
     <slot />
 </a>

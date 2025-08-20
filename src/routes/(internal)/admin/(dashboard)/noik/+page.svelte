@@ -271,7 +271,7 @@
                 {/each}
             </tbody>
         </table>
-        <button class="btn sticky left-0" onclick="{async(ev) => { await createData( ev ) }}">Add Entry</button>
+        <button class="btn lg:w-60 sticky left-0" onclick="{async(ev) => { await createData( ev ) }}">Add Entry</button>
     </div>
     {#if editAbilitiesRow != null}
     <div class="fixed top-0 left-0 w-screen h-screen flex justify-center bg-black/65">
@@ -312,7 +312,7 @@
                         {/each}
                     </tbody>
                 </table>
-                <button class="btn sticky left-0" onclick="{async() => { editAbilitiesRow?.abilities.push({ id: NaN, name: "", niko_id: editAbilitiesRow.id }) }}">Add Ability</button>
+                <button class="btn lg:w-60 sticky left-0" onclick="{async() => { editAbilitiesRow?.abilities.push({ id: NaN, name: "", niko_id: editAbilitiesRow.id }) }}">Add Ability</button>
             </div>
         </div>
     </div>

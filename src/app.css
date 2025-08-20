@@ -44,7 +44,7 @@
 }
 
 .btn {
-    @apply border-4 border-amber-600 px-2 py-1 lg:w-60 transition duration-200 hover:bg-amber-600 hover:text-black hover:cursor-pointer disabled:bg-gray-800 disabled:border-gray-800;
+    @apply border-4 text-white bg-black border-amber-600 px-2 py-1 transition duration-200 hover:bg-amber-600 hover:text-black hover:cursor-pointer disabled:bg-gray-800 disabled:border-gray-800;
 }
 
 p {
@@ -61,6 +61,10 @@ input:disabled, textarea:disabled {
 
 input[type="file"] {
     @apply border-4 border-sky-800 hover:border-sky-500 hover:cursor-pointer p-2
+}
+
+select {
+    @apply border-4 border-amber-600 bg-black hover:cursor-pointer hover:bg-amber-600 hover:text-black p-2 transition duration-200
 }
 
 .no-antialias {
