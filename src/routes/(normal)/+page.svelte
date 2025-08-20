@@ -50,8 +50,9 @@
 
 <section class="w-full h-screen relative flex flex-col justify-center items-center gap-4">
     <div style="background-image: url({Background}); background-position-y: {bg1Y * 0.5}px" class="absolute -z-1 top-0 left-0 w-full h-full bg-no-repeat bg-cover bg-center no-antialias"></div>
-    <h1 class="text-center bg-black h1-txt-size">Welcome to Nikodex (v2)!</h1>
+    <h1 class="text-center bg-black h1-txt-size px-2">Welcome to Nikodex (v2)!</h1>
     <h1 class="h0-txt-size bg-black w-fit p-2 mx-4 text-center">Explore the World of Nikosonas!</h1>
+    <p class="bg-black px-2">Secure, Contain, Protect all the Noik (we're deffo not the SCP Foundation lol)</p>
 </section>
 <section class="w-full relative flex justify-center p-4">
     <div class="max-w-[1200px] w-[1200px] flex flex-col gap-4">
