@@ -63,6 +63,10 @@ input[type="file"] {
     @apply border-4 border-sky-800 hover:border-sky-500 hover:cursor-pointer p-2
 }
 
+input[type="file"]:disabled {
+    @apply border-sky-800 cursor-default
+}
+
 select {
     @apply border-4 border-amber-600 bg-black hover:cursor-pointer hover:bg-amber-600 hover:text-black p-2 transition duration-200
 }

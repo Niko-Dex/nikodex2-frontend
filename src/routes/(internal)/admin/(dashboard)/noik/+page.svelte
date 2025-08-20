@@ -237,10 +237,9 @@
                         <label>
                             Upload image by selecting an image file
                             <input type="file" disabled={!editMode[noik.id]} accept="image/*" onchange={(ev) => editImage[noik.id] = (ev.target as HTMLInputElement)}>
-                            <button class="hover:cursor-pointer hover:text-white" disabled={!editMode[noik.id]} onclick={() => { if (editImage[noik.id]) editImage[noik.id].value = "" }}>[Clear uploaded]</button>
                         </label>
                         <br>
-                        <br>
+                        <button class="hover:cursor-pointer" disabled={!editMode[noik.id]} onclick={() => { if (editImage[noik.id]) editImage[noik.id].value = "" }}>[Clear selected]</button>
                         <a href="/api/image?id={noik.id}">[View image]</a>
                         <!-- <input type="text" disabled={!editMode[noik.id]} bind:value={noik.img_link} class="w-full min-w-[100px]"> -->
                     </td>
