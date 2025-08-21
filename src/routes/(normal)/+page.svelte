@@ -31,12 +31,8 @@
         "cnt": null
     })
 
-    let notd: Niko = $state({
-        abilities: [{
-            id: 0,
-            name: "",
-            niko_id: 0
-        }],
+    let notd = $state({
+        abilities: [""],
         author: "",
         description: "",
         id: 0,
@@ -51,11 +47,13 @@
 
         fetch("/api/data/random_notd")
             .then(v => v.json())
-            .then(v => {
-                for (let i in notd) {
-                    //@ts-ignore
-                    notd[i] = v[i]
-                }
+            .then(d => {
+                notd.name = d["name"]
+                notd.author = d["author"]
+                notd.description = d["full_desc"]
+                notd.short_desc = d["description"]
+                notd.abilities = d["abilities"].map((v: { name: string }) => v.name)
+                notd.id = d["id"]
             })
     })
 </script>
