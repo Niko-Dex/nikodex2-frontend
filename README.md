@@ -37,3 +37,5 @@ To run the production build of Nikodex, run
 ```sh
 node --env-file=.env build
 ```
+
+<small>rainwater is cute kbity</small>
