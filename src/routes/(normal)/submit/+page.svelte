@@ -7,6 +7,7 @@
     let desc = $state("")
     let full_desc = $state("")
     let abilities: string[] = $state([])
+    let fileInput: HTMLInputElement
 
     function addAbilitiy() {
         abilities.push("Ability..")
@@ -17,22 +18,21 @@
         if (author.length == 0) {toast.error("You are missing an author!"); return}
         if (desc.length == 0) {toast.error("You are missing a description!"); return}
         if (full_desc.length == 0) {toast.error("You are missing a full description!"); return}
+        if (fileInput == null || fileInput.files == null) {toast.error("You are missing an image!"); return}
+        if (fileInput.files.length === 0) {toast.error("You are missing an image!"); return}
 
-        const body = JSON.stringify({
-                "name": name,
-                "author": author,
-                "description": desc,
-                "full_desc": full_desc,
-                "abilities": abilities
-            })
-        console.log(body)
+        const body = new FormData()
+        body.append("name", name)
+        body.append("author", author)
+        body.append("description", desc)
+        body.append("full_desc", full_desc)
+        body.append("abilities", abilities.join('|||'))
+        if (fileInput != null && fileInput.files != null)
+            body.append("files[0]", fileInput.files[0])
 
         fetch(`/api/submit`, {
             method: 'POST',
             body: body,
-            headers: {
-                'Content-Type': 'application/json'
-            }
         })
         .then(r => r.json())
         .then(r => {
@@ -82,6 +82,10 @@
                     <button class="btn">Remove</button>
                 </div>
             {/each}
+        </div>
+        <div class="flex flex-col p-0.5">
+            <p>Image..</p>
+            <input type="file" bind:this={fileInput}>
         </div>
         <button class="btn" onclick={async() => await submitData()}>Submit!</button>
     </div>

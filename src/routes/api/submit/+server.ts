@@ -5,31 +5,35 @@ import { WEBHOOK_URL } from "$env/static/private";
 
 export async function POST({ request, fetch, cookies }) {
     try {
-        const reqJson = await request.json()
+        const reqForm = await request.formData()
+        console.log(reqForm.get("name"))
 
         const fields = [
                     {
                         name: "Name",
-                        value: reqJson.name
+                        value: reqForm.get("name")
                     },
                     {
                         name: "Author",
-                        value: reqJson.author
+                        value: reqForm.get("author")
                     },
                     {
                         name: "Description",
-                        value: reqJson.description
+                        value: reqForm.get("description")
                     },
                     {
                         name: "Full desc",
-                        value: reqJson.full_desc
+                        value: reqForm.get("full_desc")
                     }
                 ]
-        for (const element of reqJson.abilities) {
-            fields.push({
-                name: "Ability",
-                value: element
-            })
+        let abilitiesArr = reqForm.get("abilities")?.toString().split("|||")
+        if (abilitiesArr) {
+            for (const element of abilitiesArr) {
+                fields.push({
+                    name: "Ability",
+                    value: element
+                })
+            }
         }
 
         const content = JSON.stringify({
@@ -39,14 +43,12 @@ export async function POST({ request, fetch, cookies }) {
             }]
         })
         const form = new FormData()
-        form.append("content", content)
+        form.append("payload_json", content)
+        form.append("files[0]", reqForm.get("files[0]") as Blob)
 
         const options = {
             method: 'POST',
-            body: content,
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            body: form
         }
 
         const res = await fetch(`${WEBHOOK_URL}`, options)
