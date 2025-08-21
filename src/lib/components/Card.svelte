@@ -21,6 +21,7 @@
         if (timeout) clearTimeout(timeout)
         timeout = setTimeout(() => {
             isPatPat = false
+            timeout = null
         }, 1000)
     }
 
