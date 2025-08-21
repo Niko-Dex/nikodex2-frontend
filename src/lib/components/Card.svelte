@@ -5,12 +5,13 @@
     let {
         name = "",
         author = "",
-        img_link = "",
         short_desc = "",
         description = "",
         abilities = [""],
         id = 0
     } = $props()
+
+    let img_link = $derived(`/api/image?id=${id}`)
 
     let img: HTMLImageElement
     let resetTimer: ReturnType<typeof setTimeout> | null = null

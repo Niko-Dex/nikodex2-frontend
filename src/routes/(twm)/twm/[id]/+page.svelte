@@ -17,7 +17,7 @@
         name: "Loading..",
         description: "Loading..",
         author: "Loading..",
-        img_link: "/api/image?id=1"
+        img_link: ``
     })
 
     async function getData() {
@@ -27,7 +27,7 @@
                 apiData.name = d["name"]
                 apiData.description = d["full_desc"]
                 apiData.author = d["author"]
-                apiData.img_link = d["full_img_path"]
+                apiData.img_link = `/api/image?id=${data.id}`
             })
     }
 

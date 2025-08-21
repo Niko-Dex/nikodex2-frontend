@@ -11,15 +11,7 @@
 
     let dataLoaded = $state(false)
     let dataErr = $state(false)
-    let apiData: {
-        name: string,
-        author: string,
-        img_link: string,
-        short_desc: string,
-        description: string,
-        abilities: string[],
-        id: number
-    }[] = $state([])
+    let apiData: Niko[] = $state([])
     let maxPages = $state(1)
     let currentPage = $state(1)
     let isSearching = $state(false)
@@ -54,7 +46,6 @@
                         description: d["full_desc"],
                         short_desc: d["description"],
                         abilities: d["abilities"].map((v: { name: string }) => v.name),
-                        img_link: d["full_img_path"],
                         id: d["id"]
                     })
                 }
@@ -90,7 +81,6 @@
                         description: d["full_desc"],
                         short_desc: d["description"],
                         abilities: d["abilities"].map((v: { name: string }) => v.name),
-                        img_link: d["full_img_path"],
                         id: d["id"]
                     })
                 }
@@ -153,7 +143,6 @@
                     abilities={data.abilities}
                     author={data.author}
                     description={data.description}
-                    img_link={data.img_link}
                     name={data.name}
                     short_desc={data.short_desc}
                     id={data.id}

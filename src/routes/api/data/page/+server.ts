@@ -9,13 +9,7 @@ export async function GET({ request, fetch, cookies }) {
             return json({ error: "buh" }, { status: res.status })
         }
 
-        let json_res = await res.json().then(r => {
-            for (const element of r) {
-                const new_img = `/api/image?id=${element["id"]}`
-                element["full_img_path"] = new_img
-            }
-            return r
-        })
+        let json_res = await res.json()
 
         return json(json_res)
     }

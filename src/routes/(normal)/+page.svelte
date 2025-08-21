@@ -10,7 +10,7 @@
     import Pat3 from "$lib/assets/images/home_page/petpet3.gif"
 
     import { onMount, onDestroy } from "svelte"
-    import TwmWindow from "$lib/components/TWMWindow.svelte";
+    import Card from "$lib/components/Card.svelte"
 
     let bg1Y = $state(0)
     function bg1Scroll() {
@@ -27,20 +27,36 @@
         elm.src = elm.getAttribute("data-secsrc") ?? elm.src
     }
 
-    // onDestroy(() => {
-    //     if (window) {
-    //         window.removeEventListener("scroll", bg1Scroll)
-    //     }
-    // })
-
     let data: { cnt: string | null } = $state({
         "cnt": null
+    })
+
+    let notd: Niko = $state({
+        abilities: [{
+            id: 0,
+            name: "",
+            niko_id: 0
+        }],
+        author: "",
+        description: "",
+        id: 0,
+        name: "",
+        short_desc: ""
     })
 
     onMount(() => {
         fetch(`/api/data/count`)
             .then(v => v.text())
             .then(v => data.cnt = v)
+
+        fetch("/api/data/random_notd")
+            .then(v => v.json())
+            .then(v => {
+                for (let i in notd) {
+                    //@ts-ignore
+                    notd[i] = v[i]
+                }
+            })
     })
 </script>
 
@@ -86,5 +102,20 @@
     <div class="flex flex-col gap-4 max-w-[1200px] w-[1200px]">
         <h1 class="h1-txt-size">So what you're waiting for?!</h1>
         <p>Explore all the Noiks the OSDS community has to offer at <em>The Niko List</em> on the navbar!</p>
+    </div>
+</section>
+
+<section class="w-full relative flex justify-center p-4 bg-blue-800">
+    <div class="flex flex-col gap-4 max-w-[1200px] w-[1200px]">
+        <h1 class="h1-txt-size">Noik of The Day</h1>
+        <p>A random Noik is selected each day at midnight (GMT) to be featured here. If your Noik show up here, then be proud i guess lol :3</p>
+        <Card
+            name={notd?.name}
+            id={notd?.id}
+            abilities={notd?.abilities}
+            author={notd?.author}
+            description={notd?.description}
+            short_desc={notd?.short_desc}
+        />
     </div>
 </section>
