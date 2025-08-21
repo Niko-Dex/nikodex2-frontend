@@ -6,19 +6,43 @@ import { WEBHOOK_URL } from "$env/static/private";
 export async function POST({ request, fetch, cookies }) {
     try {
         const reqJson = await request.json()
-        const res = await fetch(`${WEBHOOK_URL}`, {
+        const content = JSON.stringify({
+            embeds: [{
+                title: "New Submission!",
+                fields: [
+                    {
+                        name: "Name",
+                        value: reqJson.name
+                    },
+                    {
+                        name: "Author",
+                        value: reqJson.author
+                    },
+                    {
+                        name: "Description",
+                        value: reqJson.description
+                    },
+                    {
+                        name: "Full desc",
+                        value: reqJson.full_desc
+                    }
+                ]
+            }]
+        })
+        const form = new FormData()
+        form.append("content", content)
+
+        const options = {
             method: 'POST',
-            body: JSON.stringify({
-                content: `**Submission is made!**\n
-Name: ${reqJson.name}\n
-Author: ${reqJson.author}\n
-Description: ${reqJson.description}\n
-Full description: ${reqJson.full_desc}`
-            }),
+            body: content,
             headers: {
                 'Content-Type': 'application/json'
             }
-        })
+        }
+
+        const res = await fetch(`${WEBHOOK_URL}`, options)
+
+        if (res.status > 299) throw Error(await res.text())
 
         return json({msg: "Attempt is made."})
     }
