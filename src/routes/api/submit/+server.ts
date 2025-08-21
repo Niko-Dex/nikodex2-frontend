@@ -6,10 +6,8 @@ import { WEBHOOK_URL } from "$env/static/private";
 export async function POST({ request, fetch, cookies }) {
     try {
         const reqJson = await request.json()
-        const content = JSON.stringify({
-            embeds: [{
-                title: "New Submission!",
-                fields: [
+
+        const fields = [
                     {
                         name: "Name",
                         value: reqJson.name
@@ -27,6 +25,17 @@ export async function POST({ request, fetch, cookies }) {
                         value: reqJson.full_desc
                     }
                 ]
+        for (const element of reqJson.abilities) {
+            fields.push({
+                name: "Ability",
+                value: element
+            })
+        }
+
+        const content = JSON.stringify({
+            embeds: [{
+                title: "New Submission!",
+                fields: fields
             }]
         })
         const form = new FormData()
