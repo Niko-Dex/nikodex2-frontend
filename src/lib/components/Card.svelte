@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { onMount } from "svelte";
+
     let expanded = $state(false)
 
     let {
@@ -12,6 +14,11 @@
 
     let img_link = $derived(`/api/image?id=${id}`)
     let patpat_link = $derived(`/api/patpat?id=${id}`)
+
+    onMount(() => {
+        const img = new Image()
+        img.src = patpat_link
+    })
     let timeout: ReturnType<typeof setTimeout> | null = null
 
     let isPatPat = $state(false)
