@@ -1,10 +1,14 @@
 <script>
-    import { page } from "$app/stores"
-    export let href = "#";
+    import { afterNavigate } from "$app/navigation";
+    import { page } from "$app/state"
+    let { href } = $props();
 
-    $: isActive = $page.url.pathname == href
+    let isActive = $state(false)
+    afterNavigate(() => {
+        isActive = page.url.pathname == href
+    })
 </script>
 
-<a href={href} class={`no-underline btn lg:w-60 ${isActive ? "bg-amber-600 text-black" : ""}`}>
+<a href={href} class={`no-underline btn lg:w-60 ${isActive ? "active" : ""}`}>
     <slot />
 </a>
