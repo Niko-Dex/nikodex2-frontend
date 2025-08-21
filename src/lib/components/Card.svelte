@@ -14,11 +14,6 @@
 
     let img_link = $derived(`/api/image?id=${id}`)
     let patpat_link = $derived(`/api/patpat?id=${id}`)
-
-    onMount(() => {
-        const img = new Image()
-        img.src = patpat_link
-    })
     let timeout: ReturnType<typeof setTimeout> | null = null
 
     let isPatPat = $state(false)
@@ -38,11 +33,8 @@
     <div class="border-4 border-amber-600 p-4 bg-black flex gap-4 {expanded ? "max-w-[1200px] m-8" : "max-w-full lg:max-w-[640px]"} w-full flex-col md:flex-row">
         <div class="img flex flex-col gap-2">
             <button class="max-w-[256px] w-[256px] max-h-[256px] h-fit hover:cursor-grab" onpointerdown={patpat}>
-                {#if isPatPat}
-                <img src={patpat_link} alt="nikosona of {name} by {author} getting pat" class="no-antialias w-full h-full object-contain">
-                {:else}
-                <img src={img_link} alt="nikosona of {name} by {author}" class="no-antialias w-full h-full object-contain">
-                {/if}
+                <img src={patpat_link} alt="nikosona of {name} by {author} getting pat" class="no-antialias w-full h-full object-contain {isPatPat ? "" : "hidden"}">
+                <img src={img_link} alt="nikosona of {name} by {author}" class="no-antialias w-full h-full object-contain {isPatPat ? "hidden" : ""}">
             </button>
             <button class="btn" onclick={() => { expanded = !expanded }}>{expanded ? "Close" : "View More"}</button>
         </div>
