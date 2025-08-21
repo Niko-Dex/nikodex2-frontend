@@ -38,6 +38,7 @@
 		"canvas": "^3.2.0",
 		"chalk": "^5.6.0",
 		"date-fns": "^4.1.0",
+		"date-fns-tz": "^3.2.0",
 		"gif-encoder": "^0.7.2",
 		"jsonwebtoken": "^9.0.2",
 		"svelte-french-toast": "^2.0.0-alpha.0"

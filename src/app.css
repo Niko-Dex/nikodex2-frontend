@@ -47,6 +47,10 @@
     @apply border-4 text-white bg-black border-amber-600 px-2 py-1 transition duration-200 hover:bg-amber-600 hover:text-black hover:cursor-pointer disabled:bg-gray-800 disabled:border-gray-800;
 }
 
+.btn.active {
+    @apply bg-amber-600 text-black;
+}
+
 p {
     overflow-wrap: anywhere;
 }

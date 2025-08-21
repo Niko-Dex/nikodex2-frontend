@@ -9,7 +9,7 @@ To setup Nikodex V2 (front-end), you will need:
 This project connects to the back-end API on https://github.com/Niko-Dex/nikodex2-backend/, so you want to also clone the repo and configure the API server.
 After that, create a .env file at the root of the project with the following data:
 ```
-API_SERVER_URL="<url_of_api_server>" # the backend API server address. in many cases, you shouldn't have to expose the back-end API server, so you can use "localhost:8000" or whichever address fastapi give you or you bind using gunicorn
+API_SERVER_URL="<url_of_api_server>" # the backend API server address. in many cases, you shouldn't have to expose the back-end API server, so you can use "http://localhost:8000" or whichever address fastapi give you or you bind using gunicorn
 JWT_SECRET="" # the same JWT secret that you setup in the API server
 ORIGIN="" # you may need to specify the address that Vite provide here if you are not able to access this page. otherwise, leave this BLANK
 ```
@@ -37,3 +37,5 @@ To run the production build of Nikodex, run
 ```sh
 node --env-file=.env build
 ```
+
+<small>rainwater is cute kbity</small>

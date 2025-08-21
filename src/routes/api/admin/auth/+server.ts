@@ -1,6 +1,7 @@
 import { json } from '@sveltejs/kit';
 
 import { env } from "$env/dynamic/private"
+import { errSrv } from '../../helper';
 export async function POST({ request, fetch, cookies }) {
     const { username, password } = await request.json()
     try {
@@ -22,7 +23,7 @@ export async function POST({ request, fetch, cookies }) {
         })
         return json({ success: true })
     } catch (e) {
-        return json({ error: "Cannot connect or problem while connecting to API server!" }, { status: 500 })
+        return errSrv(e)
     }
 
 }

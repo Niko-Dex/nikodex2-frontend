@@ -1,6 +1,7 @@
 import { json } from '@sveltejs/kit';
 
 import { env } from "$env/dynamic/private"
+import { errSrv } from '../helper';
 export async function GET({ request, fetch, cookies }) {
     try {
         const url = new URL(request.url)
@@ -8,7 +9,7 @@ export async function GET({ request, fetch, cookies }) {
 
         return res
     } catch (e) {
-        return json({ error: "Cannot connect or problem while connecting to API server!" }, { status: 500 })
+        return errSrv(e)
     }
 }
 
@@ -25,6 +26,6 @@ export async function POST({ request, fetch, cookies }) {
 
         return res
     } catch (e) {
-        return json({ error: "Cannot connect or problem while connecting to API server!" }, { status: 500 })
+        return errSrv(e)
     }
 }

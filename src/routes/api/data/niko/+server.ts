@@ -1,23 +1,14 @@
-import { json } from '@sveltejs/kit';
 import { env } from "$env/dynamic/private"
+import { errSrv } from '../../helper';
 
 export async function GET({ request, fetch, cookies }) {
     try {
         const url = new URL(request.url)
         const res = await fetch(`${env.API_SERVER_URL}/nikos/?id=${url.searchParams.get('id')}`)
-        if (!res.ok) {
-            return json({ error: "buh" }, { status: res.status })
-        }
 
-        let json_res = await res.json().then(r => {
-            const new_img = `/api/image?id=${r["id"]}`
-            r["full_img_path"] = new_img
-            return r
-        })
-
-        return json(json_res)
+        return res
     }
     catch (e) {
-        return json({ error: "Cannot connect or problem while connecting to API server!" }, { status: 500 })
+        return errSrv(e)
     }
 }

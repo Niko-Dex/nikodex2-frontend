@@ -11,20 +11,12 @@
 
     let dataLoaded = $state(false)
     let dataErr = $state(false)
-    let apiData: {
-        name: string,
-        author: string,
-        img_link: string,
-        short_desc: string,
-        description: string,
-        abilities: string[],
-        id: number
-    }[] = $state([])
+    let apiData: Niko[] = $state([])
     let maxPages = $state(1)
     let currentPage = $state(1)
     let isSearching = $state(false)
     let searchQuery = $state("")
-    let orderingOpt = $state("upload_time")
+    let orderingOpt = $state("oldest_added")
 
     async function prevPage() {
         if (currentPage != 1) {
@@ -54,7 +46,6 @@
                         description: d["full_desc"],
                         short_desc: d["description"],
                         abilities: d["abilities"].map((v: { name: string }) => v.name),
-                        img_link: d["full_img_path"],
                         id: d["id"]
                     })
                 }
@@ -90,7 +81,6 @@
                         description: d["full_desc"],
                         short_desc: d["description"],
                         abilities: d["abilities"].map((v: { name: string }) => v.name),
-                        img_link: d["full_img_path"],
                         id: d["id"]
                     })
                 }
@@ -142,7 +132,8 @@
             {/if}
         </div>
         <select bind:value={orderingOpt} onchange={ async() => await getData() }>
-            <option selected value="upload_time">Sort by: default ordering</option>
+            <option selected value="oldest_added">Sort by: oldest added</option>
+            <option value="recently_added">Sort by: recently added</option>
             <option value="name_ascending">Sort by: name ascending</option>
             <option value="name_descending">Sort by: name descending</option>
         </select>
@@ -153,7 +144,6 @@
                     abilities={data.abilities}
                     author={data.author}
                     description={data.description}
-                    img_link={data.img_link}
                     name={data.name}
                     short_desc={data.short_desc}
                     id={data.id}
