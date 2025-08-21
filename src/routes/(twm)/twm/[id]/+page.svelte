@@ -50,15 +50,16 @@
         <div class="absolute z-3">
             <p class="text-left" style="min-width: {ballon_w}px;">{apiData.name}</p>
         </div>
-        {#if ballon_w > 0}
-            <div class="relative z-3 top-10 inline-block overflow-scroll" 
-            style="overflow: auto; max-width: calc({ballon_w}px - {ballon_h}px - 22px); max-height: calc({ballon_h}px - 20px);
-            left: calc((-{ballon_h}px / 2))">
-                <text class="text-leftl overflow-auto">{apiData.description}.</text>
+        <div class="hidden absolute z-10 bg-gray top-11" style="min-height: {ballon_h - 24}px; min-width: {ballon_h - 24}px;">
+            <img alt="Nikosona" src={apiData.img_link} style="max-height: {ballon_h - 24}px; max-width: {ballon_h - 24}px;">
+        </div>
+        <div class="relative z-3 top-10 flex flex-row" 
+        style="overflow: auto; width: calc({ballon_w}px - 22px); height: calc({ballon_h}px - 20px);">
+            <text class="text-left w-[75%] shrink overflow-y-scroll!">{apiData.description}.</text>
+            <div class="w-[25%] h-[100%] max-h-[100%]">
+                <img class="relative no-antialias h-fit top-2 left-1" style="width: {ballon_h - 30}px;" alt="Nikosona" src={apiData.img_link}>
             </div>
-            <img src={apiData.img_link} alt="Nikosona"
-            class="absolute z-3 max-w-[96px] max-h-[96px]" style="max-height: 96px; top: 48px; right: calc(({ballon_w}px / 2) + {ballon_h}px - 22px);">
-        {/if}
+        </div>
         <div class="absolute z-5 top-40">
             <p class="text-left" style="min-width: {ballon_w}px;">Created by {apiData.author}</p>
         </div>
