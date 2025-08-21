@@ -2,6 +2,7 @@ import { json } from '@sveltejs/kit';
 import { env } from "$env/dynamic/private"
 import { addDays, getDay, isAfter, startOfDay, type Day } from "date-fns"
 import { format, toZonedTime } from "date-fns-tz"
+import { errSrv } from '../../helper';
 
 let cachedData: Object | null = null
 const getNextDate = (curday: Date) => {
@@ -30,6 +31,6 @@ export async function GET({ request, fetch, cookies }) {
         })
     }
     catch (e) {
-        return json({ error: "Cannot connect or problem while connecting to API server!" }, { status: 500 })
+        return errSrv(e)
     }
 }

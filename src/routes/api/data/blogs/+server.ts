@@ -1,19 +1,15 @@
 import { json } from '@sveltejs/kit';
 
 import { env } from "$env/dynamic/private"
+import { errSrv } from '../../helper';
 
 export async function GET({ request, fetch, cookies }) {
     try {
         const res = await fetch(`${env.API_SERVER_URL}/blogs`)
-
-        if (!res.ok) {
-            return json({ error: "buh" }, { status: res.status })
-        }
-
-        return json(await res.json())
+        return res
     }
     catch (e) {
-        return json({ error: "Cannot connect or problem while connecting to API server!" }, { status: 500 })
+        return errSrv(e)
     }
 }
 
@@ -28,10 +24,10 @@ export async function POST({ request, fetch, cookies }) {
             body: await request.text()
         })
 
-        return json(await res.json(), { status: res.status })
+        return res
     }
     catch (e) {
-        return json({ error: "Cannot connect or problem while connecting to API server!" }, { status: 500 })
+        return errSrv(e)
     }
 }
 
@@ -47,10 +43,10 @@ export async function PUT({ request, fetch, cookies }) {
             body: await request.text()
         })
 
-        return json(await res.json(), { status: res.status })
+        return res
     }
     catch (e) {
-        return json({ error: "Cannot connect or problem while connecting to API server!" }, { status: 500 })
+        return errSrv(e)
     }
 }
 
@@ -66,9 +62,9 @@ export async function DELETE({ request, fetch, cookies }) {
             body: await request.text()
         })
 
-        return json(await res.json(), { status: res.status })
+        return res
     }
     catch (e) {
-        return json({ error: "Cannot connect or problem while connecting to API server!" }, { status: 500 })
+        return errSrv(e)
     }
 }

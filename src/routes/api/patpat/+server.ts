@@ -4,6 +4,7 @@ import { env } from "$env/dynamic/private"
 import GIFEncoder from "gif-encoder"
 import { handFrames, frameOffsets, handHeight, handWidth, globalOffset } from "./hand"
 import { createCanvas, loadImage } from 'canvas';
+import { errSrv } from '../helper';
 
 export async function GET({ request, fetch, cookies }) {
     try {
@@ -43,6 +44,6 @@ export async function GET({ request, fetch, cookies }) {
             })
         }
     } catch (e) {
-        return json({ error: "Cannot connect or problem while connecting to API server!" }, { status: 500 })
+        return errSrv(e)
     }
 }
