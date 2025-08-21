@@ -16,7 +16,7 @@
     let currentPage = $state(1)
     let isSearching = $state(false)
     let searchQuery = $state("")
-    let orderingOpt = $state("upload_time")
+    let orderingOpt = $state("oldest_added")
 
     async function prevPage() {
         if (currentPage != 1) {
@@ -132,7 +132,8 @@
             {/if}
         </div>
         <select bind:value={orderingOpt} onchange={ async() => await getData() }>
-            <option selected value="upload_time">Sort by: default ordering</option>
+            <option selected value="oldest_added">Sort by: oldest added</option>
+            <option value="recently_added">Sort by: recently added</option>
             <option value="name_ascending">Sort by: name ascending</option>
             <option value="name_descending">Sort by: name descending</option>
         </select>
