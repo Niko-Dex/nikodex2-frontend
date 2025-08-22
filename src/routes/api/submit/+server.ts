@@ -1,7 +1,6 @@
 import { env } from "$env/dynamic/private"
 import { json } from "@sveltejs/kit";
 import { errSrv } from '../helper';
-import { WEBHOOK_URL } from "$env/static/private";
 
 export async function POST({ request, fetch, cookies }) {
     try {
@@ -51,7 +50,7 @@ export async function POST({ request, fetch, cookies }) {
             body: form
         }
 
-        const res = await fetch(`${WEBHOOK_URL}`, options)
+        const res = await fetch(`${env.WEBHOOK_URL}`, options)
 
         if (res.status > 299) throw Error(await res.text())
 
