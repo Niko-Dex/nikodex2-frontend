@@ -9,6 +9,6 @@
     })
 </script>
 
-<a href={href} class={`no-underline btn lg:w-60 ${isActive ? "active" : ""}`}>
+<a href={href} class={`no-underline btn lg:min-w-40 whitespace-nowrap ${isActive ? "active" : ""}`}>
     <slot />
 </a>
