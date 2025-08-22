@@ -36,8 +36,14 @@
     })
 </script>
 
+<svelte:head>
+    <title>TWM View: {apiData.name}</title>
+</svelte:head>
+
 <div style="background-image: url({Background});" class="w-screen h-screen">
-    <h1>Coming soon..</h1>
+    <div class="fixed top-2 left-2">
+        <a class="btn" href="/noik">Go Back</a>
+    </div>
     <div class="fixed top-[80px] w-screen flex flex-col items-center">
         <img alt="The World Machine's screen" src={BaseTV} class="no-antialias w-2xs">
     </div>

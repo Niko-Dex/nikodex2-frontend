@@ -37,6 +37,7 @@
                 <img src={img_link} alt="nikosona of {name} by {author}" class="no-antialias w-full h-full object-contain {isPatPat ? "hidden" : ""}">
             </button>
             <button class="btn" onclick={() => { expanded = !expanded }}>{expanded ? "Close" : "View More"}</button>
+            <a class="btn text-center" href={`/twm/${id}`}>TWM View</a>
         </div>
         <div class="info">
             <h2 class="h2-txt-size w-fit">{name}</h2>

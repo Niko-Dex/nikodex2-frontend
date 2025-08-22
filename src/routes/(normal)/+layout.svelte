@@ -39,6 +39,7 @@
 	<div class="link flex gap-4 flex-shrink">
 		<Link href="/">Home</Link>
 		<Link href="/noik">The Niko List</Link>
+		<Link href="/submit">Submit a Niko</Link>
 		<Link href="/blog">Blog</Link>
 	</div>
 </nav>

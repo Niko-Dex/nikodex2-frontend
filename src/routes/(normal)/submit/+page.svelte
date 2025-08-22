@@ -46,7 +46,8 @@
         })
         .catch(e => {
             console.log(e)
-        }) 
+            toast.error(`Error! ${e}`)
+        })
     }
 </script>
 
