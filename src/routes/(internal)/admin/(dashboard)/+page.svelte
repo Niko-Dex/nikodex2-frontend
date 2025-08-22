@@ -7,10 +7,10 @@
 
     onMount(async() => {
 		const userRes = await fetch("/api/admin/user")
-		const userData = await userRes.json()
-		username = userData["username"]
-
 		if (userRes.status == 401) goto("/admin/login")
+
+        const userData = await userRes.json()
+		username = userData["username"]
 	})
 
     let new_username = $state("")
