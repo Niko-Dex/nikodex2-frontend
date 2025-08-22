@@ -12,6 +12,7 @@ After that, create a .env file at the root of the project with the following dat
 API_SERVER_URL="<url_of_api_server>" # the backend API server address. in many cases, you shouldn't have to expose the back-end API server, so you can use "http://localhost:8000" or whichever address fastapi give you or you bind using gunicorn
 JWT_SECRET="" # the same JWT secret that you setup in the API server
 ORIGIN="" # you may need to specify the address that Vite provide here if you are not able to access this page. otherwise, leave this BLANK
+WEBHOOK_URL="" # this is for the "Submit a Niko" page. this page uses Discord Webhook to receive data. you may need to create a new server, or make a new channel in your existing server to create a new webhook
 ```
 
 ## Developing
