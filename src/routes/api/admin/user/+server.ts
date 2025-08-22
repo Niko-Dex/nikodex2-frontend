@@ -20,5 +20,21 @@ export async function GET({ request, fetch, cookies }) {
     } catch (e) {
         return errSrv(e)
     }
+}
 
+export async function PUT({ request, fetch, cookies }) {
+    try {
+        const res = await fetch(`${env.API_SERVER_URL}/users/me`, {
+            method: "PUT",
+            headers: {
+                "Authorization": `Bearer ${cookies.get("token")}`,
+                "Content-Type": "application/json"
+            },
+            body: await request.text()
+        })
+
+        return res
+    } catch (e) {
+        return errSrv(e)
+    }
 }
