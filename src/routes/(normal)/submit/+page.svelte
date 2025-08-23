@@ -54,7 +54,7 @@
 <Toaster></Toaster>
 <section class="w-full relative flex justify-center">
     <div class="absolute top-0 left-0 w-full h-full bg-no-repeat bg-cover bg-center no-antialias bg-fixed -z-1" style="background-image: url({Background});"></div>
-    <div class="flex flex-col w-full max-w-3/5 justify-center p-4 gap-4">
+    <div class="flex flex-col w-full lg:max-w-3/5 md:max-w-full justify-center p-4 gap-4">
         <h1 class="h1-txt-size">Submit a Niko!</h1>
         <div class="flex flex-col p-0.5">
             <p>Name</p>
@@ -78,9 +78,11 @@
                 <button class="btn" onclick={() => addAbilitiy()}>Add..</button>
             </div>
             {#each abilities as item, key}
-                <div class="flex flex-row">
+                <div class="flex flex-row max-w-full">
                     <input class="grow" bind:value={abilities[key]}>
-                    <button class="btn">Remove</button>
+                    <button class="btn" onclick={() => {
+                        abilities.splice(key, 1)
+                    }}>Remove</button>
                 </div>
             {/each}
         </div>
