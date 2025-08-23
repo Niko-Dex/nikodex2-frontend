@@ -33,11 +33,12 @@
 <Transition />
 <nav class="bg-black sticky top-0 w-full border-b-4 border-amber-600 px-4 py-2 justify-between items-center flex flex-col gap-2 lg:flex-row z-3">
 	<div class="logo">
-		<img src={logo} alt="Logo" class="max-h-12">
+		<a href="/">
+			<img src={logo} alt="Logo" style="--shadow: 2px 2px red" class="max-h-12 hover:drop-shadow-(--shadow) transition duration-100">
+		</a>
 	</div>
 
 	<div class="link flex gap-4 flex-shrink">
-		<Link href="/">Home</Link>
 		<Link href="/noik">The Niko List</Link>
 		<Link href="/submit">Submit a Niko</Link>
 		<Link href="/blog">Blog</Link>

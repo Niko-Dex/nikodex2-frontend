@@ -12,7 +12,7 @@ const getNextDate = (curday: Date) => {
 let nextDate: Date = new Date(0)
 
 export async function GET({ request, fetch, cookies }) {
-    let currDate = new Date()
+    let currDate = toZonedTime(new Date(), "UTC")
     try {
         if (isAfter(currDate, nextDate)) {
             const res = await fetch(`${env.API_SERVER_URL}/nikos/random`)
