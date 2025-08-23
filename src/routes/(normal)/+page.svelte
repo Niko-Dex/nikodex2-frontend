@@ -11,6 +11,7 @@
 
     import { onMount, onDestroy } from "svelte"
     import Card from "$lib/components/Card.svelte"
+    import { version } from "$app/environment"
 
     let bg1Y = $state(0)
     function bg1Scroll() {
@@ -93,6 +94,7 @@
     <div class="flex flex-col gap-4 max-w-[1200px] w-[1200px]">
         <h1 class="h1-txt-size">Current Status</h1>
         <p>We currently have {data.cnt ?? "[unknown]"} Nikosona(s) catalogged.</p>
+        <p>Frontend running on commit <a href="https://github.com/Niko-Dex/nikodex2-frontend/commit/{version}" target="_blank">[{version.substring(0, 6)}]</a> on GitHub.</p>
     </div>
 </section>
 
