@@ -240,7 +240,7 @@
                         </label>
                         <br>
                         <button class="hover:cursor-pointer" disabled={!editMode[noik.id]} onclick={() => { if (editImage[noik.id]) editImage[noik.id].value = "" }}>[Clear selected]</button>
-                        <a href="/api/image?id={noik.id}">[View image]</a>
+                        <a href="/api/image?id={noik.id}" target="_blank">[View image]</a>
                         <!-- <input type="text" disabled={!editMode[noik.id]} bind:value={noik.img_link} class="w-full min-w-[100px]"> -->
                     </td>
                     <td class="px-3 py-2">
