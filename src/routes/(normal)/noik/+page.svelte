@@ -113,15 +113,6 @@
     <div class="max-w-[1200px] w-[1200px] flex flex-col gap-4 min-h-screen">
         <h1 class="h1-txt-size">The Noik List!</h1>
         <p><em>click on any of the nikosona to patpat! :3</em></p>
-        <p class={`flex items-center gap-2 text-sm`}>
-            <span>don't use autoclicker it will give the noik brain damage</span>
-            <img
-                src="https://cdn.discordapp.com/emojis/1083482257198682214.webp?size=128"
-                alt="warning emoji"
-                class="inline-block align-text-bottom"
-                style="height: 1em; width: 1em;"
-            />
-        </p>
 
         <div class="p-4 bg-black border-4 border-amber-600 w-full flex flex-row gap-4">
             <input class="border-4 border-amber-600 w-full" placeholder="Search nikos by name.."
