@@ -1,13 +1,13 @@
 <script lang="ts">
-    import Background from "$lib/assets/images/home_page/bg.png"
+    import Background from "$lib/assets/images/page/home/bg.png"
 
-    import Img1 from "$lib/assets/images/home_page/niko_83c.png"
-    import Img2 from "$lib/assets/images/home_page/niko_pancakes.png"
-    import Img3 from "$lib/assets/images/home_page/en.png"
+    import Img1 from "$lib/assets/images/page/home/niko_83c.png"
+    import Img2 from "$lib/assets/images/page/home/niko_pancakes.png"
+    import Img3 from "$lib/assets/images/page/home/en.png"
 
-    import Pat1 from "$lib/assets/images/home_page/petpet1.gif"
-    import Pat2 from "$lib/assets/images/home_page/petpet2.gif"
-    import Pat3 from "$lib/assets/images/home_page/petpet3.gif"
+    import Pat1 from "$lib/assets/images/page/home/petpet1.gif"
+    import Pat2 from "$lib/assets/images/page/home/petpet2.gif"
+    import Pat3 from "$lib/assets/images/page/home/petpet3.gif"
 
     import { onMount, onDestroy } from "svelte"
     import Card from "$lib/components/Card.svelte"

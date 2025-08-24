@@ -1,6 +1,6 @@
 <script lang="ts">
     import BlogCard from "$lib/components/BlogCard.svelte";
-    import Background from "$lib/assets/images/blog_page/tower.png"
+    import Background from "$lib/assets/images/page/blog/tower.png"
     import { onMount } from "svelte";
 
     let apiData: {

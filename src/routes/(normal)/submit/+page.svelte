@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Background from "$lib/assets/images/noik_page/bg1.png"
+    import Background from "$lib/assets/images/page/noik/bg1.png"
     import toast, { Toaster } from "svelte-french-toast";
 
     let name = $state("")

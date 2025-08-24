@@ -3,7 +3,7 @@
 
     import { page } from '$app/state';
     import Logo from "$lib/assets/images/logo.png"
-    import Background from "$lib/assets/images/error_page/cg_dream4_4.png"
+    import Background from "$lib/assets/images/page/error/cg_dream4_4.png"
     let a = $state()
 </script>
 

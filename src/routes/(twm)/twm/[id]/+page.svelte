@@ -1,9 +1,9 @@
 <script lang="ts">
-    import Background from "$lib/assets/images/twm_page/bg.png"
-    import BaseTV from "$lib/assets/images/twm_page/base-tv.png"
-    import Entity from "$lib/assets/images/twm_page/en.png"
-    import Static3 from "$lib/assets/images/twm_page/static-3.png"
-    import Dialogue from "$lib/assets/images/twm_page/niko-background.png"
+    import Background from "$lib/assets/images/page/twm/bg.png"
+    import BaseTV from "$lib/assets/images/page/twm/base-tv.png"
+    import Entity from "$lib/assets/images/page/twm/en.png"
+    import Static3 from "$lib/assets/images/page/twm/static-3.png"
+    import Dialogue from "$lib/assets/images/page/twm/niko-background.png"
     import { onMount } from "svelte";
     let { data } = $props();
 

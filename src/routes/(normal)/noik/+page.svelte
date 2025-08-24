@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Background from "$lib/assets/images/noik_page/bg1.png"
+    import Background from "$lib/assets/images/page/noik/bg1.png"
     import Card from "$lib/components/Card.svelte"
     import CardContainer from "$lib/components/CardContainer.svelte"
     import { onMount } from "svelte";
