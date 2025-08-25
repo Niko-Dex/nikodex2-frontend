@@ -18,8 +18,30 @@ export const handle: Handle = async ({ event, resolve }) => {
 	else if (status >= 300) statusColor = chalk.cyan;
 	else if (status >= 200) statusColor = chalk.green;
 
+    let durationColor: ChalkInstance = chalk.greenBright
+    if (duration >= 1000) durationColor = chalk.yellowBright
+
+    let methodColor: ChalkInstance = chalk.cyan
+    switch (method) {
+        case "GET":
+            methodColor = chalk.cyan
+            break
+        case "POST":
+            methodColor = chalk.green
+            break
+        case "PUT":
+            methodColor = chalk.yellow
+            break
+        case "PATCH":
+            methodColor = chalk.magenta
+            break
+        case "DELETE":
+            methodColor = chalk.red
+            break
+    }
+
 	console.log(
-		`[${new Date().toISOString()} | ${chalk.greenBright(duration + "ms")}] (${statusColor(response.status)}) ${chalk.cyan(method)} ${chalk.blueBright(url)}`
+		`[${new Date().toISOString()} | ${durationColor(duration.toString().padStart(3, ' ') + "ms")}] (${statusColor(response.status)}) ${methodColor(method)} ${chalk.blueBright(url)}`
 	);
 
     return response
