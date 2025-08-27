@@ -4,8 +4,28 @@
 	import Link from "$lib/components/Link.svelte";
 	import logo from "$lib/assets/images/logo.png"
     import Transition from '$lib/components/Transition.svelte';
+    import { onMount } from 'svelte';
+    import { afterNavigate } from '$app/navigation';
 
 	let { children } = $props();
+	let errorContactingAPI = $state(false)
+
+	async function checkAPI() {
+		try {
+			const res = await fetch("/api/ping")
+			errorContactingAPI = !res.ok
+		} catch (_) {
+			errorContactingAPI = true
+		}
+	}
+
+	onMount(async () => {
+		await checkAPI()
+	})
+
+	afterNavigate(async () => {
+		await checkAPI()
+	})
 
 </script>
 
@@ -30,6 +50,16 @@
 	<meta property="twitter:description" content="Nikodex is a fan-made project aims to document all the Nikosonas that users in the OneShot Discord Server have created!" />
 	<meta property="twitter:image" content="https://github.com/Niko-Dex/nikodex2-frontend/blob/main/src/lib/assets/images/logo.png?raw=true" />
 </svelte:head>
+{#if errorContactingAPI}
+<div class="fixed top-0 left-0 w-full h-full z-100 bg-red-800 flex justify-center items-center">
+	<div class="max-w-[1200px] mx-8">
+		<h1 class="h1-txt-size mb-4">unable to contact backend or frontend API server</h1>
+		<p>if you're the <u>user</u>: try and contact the website host/admin or the dev, and/or do a refresh after sometime.</p>
+		<p>if you're the <u>website host/admin</u>: try and see if you have setup the website incorrectly. check the output of the backend and frontend to look for 500 errors, and in the developer console to look for error. if you can't figure out the issue, contact the developer.</p>
+		<p>if you're the <u>developer</u>: ... why the fuck are you reading this? go and fix the website!!!</p>
+	</div>
+</div>
+{:else}
 <Transition />
 <nav class="bg-black sticky top-0 w-full border-b-4 border-amber-600 px-4 py-2 justify-between items-center flex flex-col gap-2 lg:flex-row z-3">
 	<div class="logo">
@@ -59,3 +89,4 @@
 		<p>Svelte, TailwindCSS, along with a few dependecies, were used in the creation of the front-end.</p>
 	</details>
 </footer>
+{/if}

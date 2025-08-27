@@ -41,7 +41,10 @@
         short_desc: ""
     })
 
-    onMount(() => {
+    let ping_proxy = $state(0)
+    let ping_backend = $state("")
+
+    onMount(async () => {
         fetch(`/api/data/count`)
             .then(v => v.text())
             .then(v => data.cnt = v)
@@ -56,6 +59,12 @@
                 notd.abilities = d["abilities"].map((v: { name: string }) => v.name)
                 notd.id = d["id"]
             })
+
+        const begin = performance.now()
+        const res = await fetch("/api/ping")
+        const end = performance.now()
+        ping_backend = Number(await res.text()).toFixed(2)
+        ping_proxy = end - begin
     })
 </script>
 
@@ -67,7 +76,7 @@
     <div style="background-image: url({Background}); background-position-y: {bg1Y * 0.5}px" class="absolute -z-1 top-0 left-0 w-full h-full bg-no-repeat bg-cover bg-center no-antialias"></div>
     <h1 class="text-center bg-black h1-txt-size px-2">Welcome to Nikodex (v2)!</h1>
     <h1 class="h0-txt-size bg-black w-fit p-2 mx-4 text-center">Explore the World of Nikosonas!</h1>
-    <p class="bg-black px-2">Secure, Contain, Protect all the Noik (we're deffo not the SCP Foundation lol)</p>
+    <p class="bg-black px-2 mx-4">Secure, Contain, Protect all the Noik (we're deffo not the SCP Foundation lol)</p>
 </section>
 <section class="w-full relative flex justify-center p-4">
     <div class="max-w-[1200px] w-[1200px] flex flex-col gap-4">
@@ -90,18 +99,35 @@
     </div>
 </section>
 
-<section class="w-full relative flex justify-center p-4 bg-violet-800">
-    <div class="flex flex-col gap-4 max-w-[1200px] w-[1200px]">
-        <h1 class="h1-txt-size">Current Status</h1>
-        <p>We currently have {data.cnt ?? "[unknown]"} Nikosona(s) catalogged.</p>
-        <p>Frontend running on commit <a href="https://github.com/Niko-Dex/nikodex2-frontend/commit/{version}" target="_blank">[{version.substring(0, 6)}]</a> on GitHub.</p>
-    </div>
-</section>
-
 <section class="w-full relative flex justify-center p-4 bg-yellow-600">
     <div class="flex flex-col gap-4 max-w-[1200px] w-[1200px]">
         <h1 class="h1-txt-size">So what you're waiting for?!</h1>
         <p>Explore all the Noiks the OSDS community has to offer at <em>The Niko List</em> on the navbar!</p>
+    </div>
+</section>
+
+<section class="w-full relative flex justify-center p-4 bg-violet-600">
+    <div class="flex flex-col gap-4 max-w-[1200px] w-[1200px]">
+        <h1 class="h1-txt-size">Current Status</h1>
+        <div style="--normal: repeat(auto-fit, minmax(240px, 1fr));" class="grid gap-4 text-center grid-cols-(--normal)">
+            <div class="flex flex-col justify-center items-center">
+                <h1 class="h1-txt-size">{data.cnt?.padStart(3, "0") ?? "[unknown]"}</h1>
+                <p>Nikosona(s) catalogged</p>
+            </div>
+            <div class="flex flex-col justify-center items-center">
+                <h1 class="h1-txt-size"><a href="https://github.com/Niko-Dex/nikodex2-frontend/commit/{version}" class="underline">[{version.substring(0, 6)}]</a></h1>
+                <p>Front-end version</p>
+            </div>
+            <div class="flex flex-col justify-center items-center">
+                <h1 class="h1-txt-size">{ping_backend}ms</h1>
+                <p>Ping (bAPI - fAPI)</p>
+            </div>
+            <div class="flex flex-col justify-center items-center">
+                <h1 class="h1-txt-size">{ping_proxy}ms</h1>
+                <p>Ping (frontend - fAPI)</p>
+            </div>
+        </div>
+        <p class="text-right">*bAPI: backend API, fAPI: frontend API</p>
     </div>
 </section>
 
