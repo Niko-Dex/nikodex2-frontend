@@ -54,7 +54,7 @@
 <div class="fixed top-0 left-0 w-full h-full z-100 bg-red-800 flex justify-center items-center">
 	<div class="max-w-[1200px] mx-8">
 		<h1 class="h1-txt-size mb-4">unable to contact backend or frontend API server</h1>
-		<p>if you're the <u>user</u>: try and contact the website host/admin or the dev, and/or do a refresh after sometime.</p>
+		<p>if you're the <u>user</u>: try and contact the website host/admin or the dev, and/or do a refresh after sometimes.</p>
 		<p>if you're the <u>website host/admin</u>: try and see if you have setup the website incorrectly. check the output of the backend and frontend to look for 500 errors, and in the developer console to look for error. if you can't figure out the issue, contact the developer.</p>
 		<p>if you're the <u>developer</u>: ... why the fuck are you reading this? go and fix the website!!!</p>
 	</div>

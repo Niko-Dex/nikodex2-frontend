@@ -41,7 +41,7 @@
         short_desc: ""
     })
 
-    let ping_proxy = $state(0)
+    let ping_proxy = $state("")
     let ping_backend = $state("")
 
     onMount(async () => {
@@ -64,7 +64,7 @@
         const res = await fetch("/api/ping")
         const end = performance.now()
         ping_backend = Number(await res.text()).toFixed(2)
-        ping_proxy = end - begin
+        ping_proxy = (end - begin).toFixed(2)
     })
 </script>
 
