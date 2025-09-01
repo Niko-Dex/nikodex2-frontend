@@ -16,6 +16,7 @@
 
     let discord_logged: boolean = $state(false)
     let discord_username: string = $state("")
+    let discord_id: string = $state("")
 
     function addAbilitiy() {
         abilities.push("Ability..")
@@ -31,6 +32,7 @@
         const body = new FormData()
         body.append("name", name)
         body.append("author", discord_username)
+        body.append("author_id", discord_id)
         body.append("description", desc)
         body.append("full_desc", full_desc)
         body.append("abilities", abilities.join('|||'))
@@ -68,6 +70,7 @@
 
         discord_logged = true;
         discord_username = discJson['username'];
+        discord_id = discJson['id']
     }
 
     onMount(async () => {
@@ -102,6 +105,10 @@
         }
     })
 </script>
+
+<svelte:head>
+    <title>Submit a Niko!</title>
+</svelte:head>
 
 <Toaster></Toaster>
 <section class="w-full relative flex justify-center">
