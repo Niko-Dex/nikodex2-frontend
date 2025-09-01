@@ -5,6 +5,7 @@
     import { onMount } from "svelte";
     import toast, { Toaster } from "svelte-french-toast";
     let { data } = $props();
+    import { PUBLIC_BOT_SERVER_URL } from "$env/static/public";
 
     let name = $state("")
     let author = $state("")
@@ -36,13 +37,14 @@
         if (fileInput != null && fileInput.files != null)
             body.append("files[0]", fileInput.files[0])
 
-        fetch(`/api/submit`, {
+        fetch(`${PUBLIC_BOT_SERVER_URL}/upload`, {
             method: 'POST',
-            body: body,
+            body: body
         })
         .then(r => r.json())
         .then(r => {
-            console.log(r)
+            console.log(r);
+
             toast.success("Your niko was sent for submission!")
             name = ""
             author = ""
