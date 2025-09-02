@@ -19,8 +19,13 @@ export async function GET({ fetch, cookies, url }) {
             }
         })
 
+        if (!respones.ok) {
+            return json({ msg: `Invalid code!` }, {
+                status: 401
+            });
+        }
+
         const data = await respones.json()
-        console.log(data)
         cookies.set('discord_token', data['access_token'], {
             httpOnly: true,
             secure: true,
