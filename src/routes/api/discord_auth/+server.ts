@@ -12,7 +12,7 @@ export async function GET({ fetch, cookies, url }) {
                 code,
                 grant_type: "authorization_code",
                 // TODO: not hardcode the redirect hostname
-                redirect_uri: "http://localhost:5173/api/discord_auth",
+                redirect_uri: url.origin + "/api/discord_auth",
                 scope: "identity"
             }).toString(),
             headers: {

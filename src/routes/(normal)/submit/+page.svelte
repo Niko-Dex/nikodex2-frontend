@@ -63,11 +63,14 @@
                 authorization: `Bearer ${discord_token}`
             }
         })
-        const discJson = await disc.json();
 
-        discord_logged = true;
-        discord_username = discJson['username'];
-        discord_id = discJson['id']
+        if (disc.status < 299) {
+            const discJson = await disc.json();
+
+            discord_logged = true;
+            discord_username = discJson['username'];
+            discord_id = discJson['id']
+        }
     }
 
     onMount(async () => {
