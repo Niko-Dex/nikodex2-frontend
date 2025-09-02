@@ -10,11 +10,13 @@ This project connects to the back-end API on https://github.com/Niko-Dex/nikodex
 After that, create a .env file at the root of the project with the following data:
 ```
 # setup with the backend
+
 API_SERVER_URL="<url_of_api_server>" # the backend API server address. in many cases, you shouldn't have to expose the back-end API server, so you can use "http://localhost:8000" or whichever address fastapi give you or you bind using gunicorn
 JWT_SECRET="" # the same JWT secret that you setup in the API server
 ORIGIN="" # you may need to specify the address that Vite provide here if you are not able to access this page. otherwise, leave this BLANK
 
-# setup with the Discord's bot
+# setup with the Discord's bot (for client ID and client secret, take a look at README for nikodex2-bot repo)
+
 WEBHOOK_URL="" # this is for the "Submit a Niko" page. this page uses Discord Webhook to receive data. you may need to create a new server, or make a new channel in your existing server to create a new webhook
 PUBLIC_BOT_SERVER_URL="" # the API server for the Discord bot
 DISCORD_BOT_CLIENT_ID="" # client ID for the app that the bot is in
@@ -31,7 +33,7 @@ npm run dev
 npm run dev -- --open
 ```
 
-## Building
+## Building & running production build
 
 To create a production version of Nikodex:
 
