@@ -4,7 +4,6 @@
     import { onMount } from "svelte";
     import toast, { Toaster } from "svelte-french-toast";
     let { data } = $props();
-    import { env } from "$env/dynamic/public";
 
     let name = $state("")
     let desc = $state("")
@@ -12,7 +11,7 @@
     let abilities: string[] = $state([])
     let fileInput: HTMLInputElement | undefined = $state()
 
-    let discord_logged: boolean = $state(false)
+    let discord_acc_status: "logging_in" | "unauthenticated" | "authenticated" = $state("logging_in")
     let discord_username: string = $state("")
     let discord_id: string = $state("")
 
@@ -20,7 +19,7 @@
         abilities.push("Ability..")
     }
 
-    async function submitData() {
+    async function submitData(discord_token: string) {
         if (name.length == 0) {toast.error("You are missing a name!"); return}
         if (desc.length == 0) {toast.error("You are missing a description!"); return}
         if (full_desc.length == 0) {toast.error("You are missing a full description!"); return}
@@ -37,9 +36,12 @@
         if (fileInput != null && fileInput.files != null)
             body.append("files[0]", fileInput.files[0])
 
-        fetch(`${env.PUBLIC_BOT_SERVER_URL}/upload`, {
+        fetch(`/api/submit`, {
             method: 'POST',
-            body: body
+            body: body,
+            headers: {
+                authorization: discord_token
+            }
         })
         .then(r => r.json())
         .then(r => {
@@ -64,12 +66,14 @@
             }
         })
 
-        if (disc.status < 299) {
+        if (disc.ok) {
             const discJson = await disc.json();
 
-            discord_logged = true;
+            discord_acc_status = "authenticated";
             discord_username = discJson['username'];
             discord_id = discJson['id']
+        } else {
+            discord_acc_status = "unauthenticated";
         }
     }
 
@@ -87,10 +91,10 @@
 <Toaster></Toaster>
 <section class="w-full relative flex justify-center">
     <div class="absolute top-0 left-0 w-full h-full bg-no-repeat bg-cover bg-center no-antialias bg-fixed -z-1" style="background-image: url({Background});"></div>
-    <div class="flex flex-col w-full lg:max-w-3/5 md:max-w-full justify-center p-4 gap-4">
-        {#if discord_logged}
-            <h1 class="h1-txt-size">Submit a Niko!</h1>
-            <p>You are currently logged in as <em>{discord_username}</em></p>
+    <div class="flex flex-col max-w-[1200px] w-[1200px] p-4 gap-4 min-h-screen">
+        <h1 class="h1-txt-size">Submit a Niko!</h1>
+        {#if discord_acc_status == "authenticated"}
+            <p>You are currently logged in as <em>{discord_username}!</em></p>
             <div class="flex flex-col p-0.5">
                 <p>Name</p>
                 <input bind:value={name} type="text">
@@ -121,12 +125,15 @@
                 <p>Image..</p>
                 <input type="file" bind:this={fileInput}>
             </div>
-            <button class="btn" onclick={async() => await submitData()}>Submit!</button>
-        {:else}
+            <button class="btn" onclick={async() => await submitData(data.discord_token ?? "")}>Submit!</button>
+        {:else if discord_acc_status == "unauthenticated"}
             <div>
-                <h1 class="h1-txt-size">Submit a Niko!</h1>
                 <p>You are not logged in Discord!</p>
                 <button class="btn" onclick={() => goto('/dred')}>Log in Discord</button>
+            </div>
+        {:else}
+            <div>
+                <p class="text-center"><em>logging in with Discord...</em></p>
             </div>
         {/if}
     </div>
