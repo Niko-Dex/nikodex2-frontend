@@ -19,7 +19,7 @@
         abilities.push("Ability..")
     }
 
-    async function submitData(discord_token: string) {
+    async function submitData() {
         if (name.length == 0) {toast.error("You are missing a name!"); return}
         if (desc.length == 0) {toast.error("You are missing a description!"); return}
         if (full_desc.length == 0) {toast.error("You are missing a full description!"); return}
@@ -28,8 +28,6 @@
 
         const body = new FormData()
         body.append("name", name)
-        body.append("author", discord_username)
-        body.append("author_id", discord_id)
         body.append("description", desc)
         body.append("full_desc", full_desc)
         body.append("abilities", abilities.join('|||'))
@@ -38,10 +36,7 @@
 
         fetch(`/api/submit`, {
             method: 'POST',
-            body: body,
-            headers: {
-                authorization: discord_token
-            }
+            body: body
         })
         .then(r => r.json())
         .then(r => {
@@ -57,24 +52,6 @@
             console.log(e)
             toast.error(`Error! ${e}`)
         })
-    }
-
-    async function fetchDiscordUser(discord_token: string) {
-        const disc = await fetch('https://discord.com/api/users/@me', {
-            headers: {
-                authorization: `Bearer ${discord_token}`
-            }
-        })
-
-        if (disc.ok) {
-            const discJson = await disc.json();
-
-            discord_acc_status = "authenticated";
-            discord_username = discJson['username'];
-            discord_id = discJson['id'];
-        } else {
-            discord_acc_status = "unauthenticated";
-        }
     }
 
     async function discordLogOut() {
@@ -100,8 +77,10 @@
     }
 
     onMount(async () => {
-        if (data.discord_token) {
-            await fetchDiscordUser(data.discord_token);
+        if (data.authenticated) {
+            discord_username = data.discord_username
+            discord_id = data.discord_id
+            discord_acc_status = "authenticated"
         } else {
             discord_acc_status = "unauthenticated";
         }
@@ -152,7 +131,7 @@
                 <p>Image..</p>
                 <input type="file" bind:this={fileInput}>
             </div>
-            <button class="btn" onclick={async() => await submitData(data.discord_token ?? "")}>Submit!</button>
+            <button class="btn" onclick={async() => await submitData()}>Submit!</button>
         {:else if discord_acc_status == "unauthenticated"}
             <div>
                 <p>You are not logged in Discord!</p>

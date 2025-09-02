@@ -7,7 +7,7 @@ export async function POST({ request, fetch, cookies }) {
             method: 'POST',
             body: await request.formData(),
             headers: {
-                authorization: request.headers.get("authorization") ?? ""
+                authorization: cookies.get("discord_token") ?? ""
             }
         })
 
