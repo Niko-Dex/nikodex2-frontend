@@ -4,7 +4,7 @@ import { env } from "$env/dynamic/private"
 export async function GET({ fetch, cookies, url }) {
     try {
         const code = url.searchParams.get("code") ?? ""
-        const respones = await fetch("https://discord.com/api/oauth2/token", {
+        const response = await fetch("https://discord.com/api/oauth2/token", {
             method: "POST",
             body: new URLSearchParams({
                 client_id: env.DISCORD_BOT_CLIENT_ID,
@@ -19,13 +19,13 @@ export async function GET({ fetch, cookies, url }) {
             }
         })
 
-        if (!respones.ok) {
+        if (!response.ok) {
             return json({ msg: `Invalid code!` }, {
                 status: 401
             });
         }
 
-        const data = await respones.json()
+        const data = await response.json()
         cookies.set('discord_token', data['access_token'], {
             httpOnly: true,
             secure: true,

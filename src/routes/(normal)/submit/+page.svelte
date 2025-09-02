@@ -71,15 +71,39 @@
 
             discord_acc_status = "authenticated";
             discord_username = discJson['username'];
-            discord_id = discJson['id']
+            discord_id = discJson['id'];
         } else {
             discord_acc_status = "unauthenticated";
+        }
+    }
+
+    async function discordLogOut() {
+        try {
+            const res = await fetch('/api/discord_auth/logout', {
+                method: 'POST'
+            })
+
+            if (res.ok) {
+                discord_acc_status = "unauthenticated";
+                discord_username = '';
+                discord_id = '';
+            }
+            else {
+                const resJson = await res.json();
+                console.log(`discordLogOut: HTTP Error ${res.status}! ${resJson.msg}`);
+                toast.error(`HTTP Error ${res.status}! ${resJson.msg}`);
+            }
+        } catch (error) {
+            console.log(`discordLogOut Error! ${error}`);
+            toast.error(`Error! ${error}`);
         }
     }
 
     onMount(async () => {
         if (data.discord_token) {
             await fetchDiscordUser(data.discord_token);
+        } else {
+            discord_acc_status = "unauthenticated";
         }
     })
 </script>
@@ -94,7 +118,10 @@
     <div class="flex flex-col max-w-[1200px] w-[1200px] p-4 gap-4 min-h-screen">
         <h1 class="h1-txt-size">Submit a Niko!</h1>
         {#if discord_acc_status == "authenticated"}
-            <p>You are currently logged in as <em>{discord_username}!</em></p>
+            <div class="flex flex-row gap-2 items-center">
+                <p>You are currently logged in as <em>{discord_username}!</em></p>
+                <button class="btn" onclick={async() => await discordLogOut()}>Logout</button>
+            </div>
             <div class="flex flex-col p-0.5">
                 <p>Name</p>
                 <input bind:value={name} type="text">
