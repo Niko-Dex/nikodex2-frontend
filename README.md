@@ -13,6 +13,10 @@ API_SERVER_URL="<url_of_api_server>" # the backend API server address. in many c
 JWT_SECRET="" # the same JWT secret that you setup in the API server
 ORIGIN="" # you may need to specify the address that Vite provide here if you are not able to access this page. otherwise, leave this BLANK
 WEBHOOK_URL="" # this is for the "Submit a Niko" page. this page uses Discord Webhook to receive data. you may need to create a new server, or make a new channel in your existing server to create a new webhook
+
+PUBLIC_BOT_SERVER_URL="" # the API server for the Discord bot
+DISCORD_BOT_CLIENT_ID="" # client ID for the app that the bot is in
+DISCORD_BOT_CLIENT_SECRET="" # client secret for the app that the bot is in
 ```
 
 ## Developing

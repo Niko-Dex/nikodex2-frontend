@@ -1,18 +1,16 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
     import Background from "$lib/assets/images/page/noik/bg1.png"
-    import { redirect } from "@sveltejs/kit";
     import { onMount } from "svelte";
     import toast, { Toaster } from "svelte-french-toast";
     let { data } = $props();
-    import { PUBLIC_BOT_SERVER_URL } from "$env/static/public";
+    import { env } from "$env/dynamic/public";
 
     let name = $state("")
-    let author = $state("")
     let desc = $state("")
     let full_desc = $state("")
     let abilities: string[] = $state([])
-    let fileInput: HTMLInputElement
+    let fileInput: HTMLInputElement | undefined = $state()
 
     let discord_logged: boolean = $state(false)
     let discord_username: string = $state("")
@@ -39,7 +37,7 @@
         if (fileInput != null && fileInput.files != null)
             body.append("files[0]", fileInput.files[0])
 
-        fetch(`${PUBLIC_BOT_SERVER_URL}/upload`, {
+        fetch(`${env.PUBLIC_BOT_SERVER_URL}/upload`, {
             method: 'POST',
             body: body
         })
@@ -49,7 +47,6 @@
 
             toast.success("Your niko was sent for submission!")
             name = ""
-            author = ""
             desc = ""
             full_desc = ""
             abilities = []
@@ -74,34 +71,8 @@
     }
 
     onMount(async () => {
-        console.log(window.location);
-
         if (data.discord_token) {
             await fetchDiscordUser(data.discord_token);
-        }
-
-        const fragment = new URLSearchParams(window.location.hash.slice(1));
-        const [accessToken, tokenType] = [fragment.get('access_token'), fragment.get('token_type')];
-
-        if (accessToken) {
-            fetch(`/api/discord_auth`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    access_token: accessToken
-                }),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(r => r.json())
-            .then(async r => {
-                await fetchDiscordUser(accessToken);
-                console.log(r);
-            })
-            .catch(e => {
-                console.log(e)
-                toast.error(`Error! ${e}`)
-            })
         }
     })
 </script>
@@ -115,8 +86,8 @@
     <div class="absolute top-0 left-0 w-full h-full bg-no-repeat bg-cover bg-center no-antialias bg-fixed -z-1" style="background-image: url({Background});"></div>
     <div class="flex flex-col w-full lg:max-w-3/5 md:max-w-full justify-center p-4 gap-4">
         {#if discord_logged}
-            <p>Logged in as {discord_username}</p>
             <h1 class="h1-txt-size">Submit a Niko!</h1>
+            <p>You are currently logged in as <em>{discord_username}</em></p>
             <div class="flex flex-col p-0.5">
                 <p>Name</p>
                 <input bind:value={name} type="text">
@@ -155,6 +126,5 @@
                 <button class="btn" onclick={() => goto('/dred')}>Log in Discord</button>
             </div>
         {/if}
-        
     </div>
 </section>
