@@ -17,7 +17,6 @@ ORIGIN="" # you may need to specify the address that Vite provide here if you ar
 
 # setup with the Discord's bot (for client ID and client secret, take a look at README for nikodex2-bot repo)
 
-WEBHOOK_URL="" # this is for the "Submit a Niko" page. this page uses Discord Webhook to receive data. you may need to create a new server, or make a new channel in your existing server to create a new webhook
 PUBLIC_BOT_SERVER_URL="" # the API server for the Discord bot
 DISCORD_BOT_CLIENT_ID="" # client ID for the app that the bot is in
 DISCORD_BOT_CLIENT_SECRET="" # client secret for the app that the bot is in
