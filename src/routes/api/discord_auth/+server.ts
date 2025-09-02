@@ -11,9 +11,8 @@ export async function GET({ fetch, cookies, url }) {
                 client_secret: env.DISCORD_BOT_CLIENT_SECRET,
                 code,
                 grant_type: "authorization_code",
-                // TODO: not hardcode the redirect hostname
                 redirect_uri: url.origin + "/api/discord_auth",
-                scope: "identity"
+                scope: "identify"
             }).toString(),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -21,6 +20,7 @@ export async function GET({ fetch, cookies, url }) {
         })
 
         const data = await respones.json()
+        console.log(data)
         cookies.set('discord_token', data['access_token'], {
             httpOnly: true,
             secure: true,
