@@ -1,6 +1,6 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
-    import Background from "$lib/assets/images/page/noik/bg1.png"
+    import Background from "$lib/assets/images/page/submit/library.png"
     import FileUpload from "$lib/components/FileUpload.svelte";
     import { onMount } from "svelte";
     import toast, { Toaster } from "svelte-french-toast";
@@ -135,9 +135,9 @@
             </div>
             <button class="btn" onclick={async() => await submitData()}>Submit!</button>
         {:else if discord_acc_status == "unauthenticated"}
-            <div>
-                <p>You are not logged in Discord!</p>
-                <button class="btn" onclick={() => goto('/dred')}>Log in Discord</button>
+            <div class="flex gap-4 flex-col items-center">
+                <p>You are curently not logged in with Discord! Please login to submit a Niko.</p>
+                <button class="btn" onclick={() => goto('/dred')}>Login with Discord</button>
             </div>
         {:else}
             <div>
