@@ -99,21 +99,27 @@
     <div class="flex flex-col max-w-[1200px] w-[1200px] p-4 gap-4 min-h-screen">
         <h1 class="h1-txt-size">Submit a Niko!</h1>
         {#if discord_acc_status == "authenticated"}
-            <div class="flex flex-row gap-4 items-center">
+            <div class="flex flex-row gap-4 items-center justify-between">
                 <p>You are currently logged in as <em title={discord_id}>{discord_username}</em></p>
                 <button class="btn" onclick={async() => await discordLogOut()}>Logout</button>
             </div>
             <div class="flex flex-col p-0.5">
-                <p>Name</p>
-                <input bind:value={name} type="text">
+                <label class="w-full">
+                    <p>Name</p>
+                    <input bind:value={name} type="text" class="w-full">
+                </label>
             </div>
             <div class="flex flex-col p-0.5">
-                <p>Description</p>
-                <input bind:value={desc} type="text">
+                <label class="w-full">
+                    <p>Description</p>
+                    <input bind:value={desc} type="text" class="w-full">
+                </label>
             </div>
             <div class="flex flex-col p-0.5">
-                <p>Long Description</p>
-                <textarea bind:value={full_desc}></textarea>
+                <label class="w-full">
+                    <p>Long Description</p>
+                    <textarea bind:value={full_desc} class="w-full"></textarea>
+                </label>
             </div>
             <div class="flex flex-col p-0.5 gap-2">
                 <div class="flex flex-row justify-between items-center">
@@ -122,7 +128,7 @@
                 </div>
                 {#each abilities as item, key}
                     <div class="flex flex-row max-w-full gap-2">
-                        <input class="grow" bind:value={abilities[key]}>
+                        <input class="grow" bind:value={abilities[key]} aria-label="Abitility number {key}">
                         <button class="btn" onclick={() => {
                             abilities.splice(key, 1)
                         }}>Remove</button>
