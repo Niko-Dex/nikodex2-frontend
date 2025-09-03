@@ -236,9 +236,7 @@
                     </td>
                     <td class="px-3 py-2">
                         <span>Upload image by selecting an image file</span>
-                        <FileUpload disabled={!editMode[noik.id]} accept="image/*" onchange={(ev) => editImage[noik.id] = (ev.target as HTMLInputElement)} />
-                        <br>
-                        <button class="hover:cursor-pointer" disabled={!editMode[noik.id]} onclick={() => { if (editImage[noik.id]) editImage[noik.id].value = "" }}>[Clear selected]</button>
+                        <FileUpload disabled={!editMode[noik.id]} accept="image/*" bind:elm={editImage[noik.id]} />
                         <a href="/api/image?id={noik.id}" target="_blank">[View image]</a>
                         <!-- <input type="text" disabled={!editMode[noik.id]} bind:value={noik.img_link} class="w-full min-w-[100px]"> -->
                     </td>
