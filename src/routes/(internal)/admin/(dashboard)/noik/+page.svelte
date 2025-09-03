@@ -1,4 +1,5 @@
 <script lang="ts">
+    import FileUpload from "$lib/components/FileUpload.svelte";
     import { onMount } from "svelte";
     import toast from "svelte-french-toast"
 
@@ -234,10 +235,8 @@
                         <input type="text" disabled={!editMode[noik.id]} bind:value={noik.name} class="w-full min-w-[80px]">
                     </td>
                     <td class="px-3 py-2">
-                        <label>
-                            Upload image by selecting an image file
-                            <input type="file" disabled={!editMode[noik.id]} accept="image/*" onchange={(ev) => editImage[noik.id] = (ev.target as HTMLInputElement)}>
-                        </label>
+                        <span>Upload image by selecting an image file</span>
+                        <FileUpload disabled={!editMode[noik.id]} accept="image/*" onchange={(ev) => editImage[noik.id] = (ev.target as HTMLInputElement)} />
                         <br>
                         <button class="hover:cursor-pointer" disabled={!editMode[noik.id]} onclick={() => { if (editImage[noik.id]) editImage[noik.id].value = "" }}>[Clear selected]</button>
                         <a href="/api/image?id={noik.id}" target="_blank">[View image]</a>

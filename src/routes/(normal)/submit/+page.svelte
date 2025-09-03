@@ -1,6 +1,7 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
     import Background from "$lib/assets/images/page/noik/bg1.png"
+    import FileUpload from "$lib/components/FileUpload.svelte";
     import { onMount } from "svelte";
     import toast, { Toaster } from "svelte-french-toast";
     let { data } = $props();
@@ -20,6 +21,7 @@
     }
 
     async function submitData() {
+        console.log(fileInput)
         if (name.length == 0) {toast.error("You are missing a name!"); return}
         if (desc.length == 0) {toast.error("You are missing a description!"); return}
         if (full_desc.length == 0) {toast.error("You are missing a full description!"); return}
@@ -98,7 +100,7 @@
         <h1 class="h1-txt-size">Submit a Niko!</h1>
         {#if discord_acc_status == "authenticated"}
             <div class="flex flex-row gap-2 items-center">
-                <p>You are currently logged in as <em>{discord_username}!</em></p>
+                <p>You are currently logged in as <em title={discord_id}>{discord_username}</em>!</p>
                 <button class="btn" onclick={async() => await discordLogOut()}>Logout</button>
             </div>
             <div class="flex flex-col p-0.5">
@@ -129,7 +131,7 @@
             </div>
             <div class="flex flex-col p-0.5">
                 <p>Image..</p>
-                <input type="file" bind:this={fileInput}>
+                <FileUpload bind:elm={fileInput} accept="image/*" />
             </div>
             <button class="btn" onclick={async() => await submitData()}>Submit!</button>
         {:else if discord_acc_status == "unauthenticated"}
