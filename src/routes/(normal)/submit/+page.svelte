@@ -99,8 +99,8 @@
     <div class="flex flex-col max-w-[1200px] w-[1200px] p-4 gap-4 min-h-screen">
         <h1 class="h1-txt-size">Submit a Niko!</h1>
         {#if discord_acc_status == "authenticated"}
-            <div class="flex flex-row gap-2 items-center">
-                <p>You are currently logged in as <em title={discord_id}>{discord_username}</em>!</p>
+            <div class="flex flex-row gap-4 items-center">
+                <p>You are currently logged in as <em title={discord_id}>{discord_username}</em></p>
                 <button class="btn" onclick={async() => await discordLogOut()}>Logout</button>
             </div>
             <div class="flex flex-col p-0.5">
@@ -121,7 +121,7 @@
                     <button class="btn" onclick={() => addAbilitiy()}>Add..</button>
                 </div>
                 {#each abilities as item, key}
-                    <div class="flex flex-row max-w-full">
+                    <div class="flex flex-row max-w-full gap-2">
                         <input class="grow" bind:value={abilities[key]}>
                         <button class="btn" onclick={() => {
                             abilities.splice(key, 1)

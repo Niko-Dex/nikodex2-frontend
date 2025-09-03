@@ -122,7 +122,7 @@
                 <button class="btn" onclick={async() => await clearSearch()}>Close</button>
             {/if}
         </div>
-        <select bind:value={orderingOpt} onchange={ async() => await getData() }>
+        <select bind:value={orderingOpt} onchange={ async() => await getData() } aria-label="Sort by">
             <option selected value="oldest_added">Sort by: oldest added</option>
             <option value="recently_added">Sort by: recently added</option>
             <option value="name_ascending">Sort by: name ascending</option>
@@ -154,7 +154,7 @@
         class="transition duration-100 hover:bg-white hover:text-black hover:cursor-pointer border-2 border-white px-4 py-1"
         onclick={async() => await prevPage()}>Prev</button>
         <input class="text-center border-2 border-white min-w-20"
-        type="number" min={1} max={maxPages} bind:value={currentPage} onchange={async () => await getData()}>
+        type="number" min={1} max={maxPages} bind:value={currentPage} aria-label="Page number" onchange={async () => await getData()}>
         <button 
         class="transition duration-100 hover:bg-white hover:text-black hover:cursor-pointer border-2 border-white px-4 py-1"
         onclick={async() => await nextPage()}>Next</button>
