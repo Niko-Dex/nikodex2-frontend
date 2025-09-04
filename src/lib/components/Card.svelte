@@ -9,7 +9,8 @@
         short_desc = "",
         description = "",
         abilities = [""],
-        id = 0
+        id = 0,
+        full_expand = false
     } = $props()
 
     let img_link = $derived(`/api/image?id=${id}`)
@@ -53,11 +54,11 @@
 </style>
 
 <div class="{expanded ? "transition duration-200 fixed w-screen h-screen top-0 left-0 z-5 bg-black/75 flex justify-center items-center" : "w-full"} card">
-    <div class="border-4 border-amber-600 p-4 bg-black flex gap-4 {expanded ? "max-w-[1200px] m-8" : "max-w-full lg:max-w-[640px]"} w-full flex-col md:flex-row">
+    <div class="border-4 border-amber-600 p-4 bg-black flex gap-4 {expanded ? "max-w-[1200px] m-8" : "max-w-full"} {!expanded && !full_expand ? "lg:max-w-[640px]" : ""} w-full flex-col md:flex-row">
         <div class="img flex flex-col gap-2">
             <button class="max-w-[256px] w-[256px] max-h-[256px] h-fit hover:cursor-grab {isPatPat ? "pointer-events-none" : ""}" onpointerdown={patpat}>
                 {#if isBlacklisted}
-                <div class="relative">
+                <div class="relative w-full h-full">
                     <img src={img_link} alt="nikosona of {name} by {author}" class="no-antialias w-full h-full object-contain">
                     <div class="{isPatPat ? "opacity-100" : "opacity-0"}">
                         <div class="{isPatPat ? "opacity-0" : "opacity-100"} transition duration-1000 absolute w-full h-full bg-(image:--bg) top-0 left-0 z-1 anim" style="--bg: url({Squares}); transition-timing-function: cubic-bezier(0.260, 0.010, 0.310, 0.990);"></div>

@@ -142,6 +142,7 @@
             author={notd?.author}
             description={notd?.description}
             short_desc={notd?.short_desc}
+            full_expand
         />
     </div>
 </section>
