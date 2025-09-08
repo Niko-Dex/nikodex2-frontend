@@ -11,7 +11,7 @@ export async function GET({ fetch, cookies, url }) {
                 client_secret: env.DISCORD_BOT_CLIENT_SECRET,
                 code,
                 grant_type: "authorization_code",
-                redirect_uri: url.origin + "/api/discord_auth",
+                redirect_uri: new URL("/api/discord_auth", url.origin).href,
                 scope: "identify"
             }).toString(),
             headers: {
