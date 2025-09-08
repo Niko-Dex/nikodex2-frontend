@@ -68,10 +68,10 @@
 		</a>
 	</div>
 
-	<div class="link flex gap-4 flex-shrink">
-		<Link href="/noik">The Niko List</Link>
-		<Link href="/submit">Submit a Niko</Link>
-		<Link href="/blog">Blog</Link>
+	<div class="link flex gap-4 flex-shrink w-full overflow-auto lg:w-auto">
+		<Link custom_class="flex-1 lg:flex-none" href="/noik">The Niko List</Link>
+		<Link custom_class="flex-1 lg:flex-none" href="/submit">Submit a Niko</Link>
+		<Link custom_class="flex-1 lg:flex-none" href="/blog">Blog</Link>
 	</div>
 </nav>
 

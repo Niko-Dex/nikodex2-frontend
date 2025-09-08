@@ -1,7 +1,7 @@
 <script>
     import { afterNavigate } from "$app/navigation";
     import { page } from "$app/state"
-    let { href } = $props();
+    let { href, custom_class = "" } = $props();
 
     let isActive = $state(false)
     afterNavigate(() => {
@@ -9,6 +9,6 @@
     })
 </script>
 
-<a href={href} class={`no-underline btn lg:min-w-40 whitespace-nowrap ${isActive ? "active" : ""}`}>
+<a href={href} class="no-underline btn lg:min-w-40 whitespace-nowrap {isActive ? "active" : ""} {custom_class}">
     <slot />
 </a>
