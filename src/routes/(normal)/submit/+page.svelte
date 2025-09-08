@@ -40,7 +40,12 @@
             method: 'POST',
             body: body
         })
-        .then(r => r.json())
+        .then(async r => {
+            if (r.ok) return await r.json()
+            else {
+                throw new Error(await r.text())
+            }
+        })
         .then(r => {
             console.log(r);
 
