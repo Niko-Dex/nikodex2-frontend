@@ -34,7 +34,7 @@ export async function GET({ fetch, cookies, url }) {
         });
     } catch (error) {
         console.log(error);
-        return json({ msg: `${error}` });
+        return json({ msg: `${error}` }, { "status": 500 });
     }
     throw redirect(307, "/submit")
 }
