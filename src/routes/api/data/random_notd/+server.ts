@@ -1,6 +1,6 @@
 import { json } from '@sveltejs/kit';
 import { env } from "$env/dynamic/private"
-import { addDays, getDay, isAfter, startOfDay, type Day } from "date-fns"
+import { addDays, isAfter, startOfDay } from "date-fns"
 import { format, toZonedTime } from "date-fns-tz"
 import { errSrv } from '../../helper';
 

@@ -30,45 +30,46 @@
     }
 
     async function saveEdit(row: (typeof apiData)[number]) {
-        try {
-            let out = await fetch(`/api/data?id=${row.id}`, {
-                method: "PUT",
-                body: JSON.stringify({
-                    "name": row.name,
-                    "description": row.short_desc,
-                    "author": row.author,
-                    "full_desc": row.description
-                }),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-
+        const fetchData = fetch(`/api/data?id=${row.id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+                "name": row.name,
+                "description": row.short_desc,
+                "author": row.author,
+                "full_desc": row.description
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(async out => {
+            const jsonData = await out.json()
             if (out.status == 401) location.reload()
-            if (out.status != 200) throw new Error(await out.text())
+            if (!out.ok) throw new Error(jsonData["error"])
 
-            if (editImage[row.id]) {
-                const imageList = editImage[row.id].files
-                console.log(imageList)
-                if (imageList && imageList.length > 0) {
-                    const formData = new FormData()
-                    formData.append("file", imageList[0])
-                    out = await fetch(`/api/image?id=${row.id}`, {
-                        method: "POST",
-                        body: formData
-                    })
-                }
+            if (!editImage[row.id]) return
+            const imageList = editImage[row.id].files
+            if (imageList && imageList.length > 0) {
+                const formData = new FormData()
+                formData.append("file", imageList[0])
+                let image = await fetch(`/api/image?id=${row.id}`, {
+                    method: "POST",
+                    body: formData
+                })
+
+                if (image.status == 401) location.reload()
+                if (!image.ok) throw new Error((await image.json())["error"])
             }
 
-            if (out.status == 401) location.reload()
-            if (out.status != 200) throw new Error(await out.text())
-
-            toast.success("Successfully saved Noiksona!")
             delete oldData[row.id]
             editMode[row.id] = false
-        } catch (e) {
-            toast.error(`Something has gone wrong while trying to update data! ${e}`)
-        }
+        })
+
+        await toast.promise(fetchData, {
+            success: "Updated Noik!",
+            loading: "Updating Noik",
+            error: (e) => `Error while updating Noik: ${e.message}`
+        })
 
     }
 
@@ -137,11 +138,12 @@
 
 
     async function getData() {
-        try {
-            const dataRes = await fetch(`/api/data`)
-            const noikData = await dataRes.json()
+        const fetchData = fetch(`/api/data`)
+        .then(async out => {
+            const jsonData = await out.json()
+            if (!out.ok) throw new Error(jsonData["error"])
             apiData = []
-            for (let d of noikData) {
+            for (let d of jsonData) {
                 apiData.push({
                     id: d["id"],
                     name: d["name"],
@@ -152,27 +154,33 @@
                     img_link: d["image"]
                 })
             }
-        } catch (e) {
-
-        }
+        })
+        await toast.promise(fetchData, {
+            success: "Fetched Noiks data!",
+            loading: "Fetching Noiks",
+            error: (e) => `Error while fetching Noiks: ${e.message}`
+        })
     }
 
     async function deleteData(row: (typeof apiData)[number]) {
         if (!confirm(`Are you sure you want to delete "${row.name}" entries?`)) return
-        try {
-            const out = await fetch(`/api/data?id=${row.id}`, {
-                method: "DELETE",
-            })
-
+        const fetchData = fetch(`/api/data?id=${row.id}`, {
+            method: "DELETE",
+        })
+        .then(async out => {
+            const jsonData = await out.json()
             if (out.status == 401) location.reload()
-            if (out.status != 200) throw new Error(await out.text())
-            toast.success(`Successfully deleted ${row.name}'s Noiksona!`)
+            if (!out.ok) throw new Error(jsonData["error"])
             delete oldData[row.id]
             apiData = apiData.filter((v) => v.id != row.id)
             editMode[row.id] = false
-        } catch (e) {
-            toast.error(`Something has gone wrong while trying to delete data! ${e}`)
-        }
+            return null
+        })
+        await toast.promise(fetchData, {
+            success: "Deleted Noik data!",
+            loading: "Deleting Noik",
+            error: (e) => `Error while deleting Noik: ${e.message}`
+        })
     }
 
     async function createData(ev: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement; }) {
@@ -185,22 +193,26 @@
             description: "placeholder",
         }
 
-        try {
-            const out = await fetch("/api/data", {
-                method: "POST",
-                body: JSON.stringify(data),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-
+        const fetchData = fetch("/api/data", {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(async out => {
             if (out.status == 401) location.reload()
-            if (out.status != 200) throw new Error(await out.text())
-            toast.success("Successfully created a new entry!")
+            if (!out.ok) throw new Error(await out.text())
             await getData()
-        } catch (e) {
-            toast.error(`Something has gone wrong while trying to create data! ${e}`)
-        }
+            return null
+        })
+
+        await toast.promise(fetchData, {
+            success: "Created Noik!",
+            loading: "Creating Noik",
+            error: (e) => `Error while creating Noik: ${e.message}`
+        })
+
         btn.disabled = false
     }
 

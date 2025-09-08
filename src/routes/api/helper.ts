@@ -8,3 +8,11 @@ export function errSrv(e: unknown) {
         return json({ error: `Cannot connect or problem while connecting to API server!` }, { status: 500 })
     }
 }
+
+export async function resWithErrHandling(res: Response) {
+    const res2 = res.clone()
+    if (res2.ok) return res
+    else {
+        return json({ error: (await res2.json())["detail"] }, { status: res2.status })
+    }
+}

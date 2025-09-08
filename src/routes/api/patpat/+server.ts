@@ -1,5 +1,3 @@
-import { json } from '@sveltejs/kit';
-
 import { env } from "$env/dynamic/private"
 import GIFEncoder from "gif-encoder"
 import { handFrames, frameOffsets, handHeight, handWidth, globalOffset } from "./hand"

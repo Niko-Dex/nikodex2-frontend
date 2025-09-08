@@ -36,51 +36,46 @@
         if (fileInput != null && fileInput.files != null)
             body.append("files[0]", fileInput.files[0])
 
-        fetch(`/api/submit`, {
+        const fetchSubmit = fetch(`/api/submit`, {
             method: 'POST',
             body: body
         })
-        .then(async r => {
-            if (r.ok) return await r.json()
-            else {
-                throw new Error(await r.text())
-            }
-        })
-        .then(r => {
-            console.log(r);
-
-            toast.success("Your niko was sent for submission!")
+        .then(async v => {
+            const jsonData = await v.json()
+            if (!v.ok) throw new Error(jsonData["error"])
             name = ""
             desc = ""
             full_desc = ""
             abilities = []
         })
-        .catch(e => {
-            console.log(e)
-            toast.error(`Error! ${e}`)
+
+        await toast.promise(fetchSubmit, {
+            success: "Your Niko's submission has been sent!",
+            loading: "Sending your submission",
+            error: (e) => `Error while submitting: ${e.message}`
         })
     }
 
     async function discordLogOut() {
-        try {
-            const res = await fetch('/api/discord_auth/logout', {
-                method: 'POST'
-            })
-
+        const fetchLogout = fetch('/api/discord_auth/logout', {
+            method: 'POST'
+        })
+        .then(async res => {
             if (res.ok) {
                 discord_acc_status = "unauthenticated";
                 discord_username = '';
                 discord_id = '';
+            } else {
+                const jsonData = await res.json()
+                if (!res.ok) throw new Error(jsonData["error"])
             }
-            else {
-                const resJson = await res.json();
-                console.log(`discordLogOut: HTTP Error ${res.status}! ${resJson.msg}`);
-                toast.error(`HTTP Error ${res.status}! ${resJson.msg}`);
-            }
-        } catch (error) {
-            console.log(`discordLogOut Error! ${error}`);
-            toast.error(`Error! ${error}`);
-        }
+        })
+
+        await toast.promise(fetchLogout, {
+            success: "Logged out!",
+            loading: "Logging out of Discord",
+            error: (e) => `Error while logging out: ${e.message}`
+        })
     }
 
     onMount(async () => {

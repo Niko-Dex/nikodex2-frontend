@@ -14,10 +14,11 @@
 
     async function getData() {
         apiData = []
-        try {
-            const res = await fetch('/api/data/blogs')
-            const data = await res.json()
-            for (let d of data) {
+        const fetchBlogs = fetch('/api/data/blogs')
+        .then(async v => {
+            const jsonData = await v.json()
+            if (!v.ok) throw new Error(jsonData["error"])
+            for (let d of jsonData) {
                 apiData.push({
                     id: d["id"],
                     title: d["title"],
@@ -26,11 +27,13 @@
                     post_datetime: d["post_datetime"]
                 })
             }
-        }
-        catch (e) {
-            console.log(e)
-            toast.error(`Something has gone wrong while trying to get data! ${e}`)
-        }
+        })
+
+        await toast.promise(fetchBlogs, {
+            success: "Fetched blogs data!",
+            loading: "Fetching blogs",
+            error: (e) => `Error while fetching blogs: ${e.message}`
+        })
     }
 
     async function createData(ev: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement; }) {
@@ -41,26 +44,27 @@
             author: "placeholder",
             content: "placeholder"
         }
-        
-        try {
-            const out = await fetch("/api/data/blogs", {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
 
-            if (out.status == 401) location.reload()
-            if (out.status != 200) throw new Error(await out.text());
-
-            toast.success("Successfully created a new entry!")
+        const fetchBlogs = fetch("/api/data/blogs", {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(async v => {
+            if (v.status == 401) location.reload()
+            const jsonData = await v.json()
+            if (!v.ok) throw new Error(jsonData["error"])
             await getData()
-        }
-        catch (e) {
-            console.log(e)
-            toast.error(`Something has gone wrong while trying to create data! ${e}`)
-        }
+            return null
+        })
+
+        await toast.promise(fetchBlogs, {
+            success: "New entry created!",
+            loading: "Creating blog entry",
+            error: (e) => `Error while creating entry: ${e.message}`
+        })
+
         btn.disabled = false
     }
 
@@ -70,30 +74,30 @@
     }
 
     async function saveEdit(row: (typeof apiData)[number]) {
-        try {
-            const out = await fetch(`/api/data/blogs?id=${row.id}`, {
-                method: 'PUT',
-                body: JSON.stringify({
-                    "title": row.title,
-                    "author": row.author,
-                    "content": row.content
-                }),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-
-            if (out.status == 401) location.reload()
-            if (out.status != 200) throw Error(await out.text())
-
-            toast.success("Blog was successfully updated.")
+        const fetchBlogs = fetch(`/api/data/blogs?id=${row.id}`, {
+            method: 'PUT',
+            body: JSON.stringify({
+                "title": row.title,
+                "author": row.author,
+                "content": row.content
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(async v => {
+            if (v.status == 401) location.reload()
+            const jsonData = await v.json()
+            if (!v.ok) throw new Error(jsonData["error"])
             delete oldData[row.id]
             editMode[row.id] = false
-        }
-        catch (e) {
-            console.log(e)
-            toast.error(`Something has gone wrong while trying to update data! ${e}`)
-        }
+            return null
+        })
+
+        await toast.promise(fetchBlogs, {
+            success: "Blog updated!",
+            loading: "Updating blog",
+            error: (e) => `Error while updating blog: ${e.message}`
+        })
     }
 
     function cancelEdit(row: (typeof apiData)[number]) {
@@ -110,26 +114,26 @@
 
     async function deleteEntry(row: (typeof apiData)[number]) {
         if (!confirm("Are you sure you wanna delete this blog?")) return
-        try {
-            const res = await fetch(`/api/data/blogs?id=${row.id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-
-            if (res.status == 401) location.reload()
-            if (res.status != 200) throw Error(await res.text())
-
-            toast.success("Blog was successfully deleted")
+        const fetchBlogs = fetch(`/api/data/blogs?id=${row.id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(async v => {
+            if (v.status == 401) location.reload()
+            const jsonData = await v.json()
+            if (!v.ok) throw new Error(jsonData["error"])
             delete oldData[row.id]
             apiData = apiData.filter((b) => b.id != row.id)
             editMode[row.id] = false
-        }
-        catch (e) {
-            console.log(e)
-            toast.error(`Something has gone wrong while trying to delete data! ${e}`)
-        }
+            return null
+        })
+
+        await toast.promise(fetchBlogs, {
+            success: "Blog deleted!",
+            loading: "Deleting blog",
+            error: (e) => `Error while deleting blog: ${e.message}`
+        })
     }
 
     onMount(async () => {

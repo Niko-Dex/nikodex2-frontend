@@ -1,6 +1,5 @@
 import { env } from "$env/dynamic/private"
-import { json } from "@sveltejs/kit"
-import { errSrv } from "../../helper.js"
+import { errSrv, resWithErrHandling } from "../../helper.js"
 
 
 export async function POST({ request, fetch, cookies }) {
@@ -14,7 +13,7 @@ export async function POST({ request, fetch, cookies }) {
             body: await request.text()
         })
 
-        return res
+        return await resWithErrHandling(res)
     } catch (e) {
         return errSrv(e)
     }
@@ -32,7 +31,7 @@ export async function PUT({ request, fetch, cookies }) {
             body: await request.text()
         })
 
-        return res
+        return await resWithErrHandling(res)
     } catch (e) {
         return errSrv(e)
     }
@@ -49,7 +48,7 @@ export async function DELETE({ request, fetch, cookies }) {
             }
         })
 
-        return res
+        return await resWithErrHandling(res)
     } catch (e) {
         return errSrv(e)
     }

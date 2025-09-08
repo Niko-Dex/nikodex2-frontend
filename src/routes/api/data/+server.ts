@@ -1,9 +1,9 @@
 import { env } from "$env/dynamic/private"
-import { errSrv } from '../helper';
+import { errSrv, resWithErrHandling } from '../helper';
 export async function GET({ request, fetch, cookies }) {
     try {
         const res = await fetch(`${env.API_SERVER_URL}/nikos`)
-        return res
+        return await resWithErrHandling(res)
     } catch (e) {
         return errSrv(e)
     }
@@ -21,7 +21,7 @@ export async function POST({ request, fetch, cookies }) {
             body: await request.text()
         })
 
-        return res
+        return await resWithErrHandling(res)
     } catch (e) {
         return errSrv(e)
     }
@@ -39,7 +39,7 @@ export async function PUT({ request, fetch, cookies }) {
             body: await request.text()
         })
 
-        return res
+        return await resWithErrHandling(res)
     } catch (e) {
         return errSrv(e)
     }
@@ -55,7 +55,7 @@ export async function DELETE({ request, fetch, cookies }) {
             }
         })
 
-        return res
+        return await resWithErrHandling(res)
     } catch (e) {
         return errSrv(e)
     }

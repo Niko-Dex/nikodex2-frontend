@@ -20,7 +20,7 @@
     let new_password2 = $state("")
 
     async function update() {
-        const res = await fetch(`/api/admin/user`, {
+        const fetchUser = fetch(`/api/admin/user`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -30,13 +30,16 @@
                 new_password,
                 new_description: ""
             })
+        }).then(async v => {
+            if (!v.ok) throw new Error((await v.json())["error"])
+            await goto("/admin/login")
         })
 
-        if (res.status > 299) {
-            toast.error(`Problem while updating username! ${await res.text()}`)
-        } else {
-            goto("/admin/login")
-        }
+        await toast.promise(fetchUser, {
+            success: "User updated! Please log back in.",
+            loading: "Updating user",
+            error: (e) => `Problem while updating user! ${e}`
+        })
     }
 
     async function updateUsername(ev: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement; }) {

@@ -2,38 +2,36 @@
     import { goto } from "$app/navigation";
     import Logo from "$lib/assets/images/logo.png"
     let validating = $state(false)
-    import toast, { Toaster } from "svelte-french-toast"
+    import toast from "svelte-french-toast"
 
-    function submit(ev: SubmitEvent) {
+    async function submit(ev: SubmitEvent) {
         ev.preventDefault()
         validating = true
         ev.submitter?.setAttribute("disabled", "")
         const formData = new FormData(ev.target as HTMLFormElement)
         const {username, password} = Object.fromEntries(formData.entries())
 
-        fetch(`/api/admin/auth`, {
+        const adminLogin = fetch(`/api/admin/auth`, {
             method: "POST",
             body: JSON.stringify({username, password}),
             headers: {
                 'Content-Type': 'application/json'
             }
         })
-            .then(async v => {
-                const jsonData = await v.json()
-                validating = false
-                ev.submitter?.removeAttribute("disabled")
-                if (v.status != 200) {
-                    if (v.status == 401) toast.error(`Error while logging in: ${jsonData["error"]}`)
-                    return
-                }
+        .then(async v => {
+            const jsonData = await v.json()
+            validating = false
+            ev.submitter?.removeAttribute("disabled")
+            if (!v.ok) throw new Error(jsonData["error"])
 
-                await goto("/admin")
-            })
-            .catch(v => {
-                validating = false
-                ev.submitter?.removeAttribute("disabled")
-                toast.error(`Error while connecting to API server!`)
-            })
+            await goto("/admin")
+        })
+
+        await toast.promise(adminLogin, {
+            success: "Successfully logged in!",
+            loading: "Logging in",
+            error: (e) => `Error while logging in: ${e.message}`
+        })
 
     }
 </script>

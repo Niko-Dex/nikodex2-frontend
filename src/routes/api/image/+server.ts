@@ -1,13 +1,11 @@
-import { json } from '@sveltejs/kit';
-
 import { env } from "$env/dynamic/private"
-import { errSrv } from '../helper';
+import { errSrv, resWithErrHandling } from '../helper';
 export async function GET({ request, fetch, cookies }) {
     try {
         const url = new URL(request.url)
         const res = await fetch(`${env.API_SERVER_URL}/image?id=${url.searchParams.get("id")}`)
 
-        return res
+        return await resWithErrHandling(res)
     } catch (e) {
         return errSrv(e)
     }
@@ -24,7 +22,7 @@ export async function POST({ request, fetch, cookies }) {
             body: await request.formData()
         })
 
-        return res
+        return await resWithErrHandling(res)
     } catch (e) {
         return errSrv(e)
     }

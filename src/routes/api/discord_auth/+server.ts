@@ -1,5 +1,6 @@
 import { json, redirect } from '@sveltejs/kit';
 import { env } from "$env/dynamic/private"
+import { errSrv } from '../helper.js';
 
 export async function GET({ fetch, cookies, url }) {
     block: try {
@@ -37,7 +38,7 @@ export async function GET({ fetch, cookies, url }) {
         });
     } catch (error) {
         console.log(error);
-        return json({ msg: `${error}` }, { "status": 500 });
+        return errSrv(error)
     }
     throw redirect(307, "/submit")
 }
