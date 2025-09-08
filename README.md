@@ -13,7 +13,7 @@ After that, create a .env file at the root of the project with the following dat
 
 API_SERVER_URL="<url_of_api_server>" # the backend API server address. in many cases, you shouldn't have to expose the back-end API server, so you can use "http://localhost:8000" or whichever address fastapi give you or you bind using gunicorn
 JWT_SECRET="" # the same JWT secret that you setup in the API server
-ORIGIN="" # you may need to specify the address that Vite provide here if you are not able to access this page. otherwise, leave this BLANK
+ORIGIN="" # for local development, you may want to put the address that Vite provide you (for instance: http://localhost:5173). for production, you will need to put in the domain you're using to host the front-end (for instance: https://example.com)
 
 # setup with the Discord's bot (for client ID and client secret, take a look at README for nikodex2-bot repo)
 
