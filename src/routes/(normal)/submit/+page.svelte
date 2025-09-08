@@ -148,7 +148,7 @@
         {:else if discord_acc_status == "unauthenticated"}
             <div class="flex gap-4 flex-col items-center">
                 <p>You are curently not logged in with Discord! Please login to submit a Niko.</p>
-                <button class="btn" onclick={() => goto('/dred')}>Login with Discord</button>
+                <a class="btn" href="/dred">Login with Discord</a>
             </div>
         {:else}
             <div>

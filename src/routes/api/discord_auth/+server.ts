@@ -2,8 +2,11 @@ import { json, redirect } from '@sveltejs/kit';
 import { env } from "$env/dynamic/private"
 
 export async function GET({ fetch, cookies, url }) {
-    try {
-        const code = url.searchParams.get("code") ?? ""
+    block: try {
+        const code = url.searchParams.get("code")
+        if (!code) {
+            break block
+        }
         const response = await fetch("https://discord.com/api/oauth2/token", {
             method: "POST",
             body: new URLSearchParams({
