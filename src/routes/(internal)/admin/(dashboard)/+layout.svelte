@@ -1,5 +1,6 @@
 <script lang="ts">
     import Link from '$lib/components/Link.svelte';
+    import Transition from '$lib/components/Transition.svelte';
 	import '../../../../app.css';
 
 	let { children } = $props();
@@ -7,16 +8,23 @@
 
 </script>
 
+<svelte:head>
+    <title>Admin Dashboard :3</title>
+</svelte:head>
+
 <Toaster />
-<div class="w-full relative flex justify-center p-4 flex-col">
-	<nav class="justify-between flex items-center border-b-4 pb-4 mb-4 gap-4">
-		<h2 class="h2-txt-size">Nikodex V2's Admin Dashboard</h2>
-		<div class="flex gap-4">
-			<a class="btn" href="/admin">Main</a>
-			<a class="btn" href="/admin/noik">Noik</a>
-			<a class="btn" href="/admin/blog">Blog</a>
-			<a class="btn" href="/admin/logout">Logout</a>
+<Transition />
+<div class="w-full relative flex justify-center flex-col">
+	<nav class="bg-black sticky top-0 w-full border-b-4 border-amber-600 px-4 py-2 justify-between items-center flex flex-col gap-2 lg:flex-row z-3">
+		<h2 class="h2-txt-size">Admin Dashboard</h2>
+		<div class="link flex gap-4 flex-shrink w-full overflow-auto lg:w-auto">
+			<Link custom_class="flex-1 lg:flex-none" href="/admin">Main</Link>
+			<Link custom_class="flex-1 lg:flex-none" href="/admin/noik">Noik</Link>
+			<Link custom_class="flex-1 lg:flex-none" href="/admin/blog">Blog</Link>
+			<Link custom_class="flex-1 lg:flex-none" href="/admin/logout">Logout</Link>
 		</div>
 	</nav>
-	{@render children?.()}
+	<div class="p-4">
+		{@render children?.()}
+	</div>
 </div>

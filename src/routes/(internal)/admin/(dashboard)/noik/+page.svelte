@@ -221,15 +221,12 @@
     })
 </script>
 
-<svelte:head>
-    <title>admin :3</title>
-</svelte:head>
-
 <div class="xl:px-4 flex flex-col gap-4">
     <h2 class="h2-txt-size">Noik Entries</h2>
+    <p>Database currently holding {apiData.length} entires.</p>
     <div class="overflow-x-auto w-full flex flex-col gap-4 relative">
         <table class="table-auto text-left rtl:text-right bg-slate-800 text-gray-500 dark:text-gray-400 w-full">
-            <thead class="text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <thead class="hidden lg:table-header-group text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th class="px-3 py-2">Name</th>
                     <th class="px-3 py-2">Image</th>
@@ -237,36 +234,42 @@
                     <th class="px-3 py-2">Short Description</th>
                     <th class="px-3 py-2">Full Description</th>
                     <th class="px-3 py-2 max-w-[128px]">Abilities</th>
-                    <th class="px-3 py-2">Action</th>
+                    <th class="px-3 py-2">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {#each apiData as noik}
-                <tr class="text-[16px] odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                <tr class="flex flex-col lg:table-row lg:flex-none text-[16px] odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
                     <td class="px-3 py-2">
+                        <span class="lg:hidden">Name:</span>
                         <input type="text" disabled={!editMode[noik.id]} bind:value={noik.name} class="w-full min-w-[80px]">
                     </td>
                     <td class="px-3 py-2">
-                        <span>Upload image by selecting an image file</span>
+                        <span class="lg:hidden">Image:</span>
                         <FileUpload disabled={!editMode[noik.id]} accept="image/*" bind:elm={editImage[noik.id]} />
                         <a href="/api/image?id={noik.id}" target="_blank">[View image]</a>
                         <!-- <input type="text" disabled={!editMode[noik.id]} bind:value={noik.img_link} class="w-full min-w-[100px]"> -->
                     </td>
                     <td class="px-3 py-2">
+                        <span class="lg:hidden">Author:</span>
                         <input type="text" disabled={!editMode[noik.id]} bind:value={noik.author} class="w-full min-w-[100px]">
                     </td>
                     <td class="px-3 py-2">
+                        <span class="lg:hidden">Short description</span>
                         <input type="text" disabled={!editMode[noik.id]} bind:value={noik.short_desc} class="w-full min-w-[100px]">
                     </td>
                     <td class="px-3 py-2">
+                        <span class="lg:hidden">Long description</span>
                         <textarea disabled={!editMode[noik.id]} bind:value={noik.description} class="w-full min-w-[400px]"></textarea>
                     </td>
-                    <td class="">
+                    <td class="px-3 py-2">
+                        <span class="lg:hidden">Abilities:</span>
                         <p>({noik.abilities.length} abilities)</p>
                         <button class="hover:cursor-pointer hover:text-white" onclick={() => { editAbilitiesRow = JSON.parse(JSON.stringify(noik)) }}>[Edit]</button>
                         <!-- <input type="text" disabled value="<to be implemented>"> -->
                     </td>
                     <td class="px-3 py-2">
+                        <span class="lg:hidden">Actions:</span>
                         {#if !editMode[noik.id]}
                         <button class="hover:cursor-pointer hover:text-white" onclick={() => { startEdit(noik) }}>[Edit]</button> /
                         <button class="hover:cursor-pointer hover:text-red-500" onclick={async () => { await deleteData(noik) }}>[Delete]</button>
@@ -282,7 +285,7 @@
         <button class="btn lg:w-60 sticky left-0" onclick="{async(ev) => { await createData( ev ) }}">Add Entry</button>
     </div>
     {#if editAbilitiesRow != null}
-    <div class="fixed top-0 left-0 w-screen h-screen flex justify-center bg-black/65">
+    <div class="fixed top-0 left-0 w-screen h-screen flex justify-center bg-black/65 z-10">
         <div class="w-full max-w-[1200px] flex flex-col gap-4 m-8 bg-slate-800 max-h-fit p-4 rounded-md">
             <div class="flex justify-between">
                 <p>Editing {editAbilitiesRow?.name ?? "[unknown]"}'s Abitilies</p>

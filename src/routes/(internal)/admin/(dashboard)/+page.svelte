@@ -6,6 +6,28 @@
     let username = $state("")
     let description = $state("")
 
+    let { data } = $props()
+
+    function displayTime(date: number) {
+        var s = Math.floor(date / 1000),
+            m = Math.floor(s / 60),
+            h = Math.floor(m / 60),
+            d = Math.floor(h / 24)
+
+        var result = "", result_arr = [
+            `${d} days`,
+            `${h % 24} hours`,
+            `${m % 60} minutes`,
+            `${s % 60} seconds`,
+        ]
+
+        result = result_arr.slice(0, result_arr.length - 1).join(", ")
+            + ((result_arr.length > 1) ? " and " : "")
+            + result_arr[result_arr.length - 1]
+
+        return result
+    }
+
     onMount(async() => {
 		const userRes = await fetch("/api/admin/user")
 		if (userRes.status == 401) goto("/admin/login")
@@ -75,14 +97,29 @@
     }
 </script>
 
-<div class="xl:px-4 flex flex-col gap-4 max-w-[1200px] m-auto">
+<div class="xl:px-4 flex flex-col gap-2 lg:gap-4 max-w-[1200px] m-auto">
     <h1 class="h1-txt-size text-center">Welcome, {username}!</h1>
     <p class="text-center"><em>[{description}]</em></p>
-    <p class="text-center">Edit the Noiksona at the Noik link above, along with the Blog at the Blog link.</p>
-    <p class="text-center">and uhh... that is lol. kbity :3</p>
+    <p class="text-center">Noik tab to edit the Nikosonas, and Blog tab to edit the blogs.</p>
+    <p class="text-center">and uhh... that is lol. happy editing, kbity :3</p>
 
     <div class="flex flex-col gap-2">
-        <h2 class="h2-txt-size">Change Username</h2>
+        <h2 class="h2-txt-size bg-white text-black">Current Status</h2>
+        <p>Frontend running on NodeJS v{data.frontend_nodejs_ver} (module version {data.frontend_nodejs_module})</p>
+        <p>Uptime:</p>
+        <ul class="list-disc pl-8">
+            <li>Frontend process: {displayTime(data.frontend_running_for * 1000)}</li>
+            <li>Server: {displayTime(data.server_uptime * 1000)}</li>
+        </ul>
+        <p>Memory usage:</p>
+        <ul class="list-disc pl-8">
+            <li>Frontend: {data.frontend_mem_usage} MB</li>
+            <li>Server: {data.server_mem_usage} MB/{data.server_mem_total} MB</li>
+        </ul>
+    </div>
+
+    <div class="flex flex-col gap-2">
+        <h2 class="h2-txt-size bg-white text-black">Change Username</h2>
         <p>note: successful change of username will log you out of the dashboard.</p>
         <label>
             New username:
@@ -92,7 +129,7 @@
     </div>
 
     <div class="password_change flex flex-col gap-2">
-        <h2 class="h2-txt-size">Change Password</h2>
+        <h2 class="h2-txt-size bg-white text-black">Change Password</h2>
         <p>If you have not changed the default login password of "nikodex": DO IT NOW!</p>
         <p>note: successful change of password will log you out of the dashboard.</p>
         <label>
