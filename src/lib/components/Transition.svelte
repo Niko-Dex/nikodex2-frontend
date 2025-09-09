@@ -1,7 +1,16 @@
-<script>
+<script lang="ts">
     let visible = $state(false)
+    let lastTimestamp = $state(0)
+    let nowTimestamp = $state(0)
+
+    let animFrameNum = 0;
 
     import { beforeNavigate, afterNavigate, goto } from "$app/navigation"
+
+    function timerRun(now: number) {
+        nowTimestamp = now
+        requestAnimationFrame(timerRun)
+    }
 
     beforeNavigate((nav) => {
         if (nav.willUnload) return
@@ -10,6 +19,8 @@
             return
         }
         visible = true
+        animFrameNum = requestAnimationFrame(timerRun)
+        lastTimestamp = performance.now()
         nav.cancel()
 
         setTimeout(async () => {
@@ -20,6 +31,7 @@
 
     afterNavigate((nav) => {
         visible = false
+        cancelAnimationFrame(animFrameNum)
     })
 </script>
 
@@ -52,5 +64,5 @@
 </style>
 
 <div class="overlay bg-indigo-900 fixed top-0 left-0 w-screen h-screen z-10 {visible ? "slide-in" : "slide-out"} flex justify-center items-center">
-    <h1><em>loading... :3</em></h1>
+    <h1><em>loading ({((nowTimestamp - lastTimestamp) / 1000).toFixed(1)}s)... :3</em></h1>
 </div>
