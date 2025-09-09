@@ -1,4 +1,5 @@
 <script lang="ts">
+    let firstLoad = $state(true)
     let visible = $state(false)
     let lastTimestamp = $state(0)
     let nowTimestamp = $state(0)
@@ -31,6 +32,7 @@
 
     afterNavigate((nav) => {
         visible = false
+        firstLoad = false
         cancelAnimationFrame(animFrameNum)
     })
 </script>
@@ -64,5 +66,9 @@
 </style>
 
 <div class="overlay bg-indigo-900 fixed top-0 left-0 w-screen h-screen z-10 {visible ? "slide-in" : "slide-out"} flex justify-center items-center">
+    {#if firstLoad}
+    <h1><em>loading... :3</em></h1>
+    {:else}
     <h1><em>loading ({((nowTimestamp - lastTimestamp) / 1000).toFixed(1)}s)... :3</em></h1>
+    {/if}
 </div>
