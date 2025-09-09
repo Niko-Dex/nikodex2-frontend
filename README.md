@@ -1,6 +1,8 @@
 # Nikodex V2 (front-end)
 This repository hold the front-end components for the Nikodex. This project uses Svelte with TailwindCSS.
 
+The front-end has two separate sections: one for the normal users, and one for admin to manage data (accessible through `/admin`).
+
 ## Dependecies
 To setup Nikodex V2 (front-end), you will need:
  - NodeJS (>=24)
