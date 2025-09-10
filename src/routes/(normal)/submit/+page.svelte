@@ -105,30 +105,30 @@
             </div>
             <div class="flex flex-col p-0.5">
                 <label class="w-full">
-                    <p>Name</p>
-                    <input bind:value={name} type="text" class="w-full">
+                    <p>Name (max 120 bytes/ASCII characters)</p>
+                    <input bind:value={name} type="text" class="w-full" maxlength="120">
                 </label>
             </div>
             <div class="flex flex-col p-0.5">
                 <label class="w-full">
-                    <p>Description</p>
-                    <input bind:value={desc} type="text" class="w-full">
+                    <p>Short Description (max 250 bytes/ASCII characters)</p>
+                    <input bind:value={desc} type="text" class="w-full"  maxlength="250">
                 </label>
             </div>
             <div class="flex flex-col p-0.5">
                 <label class="w-full">
-                    <p>Long Description</p>
-                    <textarea bind:value={full_desc} class="w-full"></textarea>
+                    <p>Long Description (max 1000 bytes/ASCII characters)</p>
+                    <textarea bind:value={full_desc} class="w-full" maxlength="1000"></textarea>
                 </label>
             </div>
             <div class="flex flex-col p-0.5 gap-2">
                 <div class="flex flex-row justify-between items-center">
-                    <p>Abilities</p>
+                    <p>Abilities (max 20 abilities, max 500 bytes/ASCII characters across all abilities)</p>
                     <button class="btn" onclick={() => addAbilitiy()}>Add..</button>
                 </div>
                 {#each abilities as item, key}
                     <div class="flex flex-row max-w-full gap-2">
-                        <input class="grow" bind:value={abilities[key]} aria-label="Abitility number {key}">
+                        <input class="grow" bind:value={abilities[key]} aria-label="Abitility number {key}" maxlength="500">
                         <button class="btn" onclick={() => {
                             abilities.splice(key, 1)
                         }}>Remove</button>
@@ -136,7 +136,7 @@
                 {/each}
             </div>
             <div class="flex flex-col p-0.5">
-                <p>Image..</p>
+                <p>Image (max 2MB, max dimesion of 1024x1024)</p>
                 <FileUpload bind:elm={fileInput} accept="image/*" />
             </div>
             <button class="btn" onclick={async() => await submitData()}>Submit!</button>
