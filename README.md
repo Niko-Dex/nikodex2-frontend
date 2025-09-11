@@ -36,6 +36,12 @@ npm run dev -- --open
 
 ## Building & running production build
 
+First, ensure that you got the latest commit, and that you installed the required packages
+```sh
+git pull
+npm i
+```
+
 To create a production version of Nikodex:
 
 ```sh
