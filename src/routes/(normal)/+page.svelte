@@ -102,7 +102,8 @@
 <section class="w-full relative flex justify-center p-4 bg-yellow-600">
     <div class="flex flex-col gap-4 max-w-[1200px] w-[1200px]">
         <h1 class="h1-txt-size">So what you're waiting for?!</h1>
-        <p>Explore all the Noiks the OSDS community has to offer at <em>The Niko List</em> on the navbar!</p>
+        <p>Explore all the Noiks the OSDS community has to offer at <em>The Niko List</em> on the navbar! You can also make a submission to the list in the <em>Submit a Niko</em> section, and also read on the latest updates in the <em>Blog</em> section.</p>
+        <p>Found a bug? Wanna help contribute to the Nikodex? Wanna talk with the dev? You can do all of that and more at <a href="/discord"><u>[The Nikodex's Discord server]</u></a>!</p>
     </div>
 </section>
 
