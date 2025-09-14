@@ -136,7 +136,7 @@
                 {/each}
             </div>
             <div class="flex flex-col p-0.5">
-                <p>Image (max 2MB, max dimesion of 1024x1024)</p>
+                <p>Image (max 2MB, max image size of 1024x1024)</p>
                 <FileUpload bind:elm={fileInput} accept="image/jpeg,image/png,image/webp,image/bmp" />
             </div>
             <button class="btn" onclick={async() => await submitData()}>Submit!</button>
