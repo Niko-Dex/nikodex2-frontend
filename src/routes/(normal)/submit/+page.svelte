@@ -10,6 +10,7 @@
     let desc = $state("")
     let full_desc = $state("")
     let abilities: string[] = $state([])
+    const abilitiesMaxLimit = 20
     let fileInput: HTMLInputElement | undefined = $state()
 
     let discord_acc_status: "logging_in" | "unauthenticated" | "authenticated" = $state("logging_in")
@@ -17,6 +18,7 @@
     let discord_id: string = $state("")
 
     function addAbilitiy() {
+        if (abilities.length > abilitiesMaxLimit) return
         abilities.push("Ability..")
     }
 
@@ -95,7 +97,7 @@
 
 <Toaster></Toaster>
 <section class="w-full relative flex justify-center">
-    <div class="absolute top-0 left-0 w-full h-full bg-no-repeat bg-cover bg-center no-antialias bg-fixed -z-1" style="background-image: url({Background});"></div>
+    <div class="absolute top-0 left-0 w-full h-full bg-no-repeat bg-cover bg-center no-antialias bg-fixed -z-1" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url({Background}); "></div>
     <div class="flex flex-col max-w-[1200px] w-[1200px] p-4 gap-4 min-h-screen">
         <h1 class="h1-txt-size">Submit a Niko!</h1>
         {#if discord_acc_status == "authenticated"}
@@ -105,26 +107,26 @@
             </div>
             <div class="flex flex-col p-0.5">
                 <label class="w-full">
-                    <p>Name (max 120 bytes/ASCII characters)</p>
+                    <p>Name <em>(max 120 bytes/ASCII characters)</em></p>
                     <input bind:value={name} type="text" class="w-full" maxlength="120">
                 </label>
             </div>
             <div class="flex flex-col p-0.5">
                 <label class="w-full">
-                    <p>Short Description (max 250 bytes/ASCII characters)</p>
+                    <p>Short Description <em>(max 250 bytes/ASCII characters)</em></p>
                     <input bind:value={desc} type="text" class="w-full"  maxlength="250">
                 </label>
             </div>
             <div class="flex flex-col p-0.5">
                 <label class="w-full">
-                    <p>Long Description (max 1000 bytes/ASCII characters)</p>
+                    <p>Long Description <em>(max 1000 bytes/ASCII characters)</em></p>
                     <textarea bind:value={full_desc} class="w-full" maxlength="1000"></textarea>
                 </label>
             </div>
             <div class="flex flex-col p-0.5 gap-2">
-                <div class="flex flex-row justify-between items-center">
-                    <p>Abilities (max 20 abilities, max 500 bytes/ASCII characters across all abilities)</p>
-                    <button class="btn" onclick={() => addAbilitiy()}>Add..</button>
+                <div class="flex flex-row justify-between items-center gap-4">
+                    <p>Abilities <em>(max 20 abilities, max 500 bytes/ASCII characters across all abilities in total)</em></p>
+                    <button class="btn" onclick={() => addAbilitiy()}>Insert</button>
                 </div>
                 {#each abilities as item, key}
                     <div class="flex flex-row max-w-full gap-2">
@@ -136,7 +138,7 @@
                 {/each}
             </div>
             <div class="flex flex-col p-0.5">
-                <p>Image (max 2MB, max image size of 1024x1024)</p>
+                <p>Image <em>(max 2MB, max image size of 1024x1024, jpeg/png/webp/bmp only!)</em></p>
                 <FileUpload bind:elm={fileInput} accept="image/jpeg,image/png,image/webp,image/bmp" />
             </div>
             <button class="btn" onclick={async() => await submitData()}>Submit!</button>
