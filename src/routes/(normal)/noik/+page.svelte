@@ -151,12 +151,12 @@
 {#if !dataErr && !isSearching}
     <div class="bg-gray-700 w-full flex justify-center gap-4 p-2">
         <button 
-        class="transition duration-100 hover:bg-white hover:text-black hover:cursor-pointer border-2 border-white px-4 py-1"
-        onclick={async() => await prevPage()}>Prev</button>
+        class="transition duration-100 hover:bg-white hover:text-black hover:cursor-pointer border-2 border-white px-4 py-1 disabled:opacity-50 disabled:pointer-events-none"
+        onclick={async() => await prevPage()} disabled={currentPage <= 1}>Prev</button>
         <input class="text-center border-2 border-white min-w-20"
         type="number" min={1} max={maxPages} bind:value={currentPage} aria-label="Page number" onchange={async () => await getData()}>
         <button 
-        class="transition duration-100 hover:bg-white hover:text-black hover:cursor-pointer border-2 border-white px-4 py-1"
-        onclick={async() => await nextPage()}>Next</button>
+        class="transition duration-100 hover:bg-white hover:text-black hover:cursor-pointer border-2 border-white px-4 py-1 disabled:opacity-50 disabled:pointer-events-none"
+        onclick={async() => await nextPage()} disabled={currentPage >= maxPages}>Next</button>
     </div>
 {/if}
