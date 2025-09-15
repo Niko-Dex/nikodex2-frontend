@@ -6,12 +6,29 @@ import { errSrv } from '../../helper';
 import { createHash } from "crypto"
 import nodeMID from "node-machine-id"
 
+function modExp(base: number, exp: number, mod: number) {
+    if (mod == 1) return 0
+    let out = 1
+    base %= mod
+
+    while (exp > 0) {
+        if (exp % 2 == 1) {
+            out = ((out % mod) * (base % mod)) % mod
+        }
+        base = ((base % mod) * (base % mod)) % mod
+        exp >>= 1
+    }
+
+    return out
+}
+
 let cachedData: Object[] = []
 const getNextDate = (curday: Date) => {
     const nowUtc = toZonedTime(curday, "UTC")
     return startOfDay(addDays(nowUtc, 1))
 }
 let nextDate: Date = new Date(0)
+let cachedIdx: number | null = null
 
 export async function GET({ request, fetch, cookies }) {
     let currDate = toZonedTime(new Date(), "UTC")
@@ -24,16 +41,19 @@ export async function GET({ request, fetch, cookies }) {
             }
             cachedData = await res.json()
             nextDate = getNextDate(currDate)
+            cachedIdx = null
         }
 
-        const magic = createHash("sha256")
-            .update(await nodeMID.machineId())
-            .update(format(currDate, "ddMMyyyy"))
-            .digest()
+        if (cachedIdx == null) {
+            const magic = createHash("sha256")
+                .update(await nodeMID.machineId())
+                .update(format(currDate, "ddMMyyyy"))
+                .digest()
 
-        const idx = magic.reduce((t, c) => (t + c) % cachedData.length)
+            cachedIdx = magic.reduce((t, c, w) => ((t % cachedData.length) * modExp(c, w, cachedData.length)) % cachedData.length)
+        }
 
-        return json(cachedData[idx], {
+        return json(cachedData[cachedIdx], {
             headers: {
                 "Expires": format(nextDate, "EEE, dd MMM yyyy HH:mm:ss 'GMT'", {
                     timeZone: "Etc/GMT"
