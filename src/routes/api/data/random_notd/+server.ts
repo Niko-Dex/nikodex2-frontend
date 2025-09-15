@@ -50,7 +50,7 @@ export async function GET({ request, fetch, cookies }) {
                 .update(format(currDate, "ddMMyyyy"))
                 .digest()
 
-            cachedIdx = magic.reduce((t, c, w) => ((t % cachedData.length) * modExp(c, w, cachedData.length)) % cachedData.length)
+            cachedIdx = magic.reduce((t, c, w) => ((t % cachedData.length) + modExp(c, w, cachedData.length)) % cachedData.length)
         }
 
         return json(cachedData[cachedIdx], {
