@@ -9,6 +9,6 @@
     })
 </script>
 
-<a href={href} class="no-underline btn lg:min-w-40 whitespace-nowrap {isActive ? "active" : ""} {custom_class}">
+<a href={href} class={`no-underline btn lg:min-w-40 whitespace-nowrap flex items-center ${isActive ? "active" : ""} ${custom_class}`}>
     <slot />
 </a>
