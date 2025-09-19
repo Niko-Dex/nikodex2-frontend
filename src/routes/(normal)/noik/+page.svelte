@@ -17,6 +17,8 @@
     let isSearching = $state(false)
     let searchQuery = $state("")
     let orderingOpt = $state("oldest_added")
+    let pageSelectDetect = $state() as HTMLDivElement
+    let pageSelectAtBottom = $state(false)
 
     async function prevPage() {
         if (currentPage != 1) {
@@ -99,6 +101,14 @@
     }
 
     onMount(async () => {
+        const observer = new IntersectionObserver((data) => {
+            pageSelectAtBottom = data[0].isIntersecting
+        }, {
+            root: null,
+            threshold: 1
+        })
+
+        observer.observe(pageSelectDetect)
         await getMaxPages()
         await getData()
     })
@@ -114,8 +124,8 @@
         <h1 class="h1-txt-size">The Noik List!</h1>
         <p><em>click on any of the nikosona to patpat! :3</em></p>
 
-        <div class="p-4 bg-black border-4 border-amber-600 w-full flex flex-row gap-4">
-            <input class="border-4 border-amber-600 w-full" placeholder="Search nikos by name.."
+        <div class="p-4 bg-black border-4 border-(--theme-color) w-full flex flex-row gap-4">
+            <input class="w-full border-4" placeholder="Search nikos by name..."
             bind:value={searchQuery}>
             <button class="btn" onclick={async() => await getSearchData()}>Search..</button>
             {#if searchQuery.length > 0}
@@ -148,8 +158,9 @@
         {/if}
     </div>
 </section>
+<div bind:this={pageSelectDetect}></div>
 {#if !dataErr && !isSearching}
-    <div class="bg-gray-700 w-full flex justify-center gap-4 p-2">
+    <div class="bg-gray-700 flex justify-center gap-4 p-2 {pageSelectAtBottom ? "w-full" : "p-4 w-fit mx-auto sticky bottom-4"}">
         <button 
         class="transition duration-100 hover:bg-white hover:text-black hover:cursor-pointer border-2 border-white px-4 py-1 disabled:opacity-50 disabled:pointer-events-none"
         onclick={async() => await prevPage()} disabled={currentPage <= 1}>Prev</button>
