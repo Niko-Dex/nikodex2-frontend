@@ -7,6 +7,8 @@
     import { onMount } from 'svelte';
     import { afterNavigate } from '$app/navigation';
 
+	import Baa from "$lib/assets/images/baaaaaa.png"
+
 	import ThemeBtn from "$lib/assets/images/components/theme.png"
 	import CloseBtn from "$lib/assets/images/components/close.png"
 	import Theme from "$lib/assets/data/theme.json"
@@ -105,19 +107,26 @@
 
 {@render children?.()}
 
-<footer class="bg-white text-black p-4">
-	<p>The NikoDex v2 is a project created by the contributors of <a href="https://github.com/Niko-Dex">Niko-Dex</a>, which are fans of OneShot, and are part of the OneShot Discord Server.</p>
+<footer class="bg-white text-black p-4 flex justify-between items-center gap-4">
+	<div>
+		<p>The NikoDex v2 is a project created by the contributors of <a href="https://github.com/Niko-Dex">Niko-Dex</a>, which are fans of OneShot, and are part of the OneShot Discord Server.</p>
 
-	<details>
-		<summary>Acknowledgements (for assets not created by the Niko-Dex contributors)</summary>
-		<div class="pl-8">
-			<ul class="list-disc">
-				<li>Background for the Home page, the Niko List page, the Blog page, the Submit page, and the Error page, along with the Niko sprites are taken from the game OneShot and OneShot WME. All rights for these media belongs to nightmargin.</li>
-				<li>All Nikosonas belongs to their respective owners and artists.</li>
-				<li>Terminus TTF font used in the website are licensed under the SIL Open Font License, downloaded from <a href="https://files.ax86.net/terminus-ttf/">https://files.ax86.net/terminus-ttf/</a></li>
-				<li>Svelte, TailwindCSS, along with a few dependecies, were used in the creation of the front-end.</li>
-			</ul>
-		</div>
-	</details>
+		<details>
+			<summary>Acknowledgements (for assets not created by the Niko-Dex contributors)</summary>
+			<div class="pl-8">
+				<ul class="list-disc">
+					<li>Background for the Home page, the Niko List page, the Blog page, the Submit page, and the Error page, along with the Niko sprites are taken from the game OneShot and OneShot WME. All rights for these media belongs to nightmargin.</li>
+					<li>All Nikosonas belongs to their respective owners and artists.</li>
+					<li>Terminus TTF font used in the website are licensed under the SIL Open Font License, downloaded from <a href="https://files.ax86.net/terminus-ttf/">https://files.ax86.net/terminus-ttf/</a></li>
+					<li>Svelte, TailwindCSS, along with a few dependecies, were used in the creation of the front-end.</li>
+				</ul>
+			</div>
+		</details>
+	</div>
+	<div>
+		<a href="/ramsweeper" class="block w-[64px] h-[64px]">
+			<img src={Baa} alt="Baaaaa" width="64" height="64" class="no-antialias">
+		</a>
+	</div>
 </footer>
 {/if}

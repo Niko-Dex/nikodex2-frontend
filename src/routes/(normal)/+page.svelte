@@ -109,6 +109,22 @@
 
 <section class="w-full relative flex justify-center p-4 bg-violet-600">
     <div class="flex flex-col gap-4 max-w-[1200px] w-[1200px]">
+        <h1 class="h1-txt-size">Noik of The Day</h1>
+        <p>A random Noik is selected each day at midnight (GMT) to be featured here. If your Noik show up here, then be proud i guess lol :3</p>
+        <Card
+            name={notd?.name}
+            id={notd?.id}
+            abilities={notd?.abilities}
+            author={notd?.author}
+            description={notd?.description}
+            short_desc={notd?.short_desc}
+            full_expand
+        />
+    </div>
+</section>
+
+<section class="w-full relative flex justify-center p-4 bg-blue-800">
+    <div class="flex flex-col gap-4 max-w-[1200px] w-[1200px]">
         <h1 class="h1-txt-size">Current Status</h1>
         <div style="--normal: repeat(auto-fit, minmax(240px, 1fr));" class="grid gap-4 text-center grid-cols-(--normal)">
             <div class="flex flex-col justify-center items-center">
@@ -129,21 +145,5 @@
             </div>
         </div>
         <p class="text-right">*bAPI: backend API, fAPI: frontend API</p>
-    </div>
-</section>
-
-<section class="w-full relative flex justify-center p-4 bg-blue-800">
-    <div class="flex flex-col gap-4 max-w-[1200px] w-[1200px]">
-        <h1 class="h1-txt-size">Noik of The Day</h1>
-        <p>A random Noik is selected each day at midnight (GMT) to be featured here. If your Noik show up here, then be proud i guess lol :3</p>
-        <Card
-            name={notd?.name}
-            id={notd?.id}
-            abilities={notd?.abilities}
-            author={notd?.author}
-            description={notd?.description}
-            short_desc={notd?.short_desc}
-            full_expand
-        />
     </div>
 </section>
