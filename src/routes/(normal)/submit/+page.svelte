@@ -108,19 +108,19 @@
             <div class="flex flex-col p-0.5">
                 <label class="w-full">
                     <p>Name <em>(max 120 bytes/ASCII characters)</em></p>
-                    <input bind:value={name} type="text" class="w-full" maxlength="120">
+                    <input bind:value={name} type="text" class="w-full" maxlength="120" placeholder="Name for your Nikosonas...">
                 </label>
             </div>
             <div class="flex flex-col p-0.5">
                 <label class="w-full">
                     <p>Short Description <em>(max 250 bytes/ASCII characters)</em></p>
-                    <input bind:value={desc} type="text" class="w-full"  maxlength="250">
+                    <input bind:value={desc} type="text" class="w-full"  maxlength="250" placeholder="A short description for your Nikosonas...">
                 </label>
             </div>
             <div class="flex flex-col p-0.5">
                 <label class="w-full">
                     <p>Long Description <em>(max 1000 bytes/ASCII characters)</em></p>
-                    <textarea bind:value={full_desc} class="w-full" maxlength="1000"></textarea>
+                    <textarea bind:value={full_desc} class="w-full" maxlength="1000" placeholder="A loooooong description for your Nikosonas..."></textarea>
                 </label>
             </div>
             <div class="flex flex-col p-0.5 gap-2">
@@ -144,7 +144,7 @@
             <button class="btn" onclick={async() => await submitData()}>Submit!</button>
         {:else if discord_acc_status == "unauthenticated"}
             <div class="flex gap-4 flex-col items-center">
-                <p>You are curently not logged in with Discord! Please login to submit a Niko.</p>
+                <p>You are curently not logged in with Discord! Please login to submit a Nikosona.</p>
                 <a class="btn" href="/dred">Login with Discord</a>
             </div>
         {:else}
