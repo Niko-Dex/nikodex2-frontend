@@ -11,7 +11,7 @@
 </script>
 
 <div class={expanded ? "transition duration-200 bg-black/75 fixed w-screen h-screen top-0 left-0 z-5 flex justify-center" : "w-full"}>
-    <div class={`border-4 border-amber-600 bg-black flex flex-col p-4 gap-4 ${expanded ? "w-3xl my-auto overflow-auto max-h-screen" : ""}`}>
+    <div class={`border-4 border-(--theme-color) bg-black flex flex-col p-4 gap-4 ${expanded ? "w-3xl my-auto overflow-auto max-h-screen" : ""}`}>
         <div class="main-info flex flex-col">
             <h2 class="h2-txt-size w-fit">{title}</h2>
             <p class="w-fit px-1 bg-white text-black">by {author}</p>
@@ -23,7 +23,7 @@
             </div>
         {/if}
         <div>
-            <button class="btn border-amber-600" onclick={() => expanded = !expanded}>{expanded ? "Close" : "Read"}</button>
+            <button class="btn border-(--theme-color)" onclick={() => expanded = !expanded}>{expanded ? "Close" : "Read"}</button>
         </div>
     </div>
 </div>

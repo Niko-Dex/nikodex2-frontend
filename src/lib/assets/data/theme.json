@@ -1,0 +1,49 @@
+{
+    "colors": [
+        {
+            "name": "Default",
+            "color": "oklch(66.6% 0.179 58.318)"
+        },
+        {
+            "name": "Red",
+            "color": "oklch(63.7% 0.237 25.331)"
+        },
+        {
+            "name": "Violet",
+            "color": "oklch(60.6% 0.25 292.717)"
+        },
+        {
+            "name": "Yellow",
+            "color": "oklch(85.2% 0.199 91.936)"
+        },
+        {
+            "name": "Green",
+            "color": "oklch(72.3% 0.219 149.579)"
+        },
+        {
+            "name": "Lime",
+            "color": "oklch(84.1% 0.238 128.85)"
+        },
+        {
+            "name": "Blue",
+            "color": "oklch(62.3% 0.214 259.815)"
+        },
+        {
+            "name": "Cyan",
+            "color": "oklch(86.5% 0.127 207.078)"
+        },
+        {
+            "name": "Gray",
+            "color": "oklch(55.1% 0.027 264.364)"
+        },
+        {
+            "name": "Slate",
+            "color": "oklch(37.2% 0.044 257.287)"
+        },
+        {
+            "name": "White",
+            "color": "white"
+        }
+    ],
+    "default": 0
+}

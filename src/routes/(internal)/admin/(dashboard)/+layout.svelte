@@ -15,7 +15,7 @@
 <Toaster />
 <Transition />
 <div class="w-full relative flex justify-center flex-col">
-	<nav class="bg-black sticky top-0 w-full border-b-4 border-amber-600 px-4 py-2 justify-between items-center flex flex-col gap-2 lg:flex-row z-3">
+	<nav class="bg-black sticky top-0 w-full border-b-4 border-(--theme-color) px-4 py-2 justify-between items-center flex flex-col gap-2 lg:flex-row z-3">
 		<h2 class="h2-txt-size">Admin Dashboard</h2>
 		<div class="link flex gap-4 flex-shrink w-full overflow-auto lg:w-auto">
 			<Link custom_class="flex-1 lg:flex-none" href="/admin">Main</Link>
