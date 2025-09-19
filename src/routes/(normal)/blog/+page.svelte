@@ -42,6 +42,7 @@
     <div style="background-image: url({Background})" class="absolute -z-1 top-0 left-0 w-full h-full bg-no-repeat bg-cover bg-center no-antialias bg-fixed"></div>
     <div class="max-w-[1200px] w-[1200px] flex flex-col gap-4 min-h-screen">
         <h1 class="h1-txt-size">Blog!</h1>
+        <p><em>Does anyone even read this?</em> -.-</p>
         {#if dataLoaded}
         <div class="flex flex-col gap-2">
             {#each apiData as blog}
