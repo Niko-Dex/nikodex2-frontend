@@ -95,7 +95,7 @@
             </button>
         </div>
         <h1 class="h1-txt-size">So, why <em>version 2</em>? Where is version 1?</h1>
-        <p>This version of the website was created to hopefully be the successor for the previous Nikodex hosted over on Wixsite. This new version aims to bring a cleaner design and a better user experience to everyone. You can visit the Nikodex version 1 at <a class="underline" href="https://nikodex.wixsite.com/nikodex">https://nikodex.wixsite.com/nikodex</a></p>
+        <p>This version of the website was created to hopefully be the successor for the previous Nikodex hosted over on Wixsite. This new version aims to bring a cleaner design and a better user experience to everyone. You can visit the Nikodex version 1 at <a href="https://nikodex.wixsite.com/nikodex">https://nikodex.wixsite.com/nikodex</a></p>
     </div>
 </section>
 
@@ -116,7 +116,7 @@
                 <p>Nikosona(s) catalogged</p>
             </div>
             <div class="flex flex-col justify-center items-center">
-                <h1 class="h1-txt-size"><a href="https://github.com/Niko-Dex/nikodex2-frontend/commit/{version}" class="underline">[{version.substring(0, 6)}]</a></h1>
+                <h1 class="h1-txt-size"><a href="https://github.com/Niko-Dex/nikodex2-frontend/commit/{version}">[{version.substring(0, 6)}]</a></h1>
                 <p>Front-end version</p>
             </div>
             <div class="flex flex-col justify-center items-center">
