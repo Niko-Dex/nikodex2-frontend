@@ -55,8 +55,8 @@ body {
         @apply bg-black text-white border-1 border-(--theme-color) placeholder:text-gray-500 placeholder:italic focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500
     }
 
-    input:disabled, textarea:disabled {
-        @apply bg-gray-800
+    input:disabled, textarea:disabled, select:disabled {
+        @apply bg-gray-800 pointer-events-none hover:bg-gray-800 hover:text-white
     }
 
     select {
