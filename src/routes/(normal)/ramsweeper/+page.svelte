@@ -91,17 +91,6 @@
     let gameBoardData: number[][] = []
     let gameBoardPancake: boolean[][] = []
 
-    let animCorruptText = -1
-    function corruptText() {
-        const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-=_+[]{};':,./<>?"
-        let str = ""
-        for (let i = 0; i < titleElm.innerText.length; i++) {
-            str += alphabet[Math.floor(Math.random() * alphabet.length)]
-        }
-        titleElm.innerText = str
-        animCorruptText = requestAnimationFrame(corruptText)
-    }
-
     function loadImage(src: string): Promise<HTMLImageElement> {
         return new Promise((res, rej) => {
             try {
@@ -391,7 +380,7 @@
         requestAnimationFrame(update)
     }
 
-    async function init(initial = false) {
+    async function init() {
         if (!settings.w || settings.w <= 0) {
             alert("Invalid width!")
             return
@@ -425,21 +414,11 @@
         ramPlaced = 0
 
         cancelAnimationFrame(timeAnim)
-        if (Math.random() < 0.02 && !initial) {
+        if (Math.random() < 0.02) {
             btnState("...")
-            if (animCorruptText < 0) {
-                animCorruptText = requestAnimationFrame(corruptText)
-                titleElm.setAttribute("data-original", titleElm.innerText)
-            }
         }
         else {
             btnState("normal")
-            const ogText = titleElm.getAttribute("data-original")
-            if (ogText) {
-                titleElm.innerText = ogText
-            }
-            cancelAnimationFrame(animCorruptText)
-            animCorruptText = -1
         }
         for (let i = 0; i < gameState.size[0]; i++) {
             gameBoard.push([])
@@ -469,7 +448,7 @@
         resetBtnCanvasCtx = resetBtnCanvas.getContext("2d")
         resetBtnImg = await loadImage(Nikos)
 
-        await init(true)
+        await init()
         requestAnimationFrame(update)
 
         addEventListener("resize", () => {
@@ -504,7 +483,7 @@
         bind:this={resetButton} data-bw="64" data-bh="64"
         class="box-content bg-[#693353] border-4 border-t-[#9e4c7e] border-l-[#9e4c7e] border-b-[#3d1830] border-r-[#3d1830] active:bg-[#3d1830] active:border-t-[#18072b] active:border-l-[#18072b] active:border-b-[#693353] active:border-r-[#693353]"
         aria-label="Start game"
-        onclick={() => init(false)}
+        onclick={init}
         >
             <canvas bind:this={resetBtnCanvas} width={nikoMetadata.tileSize[0]} height={nikoMetadata.tileSize[1]}></canvas>
         </button>
