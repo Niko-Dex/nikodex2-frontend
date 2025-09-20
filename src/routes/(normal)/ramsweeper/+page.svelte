@@ -583,13 +583,16 @@
     <div class="border-4 border-(--theme-color) p-4 bg-black flex gap-4 max-w-[1200px] mx-8 my-auto overflow-auto max-h-screen w-full flex-col">
         <div class="flex justify-between items-center">
             <h1 class="h1-txt-size">Achievements</h1>
-            <button class="btn" onclick={() => { achievementShow = false }}>Close</button>
+            <div>
+                <button class="btn" onclick={() => { localStorage.removeItem("achievements"); achievementShow = false }}>Reset</button>
+                <button class="btn" onclick={() => { achievementShow = false }}>Close</button>
+            </div>
         </div>
         <div class="flex flex-col gap-4">
             {#each Object.keys(achievements).map(v => Number(v)) as id}
                 <div class="border-4 border-(--theme-color) p-4">
                     {#if achievements[id].hidden}
-                    <h2 class="h2-txt-size"><em>[hidden]</em></h2>
+                    <h2 class="h2-txt-size">{hasAchievement(id) ? "✅" : "❌"} <em>[hidden]</em></h2>
                     <p><em>Details for this achievements will be reveal once unlocked.</em></p>
                     {:else}
                     <h2 class="h2-txt-size">{hasAchievement(id) ? "✅" : "❌"} {achievements[id].name}</h2>
