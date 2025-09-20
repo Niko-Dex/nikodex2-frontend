@@ -597,7 +597,7 @@
                 <div class="border-4 border-(--theme-color) p-4">
                     {#if achievements[id].hidden && !hasAchievement(id)}
                     <h2 class="h2-txt-size">{hasAchievement(id) ? "✅" : "❌"} <em>[hidden]</em></h2>
-                    <p><em>Details for this achievements will be reveal once unlocked.</em></p>
+                    <p><em>Details for this achievement will be revealed once unlocked.</em></p>
                     {:else}
                     <h2 class="h2-txt-size">{hasAchievement(id) ? "✅" : "❌"} {achievements[id].name}</h2>
                     <p>{achievements[id].description}</p>
