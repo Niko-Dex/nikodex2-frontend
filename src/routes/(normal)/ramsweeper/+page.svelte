@@ -469,7 +469,6 @@
         clearedTile = 0
         pancakesLeft = gameState.ramCount
         gameState.haveClickFirst = false
-        console.log(gameState)
         canvas.width = tileMetadata.tileSize[0] * gameState.size[0]
         canvas.height = tileMetadata.tileSize[1] * gameState.size[1] + topBarHeight
         gameState.inProgress = true
