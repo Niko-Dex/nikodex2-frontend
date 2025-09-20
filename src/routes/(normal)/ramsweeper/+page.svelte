@@ -40,6 +40,7 @@
         scale: 1
     })
     let preset = $state("easy")
+    let selectedPreset = $state("easy")
 
     const Tile = {
         "button": 0,
@@ -95,7 +96,7 @@
     let gameBoardPancake: boolean[][] = []
 
     $effect(() => {
-        switch (preset) {
+        switch (selectedPreset) {
             case "medium":
                 settings.w = 16
                 settings.h = 16
@@ -436,6 +437,7 @@
 
         if (!gameState.haveClickFirst) timeAnim = requestAnimationFrame(countTime)
         gameState.haveClickFirst = true
+        selectedPreset = preset
     }
 
     function update() {
@@ -459,6 +461,8 @@
             alert("Invalid amount of Ram specified!")
             return
         }
+
+        preset = selectedPreset
 
         gameState.size[0] = settings.w
         gameState.size[1] = settings.h
@@ -537,7 +541,7 @@
     <div class="flex gap-2 justify-center items-center">
         <label>
             Presets
-            <select class="min-w-[48px] w-full p-2 border-1" bind:value={preset} disabled={gameState.haveClickFirst}>
+            <select class="min-w-[48px] w-full p-2 border-1" bind:value={selectedPreset} disabled={gameState.haveClickFirst}>
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
                 <option value="hard">Hard</option>
@@ -547,15 +551,15 @@
         </label>
         <label>
             Width
-            <input type="number" class="min-w-[48px] w-full p-2" bind:value={settings.w} disabled={preset != "custom"}>
+            <input type="number" class="min-w-[48px] w-full p-2" bind:value={settings.w} disabled={selectedPreset != "custom"}>
         </label>
         <label>
             Height
-            <input type="number" class="min-w-[48px] w-full p-2" bind:value={settings.h} disabled={preset != "custom"}>
+            <input type="number" class="min-w-[48px] w-full p-2" bind:value={settings.h} disabled={selectedPreset != "custom"}>
         </label>
         <label>
             Rams
-            <input type="number" class="min-w-[48px] w-full p-2" bind:value={settings.b} disabled={preset != "custom"}>
+            <input type="number" class="min-w-[48px] w-full p-2" bind:value={settings.b} disabled={selectedPreset != "custom"}>
         </label>
     </div>
     <div class="flex justify-between items-center px-8 text-3xl sm:text-4xl md:text-5xl">
