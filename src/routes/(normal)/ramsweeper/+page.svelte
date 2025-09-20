@@ -591,7 +591,7 @@
         <div class="flex flex-col gap-4">
             {#each Object.keys(achievements).map(v => Number(v)) as id}
                 <div class="border-4 border-(--theme-color) p-4">
-                    {#if achievements[id].hidden}
+                    {#if achievements[id].hidden && !hasAchievement(id)}
                     <h2 class="h2-txt-size">{hasAchievement(id) ? "✅" : "❌"} <em>[hidden]</em></h2>
                     <p><em>Details for this achievements will be reveal once unlocked.</em></p>
                     {:else}
