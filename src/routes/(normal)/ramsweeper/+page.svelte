@@ -80,13 +80,13 @@
     }
 
     const topBarHeight = 0
-    let gameState = {
+    let gameState = $state({
         size: [9, 9],
         ramCount: 10,
         inProgress: true,
         selected: [-1, -1],
         haveClickFirst: false
-    }
+    })
     let ramPlaced = 0
     let boardOffset = [0, 0]
 
@@ -444,7 +444,7 @@
         requestAnimationFrame(update)
     }
 
-    async function init() {
+    function init() {
         if (!settings.w || settings.w <= 0) {
             alert("Invalid width!")
             return
@@ -469,6 +469,7 @@
         clearedTile = 0
         pancakesLeft = gameState.ramCount
         gameState.haveClickFirst = false
+        console.log(gameState)
         canvas.width = tileMetadata.tileSize[0] * gameState.size[0]
         canvas.height = tileMetadata.tileSize[1] * gameState.size[1] + topBarHeight
         gameState.inProgress = true
@@ -517,7 +518,7 @@
         resetBtnCanvasCtx = resetBtnCanvas.getContext("2d")
         resetBtnImg = await loadImage(Nikos)
 
-        await init()
+        init()
         requestAnimationFrame(update)
 
         addEventListener("resize", () => {
