@@ -14,15 +14,9 @@
     let ctx: CanvasRenderingContext2D | null = null
     let image: HTMLImageElement | null = null
 
-    let resetButton = $state() as HTMLButtonElement
     let resetBtnCanvas = $state() as HTMLCanvasElement
     let resetBtnCanvasCtx: CanvasRenderingContext2D | null = null
     let resetBtnImg: HTMLImageElement | null = null
-
-    let pancakeCntElm = $state() as HTMLParagraphElement
-    let timeElm = $state() as HTMLParagraphElement
-    let settingsElm = $state() as HTMLElement
-    let titleElm = $state() as HTMLElement
 
     let timePassed = $state(0)
     let startTime = -1
@@ -37,6 +31,7 @@
         b: 10,
         scale: 1
     })
+    let preset = $state("easy")
 
     const Tile = {
         "button": 0,
@@ -90,6 +85,32 @@
     let gameBoard: number[][] = []
     let gameBoardData: number[][] = []
     let gameBoardPancake: boolean[][] = []
+
+    $effect(() => {
+        switch (preset) {
+            case "medium":
+                settings.w = 16
+                settings.h = 16
+                settings.b = 40
+                break
+            case "hard":
+                settings.w = 30
+                settings.h = 16
+                settings.b = 99
+                break
+            case "what":
+                settings.w = 66
+                settings.h = 66
+                settings.b = 666
+                break
+            case "easy":
+            default:
+                settings.w = 9
+                settings.h = 9
+                settings.b = 15
+                break
+        }
+    })
 
     function loadImage(src: string): Promise<HTMLImageElement> {
         return new Promise((res, rej) => {
@@ -149,33 +170,10 @@
         canvas.style.height = `${baseH * scale}px`
     }
 
-    function resizeElement() {
-        const scale = getScale()
-        let [ rBtnbW, rBtnbH ] = [ resetButton.getAttribute("data-bw") ?? "0", resetButton.getAttribute("data-bh") ?? "0" ]
-
-        resetButton.style.width = `${Number(rBtnbW) * scale}px`
-        resetButton.style.height = `${Number(rBtnbH) * scale}px`
-
-        resetBtnCanvas.style.width = `${Number(rBtnbW) * scale}px`
-        resetBtnCanvas.style.height = `${Number(rBtnbH) * scale}px`
-
-        let txtElms = [
-            pancakeCntElm,
-            titleElm,
-            timeElm,
-            settingsElm
-        ]
-
-        for (let i of txtElms) {
-            let bSize = i.getAttribute("data-bsize") ?? "0"
-            i.style.fontSize = `${Number(bSize) * scale}px`
-        }
-    }
-
     function autoResize() {
         settings.scale = 1
         resizeCanvas()
-        resizeElement()
+        // resizeElement()
 
         let padding = [ 24, 24 ]
 
@@ -189,7 +187,7 @@
 
         settings.scale = scale
         resizeCanvas()
-        resizeElement()
+        // resizeElement()
     }
 
     function drawBoard() {
@@ -462,32 +460,43 @@
 </script>
 
 <div class="flex flex-col gap-4 w-min m-4 no-antialias mx-auto" bind:this={container}>
-    <h1 bind:this={titleElm} data-bsize="32" class="h1-txt-size text-center">Ramsweeper!</h1>
-    <div class="flex gap-2" bind:this={settingsElm} data-bsize="18">
+    <h1 class="h1-txt-size text-center">Ramsweeper!</h1>
+    <div class="flex gap-2 justify-center items-center">
+        <label>
+            Presets
+            <select class="min-w-[48px] w-full p-2 border-1" bind:value={preset}>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+                <option value="what">Good luck :3</option>
+                <option value="custom">Custom...</option>
+            </select>
+        </label>
         <label>
             Width
-            <input type="number" class="min-w-[48px] w-full p-2" bind:value={settings.w}>
+            <input type="number" class="min-w-[48px] w-full p-2" bind:value={settings.w} disabled={preset != "custom"}>
         </label>
         <label>
             Height
-            <input type="number" class="min-w-[48px] w-full p-2" bind:value={settings.h}>
+            <input type="number" class="min-w-[48px] w-full p-2" bind:value={settings.h} disabled={preset != "custom"}>
         </label>
         <label>
             Rams
-            <input type="number" class="min-w-[48px] w-full p-2" bind:value={settings.b}>
+            <input type="number" class="min-w-[48px] w-full p-2" bind:value={settings.b} disabled={preset != "custom"}>
         </label>
     </div>
     <div class="flex justify-between items-center px-8">
-        <p data-bsize="32" bind:this={pancakeCntElm}>{pancakesLeft.toString().padStart(3, '0')}</p>
+        <p>{pancakesLeft.toString().padStart(3, '0')}</p>
         <button
-        bind:this={resetButton} data-bw="64" data-bh="64"
         class="box-content bg-[#693353] border-4 border-t-[#9e4c7e] border-l-[#9e4c7e] border-b-[#3d1830] border-r-[#3d1830] active:bg-[#3d1830] active:border-t-[#18072b] active:border-l-[#18072b] active:border-b-[#693353] active:border-r-[#693353]"
         aria-label="Start game"
         onclick={init}
         >
             <canvas bind:this={resetBtnCanvas} width={nikoMetadata.tileSize[0]} height={nikoMetadata.tileSize[1]}></canvas>
         </button>
-        <p data-bsize="32" bind:this={timeElm}>{timePassed.toString().padStart(3, '0')}</p>
+        <p>{timePassed.toString().padStart(3, '0')}</p>
     </div>
-    <canvas width="360" height="360" bind:this={canvas}></canvas>
+    <div class="flex justify-center">
+        <canvas width="360" height="360" bind:this={canvas}></canvas>
+    </div>
 </div>
