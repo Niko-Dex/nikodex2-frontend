@@ -34,11 +34,11 @@ export enum Achievement {
     Strange_Journal = 4,
     Lightbulb = 5,
     PanPancake = 6,
-    Unknown = 7,
-    WhereIsMyHerd = 8,
-    PancakeOverflow = 9,
-    PancakeToTheSun = 10,
-    PanToTheEdgeOfUniverseCake = 11,
+    PancakeOverflow = 7,
+    PancakeToTheSun = 8,
+    PanToTheEdgeOfUniverseCake = 9,
+    Unknown = 10,
+    WhereIsMyHerd = 11,
 }
 
 export const achievements: { [ x: number ]: { name: string, description: string, hidden: boolean } } = {
@@ -60,17 +60,17 @@ export const achievements: { [ x: number ]: { name: string, description: string,
     [Achievement.Strange_Journal]: {
         "name": "Strange Journal",
         "description": "Win a game of Ramsweeper in Hard difficulty",
-        "hidden": false
+        "hidden": true
     },
     [Achievement.Lightbulb]: {
         "name": "Lightbulb",
         "description": "Win a game of Ramsweeper in 'Good Luck' (aka. Very Hard) difficulty",
-        "hidden": false
+        "hidden": true
     },
     [Achievement.PanPancake]: {
         "name": "Pan-Pancake",
         "description": "You can never have too many pancakes!",
-        "hidden": true
+        "hidden": false
     },
     [Achievement.PancakeOverflow]: {
         "name": "Pancake Overflow",
@@ -94,7 +94,7 @@ export const achievements: { [ x: number ]: { name: string, description: string,
     },
     [Achievement.WhereIsMyHerd]: {
         "name": "Where's my herd?!",
-        "description": "Win a game without any Ram.",
-        "hidden": true
+        "description": "And where did all my Ram gone???",
+        "hidden": false
     }
 }
