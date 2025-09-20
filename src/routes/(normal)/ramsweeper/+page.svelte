@@ -2,12 +2,18 @@
     import { onMount } from "svelte";
     import {
         tileMetadata, tileMap,
-        nikoMap, nikoMetadata
+        nikoMap, nikoMetadata,
+
+        achievements, Achievement
+
     } from "./assets"
     import Tiles from "$lib/assets/images/page/ramsweeper/tiles.png"
     import Nikos from "$lib/assets/images/page/ramsweeper/niko.png"
+    import toast, { Toaster } from "svelte-french-toast";
 
     const maxRamRatio = 0.9
+
+    let ready = $state(false)
 
     let container = $state() as HTMLElement
     let canvas = $state() as HTMLCanvasElement
@@ -24,6 +30,8 @@
 
     let clearedTile = $state(0)
     let pancakesLeft = $state(0)
+
+    let achievementShow = $state(false)
 
     let settings = $state({
         w: 9,
@@ -112,6 +120,31 @@
         }
     })
 
+    function getAchievements() {
+        const store = Number(localStorage.getItem("achievements") ?? NaN)
+        if (isNaN(store)) {
+            localStorage.setItem("achievements", "0")
+            return 0
+        }
+
+        return store
+    }
+
+    function hasAchievement(id: Achievement) {
+        let store = getAchievements()
+        return (store & (1 << id)) > 0
+    }
+
+    function setAchievement(id: Achievement) {
+        let store = getAchievements()
+        if (!hasAchievement(id)) {
+            toast.success(`Achievement Unlocked: ${achievements[id].name}!`)
+        }
+        store |= 1 << id
+        localStorage.setItem("achievements", store.toString())
+    }
+
+
     function loadImage(src: string): Promise<HTMLImageElement> {
         return new Promise((res, rej) => {
             try {
@@ -175,7 +208,7 @@
         resizeCanvas()
         // resizeElement()
 
-        let padding = [ 0, 24 ]
+        let padding = [ 0, 0 ]
 
         const { width, height } = container.getBoundingClientRect()
         let [ viewW, viewH ] = [ innerWidth, innerHeight ]
@@ -265,6 +298,25 @@
 
     function checkWin() {
         if (gameState.size[0] * gameState.size[1] - clearedTile <= gameState.ramCount) {
+            if (gameState.ramCount == 0) {
+                setAchievement(Achievement.WhereIsMyHerd)
+            } else {
+                switch (preset) {
+                    case "easy":
+                        setAchievement(Achievement.Wool)
+                        break
+                    case "medium":
+                        setAchievement(Achievement.Tube_of_Water)
+                        break
+                    case "hard":
+                        setAchievement(Achievement.Strange_Journal)
+                        break
+                    case "what":
+                        setAchievement(Achievement.Lightbulb)
+                        break
+                }
+            }
+
             btnState("yay")
             gameState.inProgress = false
             cancelAnimationFrame(timeAnim ?? 0)
@@ -297,6 +349,20 @@
 
             if (gameState.ramCount - pancakesLeft >= gameState.size[0] * gameState.size[1]) {
                 btnState("uhh")
+                switch (preset) {
+                    case "easy":
+                        setAchievement(Achievement.PanPancake)
+                        break
+                    case "medium":
+                        setAchievement(Achievement.PancakeOverflow)
+                        break
+                    case "hard":
+                        setAchievement(Achievement.PancakeToTheSun)
+                        break
+                    case "what":
+                        setAchievement(Achievement.PanToTheEdgeOfUniverseCake)
+                        break
+                }
             } else {
                 btnState("normal")
             }
@@ -412,8 +478,9 @@
         ramPlaced = 0
 
         cancelAnimationFrame(timeAnim)
-        if (Math.random() < 0.02) {
+        if (Math.random() < 0.01) {
             btnState("...")
+            setAchievement(Achievement.Unknown)
         }
         else {
             btnState("normal")
@@ -440,6 +507,10 @@
     }
 
     onMount(async () => {
+        if (!hasAchievement(Achievement.Baaaaaa)) {
+            setAchievement(Achievement.Baaaaaa)
+        }
+
         ctx = canvas.getContext("2d")
         image = await loadImage(Tiles)
 
@@ -456,15 +527,17 @@
         addEventListener("mousedown", clickDown)
         addEventListener("mouseup", clickUp)
         canvas.addEventListener("contextmenu", (ev) => ev.preventDefault())
+
+        ready = true
     })
 </script>
-
+<Toaster></Toaster>
 <div class="flex flex-col gap-4 w-min m-4 no-antialias mx-auto max-w-full px-4" bind:this={container}>
     <h1 class="h1-txt-size text-center">Ramsweeper!</h1>
     <div class="flex gap-2 justify-center items-center">
         <label>
             Presets
-            <select class="min-w-[48px] w-full p-2 border-1" bind:value={preset}>
+            <select class="min-w-[48px] w-full p-2 border-1" bind:value={preset} disabled={gameState.haveClickFirst}>
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
                 <option value="hard">Hard</option>
@@ -498,6 +571,33 @@
     </div>
     <div class="max-w-screen overflow-x-auto">
         <p class="text-sm">you may need to scroll if you device is small --&gt;</p>
-        <canvas width="360" height="360" bind:this={canvas} ></canvas>
+        <canvas width="360" height="360" bind:this={canvas} class="mx-auto"></canvas>
+    </div>
+    <div class="flex gap-4">
+        <button class="btn grow" onclick={() => { achievementShow = true }}>Achievements</button>
     </div>
 </div>
+
+{#if ready && achievementShow}
+<div class="fixed w-screen h-screen top-0 left-0 z-5 bg-black/75 flex justify-center">
+    <div class="border-4 border-(--theme-color) p-4 bg-black flex gap-4 max-w-[1200px] mx-8 my-auto overflow-auto max-h-screen w-full flex-col">
+        <div class="flex justify-between items-center">
+            <h1 class="h1-txt-size">Achievements</h1>
+            <button class="btn" onclick={() => { achievementShow = false }}>Close</button>
+        </div>
+        <div class="flex flex-col gap-4">
+            {#each Object.keys(achievements).map(v => Number(v)) as id}
+                <div class="border-4 border-(--theme-color) p-4">
+                    {#if achievements[id].hidden}
+                    <h2 class="h2-txt-size"><em>[hidden]</em></h2>
+                    <p><em>Details for this achievements will be reveal once unlocked.</em></p>
+                    {:else}
+                    <h2 class="h2-txt-size">{hasAchievement(id) ? "✅" : "❌"} {achievements[id].name}</h2>
+                    <p>{achievements[id].description}</p>
+                    {/if}
+                </div>
+            {/each}
+        </div>
+    </div>
+</div>
+{/if}
