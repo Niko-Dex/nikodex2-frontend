@@ -175,7 +175,7 @@
         resizeCanvas()
         // resizeElement()
 
-        let padding = [ 24, 24 ]
+        let padding = [ 0, 24 ]
 
         const { width, height } = container.getBoundingClientRect()
         let [ viewW, viewH ] = [ innerWidth, innerHeight ]
@@ -459,7 +459,7 @@
     })
 </script>
 
-<div class="flex flex-col gap-4 w-min m-4 no-antialias mx-auto" bind:this={container}>
+<div class="flex flex-col gap-4 w-min m-4 no-antialias mx-auto max-w-full px-4" bind:this={container}>
     <h1 class="h1-txt-size text-center">Ramsweeper!</h1>
     <div class="flex gap-2 justify-center items-center">
         <label>
@@ -468,7 +468,7 @@
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
                 <option value="hard">Hard</option>
-                <option value="what">Good luck :3</option>
+                <option value="what">Good luck :3 (not recommended for weak devices)</option>
                 <option value="custom">Custom...</option>
             </select>
         </label>
@@ -485,7 +485,7 @@
             <input type="number" class="min-w-[48px] w-full p-2" bind:value={settings.b} disabled={preset != "custom"}>
         </label>
     </div>
-    <div class="flex justify-between items-center px-8">
+    <div class="flex justify-between items-center px-8 text-3xl sm:text-4xl md:text-5xl">
         <p>{pancakesLeft.toString().padStart(3, '0')}</p>
         <button
         class="box-content bg-[#693353] border-4 border-t-[#9e4c7e] border-l-[#9e4c7e] border-b-[#3d1830] border-r-[#3d1830] active:bg-[#3d1830] active:border-t-[#18072b] active:border-l-[#18072b] active:border-b-[#693353] active:border-r-[#693353]"
@@ -496,7 +496,8 @@
         </button>
         <p>{timePassed.toString().padStart(3, '0')}</p>
     </div>
-    <div class="flex justify-center">
-        <canvas width="360" height="360" bind:this={canvas}></canvas>
+    <div class="max-w-screen overflow-x-auto">
+        <p class="text-sm">you may need to scroll if you device is small --&gt;</p>
+        <canvas width="360" height="360" bind:this={canvas} ></canvas>
     </div>
 </div>
