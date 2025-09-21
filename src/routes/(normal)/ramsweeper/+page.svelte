@@ -317,7 +317,7 @@
                         break
                 }
             }
-
+            toast.success("You win!")
             btnState("yay")
             gameState.inProgress = false
             cancelAnimationFrame(timeAnim ?? 0)
@@ -325,6 +325,7 @@
     }
 
     function gameOver() {
+        toast.error("You lose...")
         btnState("noo")
         gameState.inProgress = false
         cancelAnimationFrame(timeAnim ?? 0)
