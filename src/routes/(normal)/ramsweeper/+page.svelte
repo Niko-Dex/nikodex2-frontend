@@ -575,6 +575,10 @@
     }
 </style>
 
+<svelte:head>
+    <title>Ramsweeper</title>
+</svelte:head>
+
 <Toaster></Toaster>
 <div class="flex flex-col gap-4 w-min m-4 no-antialias mx-auto max-w-full px-4" bind:this={container}>
     <h1 class="h1-txt-size text-center">Ramsweeper!</h1>
@@ -614,7 +618,7 @@
         <p>{timePassed.toString().padStart(3, '0')}</p>
     </div>
     <div class="max-w-screen overflow-x-auto">
-        <p class="text-sm">you may need to scroll if you device is small --&gt;</p>
+        <p class="text-sm">you may need to scroll if your device is small --&gt;</p>
         <canvas width="360" height="360" bind:this={canvas} class="mx-auto"></canvas>
     </div>
     <div class="flex gap-4 flex-wrap">
