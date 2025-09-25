@@ -228,6 +228,7 @@
         <table class="table-auto text-left rtl:text-right bg-slate-800 text-gray-500 dark:text-gray-400 w-full">
             <thead class="hidden lg:table-header-group text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
+                    <th class="px-3 py-2">ID</th>
                     <th class="px-3 py-2">Name</th>
                     <th class="px-3 py-2">Image</th>
                     <th class="px-3 py-2">Author</th>
@@ -240,6 +241,10 @@
             <tbody>
                 {#each apiData as noik}
                 <tr class="flex flex-col lg:table-row lg:flex-none text-[16px] odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                    <td class="px-3 py-2">
+                        <span class="lg:hidden">ID:</span>
+                        <span>{noik.id}</span>
+                    </td>
                     <td class="px-3 py-2">
                         <span class="lg:hidden">Name:</span>
                         <input type="text" disabled={!editMode[noik.id]} bind:value={noik.name} class="w-full min-w-[80px]">

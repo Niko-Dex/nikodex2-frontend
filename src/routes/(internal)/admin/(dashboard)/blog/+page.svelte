@@ -144,11 +144,12 @@
 
 <div class="xl:px-4 flex flex-col gap-4">
     <h2 class="h2-txt-size">Blog Entries</h2>
-    <p>Database currently holding {apiData.length} entires.</p>
+    <p>Database currently holding {apiData.length} entries.</p>
     <div class="flex flex-col gap-4">
         <table class="table-auto text-left rtl:text-right bg-slate-800 text-gray-500 dark:text-gray-400 w-full">
             <thead class="hidden lg:table-header-group text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
+                    <th class="px-3 py-2">ID</th>
                     <th class="px-3 py-2">Title</th>
                     <th class="px-3 py-2">Author</th>
                     <th class="px-3 py-2">Content</th>
@@ -158,6 +159,10 @@
             <tbody>
                 {#each apiData as blog}
                     <tr class="flex flex-col lg:table-row lg:flex-none text-[16px] odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                        <td class="px-3 py-2">
+                            <span class="lg:hidden">ID:</span>
+                            <span>{blog.id}</span>
+                        </td>
                         <td class="px-3 py-2">
                             <span class="lg:hidden">Title:</span>
                             <input class="w-full min-w-[80px]" disabled={!editMode[blog.id]} bind:value={blog.title}>
