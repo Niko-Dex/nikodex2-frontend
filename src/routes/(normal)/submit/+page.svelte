@@ -146,6 +146,9 @@
             <div class="flex gap-4 flex-col items-center">
                 <p>You are curently not logged in with Discord! Please login to submit a Nikosona.</p>
                 <a class="btn" href="/dred">Login with Discord</a>
+                <p class="w-full text-left">NOTICE:</p>
+                <p class="w-full text-left"><em>By logging in with Discord and submitting a Nikosona, you agree to share with us <u>your username and your user ID</u> for the purpose of identifying and crediting your entry, as well to make sure you are not abusing our service.</em></p>
+                <p class="w-full text-left"><em>We will only be able to get your <u>public information about your Discord account</u> (ones that everyone can see). No other information from your Discord account will be used or collected, and absolutely no information will be shared to any third-party.</em></p>
             </div>
         {:else}
             <div>
