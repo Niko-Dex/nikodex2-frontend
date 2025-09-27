@@ -72,7 +72,8 @@
             <button class="btn" onclick={() => { expanded = !expanded }}>{expanded ? "Close" : "View More"}</button>
             <a class="btn text-center" href={`/twm/${id}`}>TWM View</a>
         </div>
-        <div class="info">
+        <div class="info grow relative">
+            <p class="absolute right-0 bottom-0 text-gray-500"><em>#{id}</em></p>
             <h2 class="h2-txt-size w-fit">{name}</h2>
             <p>Created By <span class="bg-white text-black w-fit px-1">{author}</span></p>
             {#if !expanded}
