@@ -115,10 +115,10 @@
 			<summary>Acknowledgements (for assets not created by the Nikodex contributors)</summary>
 			<div class="pl-8">
 				<ul class="list-disc">
-					<li>Background for the Home page, the Niko List page, the Blog page, the Submit page, and the Error page, along with the Niko sprites are taken from the game OneShot and OneShot WME. All rights for these media belongs to nightmargin.</li>
-					<li>All Nikosonas belongs to their respective owners and artists. We, the Nikodex team, are very greatful to be able to document all of the Nikosonas listed on the website. All Nikosonas are, and will be fully credited when you submit one. If you wish to edit or remove an entry, you may do so through the Nikodex's Discord server on top.</li>
-					<li>Terminus TTF font used in the website are licensed under the SIL Open Font License, downloaded from <a href="https://files.ax86.net/terminus-ttf/">https://files.ax86.net/terminus-ttf/</a></li>
-					<li>Svelte, TailwindCSS, along with a few libraries and dependecies, were used in the creation of the front-end.</li>
+					<li>Background for the Home page, the Niko List page, the Blog page, the Submit page, and the Error page, along with the Niko sprites, are taken from the game OneShot and OneShot WME. All rights for these media belong to Nightmargin.</li>
+					<li>All Nikosonas belong to their respective owners and artists. We, the Nikodex team, are very grateful to be able to document all of the Nikosonas listed on the website. All Nikosonas are, and will be fully credited when you submit one. If you'd like to edit or remove an entry, you can do so through Nikodex's Discord server, located at the top.</li>
+					<li>Terminus TTF font used in the website is licensed under the SIL Open Font License, downloaded from <a href="https://files.ax86.net/terminus-ttf/">https://files.ax86.net/terminus-ttf/</a></li>
+					<li>Svelte, TailwindCSS, along with a few libraries and dependencies, were used in the creation of the front-end.</li>
 				</ul>
 			</div>
 		</details>
