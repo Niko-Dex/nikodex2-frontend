@@ -95,7 +95,7 @@
             </button>
         </div>
         <h1 class="h1-txt-size">So, why <em>version 2</em>? Where is version 1?</h1>
-        <p>This version of the website was created to hopefully be the successor for the previous Nikodex hosted over on Wixsite. This new version aims to bring a cleaner design and a better user experience to everyone. You can visit the Nikodex version 1 at <a href="https://nikodex.wixsite.com/nikodex">https://nikodex.wixsite.com/nikodex</a></p>
+        <p>This version of the website was created to be the successor to the previous Nikodex hosted on Wixsite. This new version offers a cleaner design and an enhanced user experience for all users. You can visit the Nikodex version 1 (Now left here for archival purposes) at <a href="https://nikodex.wixsite.com/nikodex">https://nikodex.wixsite.com/nikodex</a></p>
     </div>
 </section>
 
