@@ -1,6 +1,8 @@
 <script lang="ts">
     import blacklist from "$lib/assets/data/blacklist.json"
     import Squares from "$lib/assets/images/components/nohand.png"
+    const maxAbilitiesChar = 100
+    const viewMore = "..."
     let expanded = $state(false)
 
     let {
@@ -8,7 +10,7 @@
         author = "",
         short_desc = "",
         description = "",
-        abilities = [""],
+        abilities = [] as string[],
         id = 0,
         full_expand = false
     } = $props()
@@ -18,6 +20,21 @@
 
     let isBlacklisted = $derived(blacklist.findIndex(v => v == id) != -1)
     let timeout: ReturnType<typeof setTimeout> | null = null
+    let shortenedAbilities = $derived.by(() => {
+        let curLen = 0
+        let out: string[] = []
+        for (let i of abilities) {
+            if (curLen >= maxAbilitiesChar) {
+                out.push(viewMore)
+                break
+            }
+            let str = i.slice(0, maxAbilitiesChar - viewMore.length)
+            if (i.length >= maxAbilitiesChar - viewMore.length) str += viewMore
+            out.push(str)
+            curLen += i.length
+        }
+        return out
+    })
 
     let isPatPat = $state(false)
 
@@ -75,24 +92,22 @@
         <div class="info grow relative">
             <p class="absolute right-0 bottom-0 text-gray-500"><em>#{id}</em></p>
             <h2 class="h2-txt-size w-fit">{name}</h2>
-            <p>Created By <span class="bg-white text-black w-fit px-1">{author}</span></p>
             {#if !expanded}
             <p class="wrap-anywhere"><em>"{short_desc}"</em></p>
             {/if}
+            <p>By: <span class="bg-white text-black w-fit px-1">{author}</span></p>
             <p class="bg-white text-black w-fit px-1">Abilities:</p>
-            {#if abilities.length > 0}
             <ul class="list-disc list-inside">
-                {#each abilities as ability}
-                    <li>{ability}</li>
+                {#each (expanded ? abilities : shortenedAbilities) as ability}
+                    <li class="break-words">{ability}</li>
+                {:else}
+                    <li><em>[undetermined]</em></li>
                 {/each}
             </ul>
-            {:else}
-            <p><em>[empty]</em></p>
-            {/if}
             {#if expanded}
             <p>{description}</p>
             {:else}
-            <p>...</p>
+            <p><em>[...]</em></p>
             {/if}
         </div>
     </div>
