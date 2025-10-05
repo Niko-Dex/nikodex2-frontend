@@ -2,6 +2,7 @@
     import blacklist from "$lib/assets/data/blacklist.json"
     import Squares from "$lib/assets/images/components/nohand.png"
     const maxAbilitiesChar = 100
+    const maxAbilitiesCnt = 5
     const viewMore = "..."
     let expanded = $state(false)
 
@@ -23,7 +24,7 @@
     let shortenedAbilities = $derived.by(() => {
         let curLen = 0
         let out: string[] = []
-        for (let i of abilities) {
+        for (let i of abilities.slice(0, maxAbilitiesCnt)) {
             if (curLen >= maxAbilitiesChar) {
                 out.push(viewMore)
                 break
