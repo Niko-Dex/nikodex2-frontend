@@ -7,6 +7,7 @@
         achievements, Achievement
 
     } from "./assets"
+    import Background from "$lib/assets/images/page/ramsweeper/bg.png"
     import Tiles from "$lib/assets/images/page/ramsweeper/tiles.png"
     import Nikos from "$lib/assets/images/page/ramsweeper/niko.png"
     import toast, { Toaster } from "svelte-french-toast";
@@ -581,6 +582,7 @@
 
 <Toaster></Toaster>
 <div class="flex flex-col gap-4 w-min m-4 no-antialias mx-auto max-w-full px-4" bind:this={container}>
+    <div style="background-image: url({Background})" class="absolute -z-1 top-0 left-0 w-full h-full bg-no-repeat bg-cover bg-center no-antialias bg-fixed"></div>
     <h1 class="h1-txt-size text-center">Ramsweeper!</h1>
     <div class="flex gap-2 justify-center items-center">
         <label>
