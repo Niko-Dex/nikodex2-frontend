@@ -73,7 +73,7 @@
 
 <div class="{expanded ? "transition duration-200 fixed w-screen h-screen top-0 left-0 z-5 bg-black/75 flex justify-center" : "w-full"} card">
     <div class="border-4 border-(--theme-color) p-4 bg-black flex gap-4 {expanded ? "max-w-[1200px] mx-8 my-auto overflow-auto max-h-screen" : "max-w-full"} {!expanded && !full_expand ? "lg:max-w-[640px]" : ""} w-full flex-col md:flex-row">
-        <div class="img flex flex-col gap-2 bg-black {expanded ? "sticky top-0" : ""}">
+        <div class="img flex flex-col gap-2 bg-black {expanded ? "sticky top-0 z-1" : ""}">
             <button class="max-w-[256px] w-full md:w-[256px] max-h-[256px] h-fit hover:cursor-grab {isPatPat ? "pointer-events-none" : ""}" onpointerdown={patpat}>
                 {#if isBlacklisted}
                 <div class="relative w-full h-full">
