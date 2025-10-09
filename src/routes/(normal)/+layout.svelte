@@ -83,6 +83,7 @@
 		<Link custom_class="flex-1 lg:flex-none border-(--theme-color)" href="/noik">The Niko List</Link>
 		<Link custom_class="flex-1 lg:flex-none" href="/submit">Submit a Niko</Link>
 		<Link custom_class="flex-1 lg:flex-none" href="/blog">Blog</Link>
+		<Link custom_class="flex-1 lg:flex-none" href="/discord">Discord server</Link>
 		<button class="md:p-[4px] no-antialias btn flex items-center gap-4 justify-between" onclick={() => themeOpen = !themeOpen} aria-label="Theme changer">
 			<span class="sm:hidden">Change theme</span>
 			<div class="w-[32px] h-[32px] no-antialias" style="mask: url({themeOpen ? CloseBtn : ThemeBtn}) no-repeat center; -webkit-mask: url({themeOpen ? CloseBtn : ThemeBtn}) no-repeat center; -webkit-mask-size: contain; mask-size: contain; background-color: var(--theme-color)"></div>
