@@ -56,6 +56,6 @@
                 <input type="password" name="password" id="password" class="block w-full">
             </label>
         </div>
-        <button type="submit" class="w-full rounded-md bg-indigo-500 px-3 py-1.5 text-white hover:bg-indigo-400 hover:cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 disabled:opacity-75">{validating ? "Logging in..." : "Login"}</button>
+        <button type="submit" class="w-full btn">{validating ? "Logging in..." : "Login"}</button>
     </form>
 </div>
