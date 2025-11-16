@@ -10,6 +10,7 @@
         img_link: string,
         short_desc: string,
         description: string,
+        author_id: number | undefined,
         abilities: {
             name: string,
             niko_id: number,
@@ -30,13 +31,15 @@
     }
 
     async function saveEdit(row: (typeof apiData)[number]) {
+        console.log(row)
         const fetchData = fetch(`/api/data?id=${row.id}`, {
             method: "PUT",
             body: JSON.stringify({
                 "name": row.name,
                 "description": row.short_desc,
                 "author": row.author,
-                "full_desc": row.description
+                "full_desc": row.description,
+                "author_id": row.author_id
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -151,7 +154,8 @@
                     description: d["full_desc"],
                     short_desc: d["description"],
                     abilities: d["abilities"],
-                    img_link: d["image"]
+                    img_link: d["image"],
+                    author_id: d["author_id"]
                 })
             }
         })
@@ -191,6 +195,7 @@
             author: "placeholder",
             full_desc: "placeholder",
             description: "placeholder",
+            author_id: 0
         }
 
         const fetchData = fetch("/api/data", {
@@ -235,6 +240,7 @@
                     <th class="px-3 py-2">Short Description</th>
                     <th class="px-3 py-2">Full Description</th>
                     <th class="px-3 py-2 max-w-[128px]">Abilities</th>
+                    <th class="px-3 py-2 max-w-[128px]">Author ID</th>
                     <th class="px-3 py-2">Actions</th>
                 </tr>
             </thead>
@@ -272,6 +278,10 @@
                         <p>({noik.abilities.length} abilities)</p>
                         <button class="hover:cursor-pointer hover:text-white" onclick={() => { editAbilitiesRow = JSON.parse(JSON.stringify(noik)) }}>[Edit]</button>
                         <!-- <input type="text" disabled value="<to be implemented>"> -->
+                    </td>
+                    <td class="px-3 py-2">
+                        <span class="lg:hidden">Author ID:</span>
+                        <input class="w-full min-w-[100px] cursor-not-allowed" disabled={!editMode[noik.id]} type="number" placeholder="placeholder :<" bind:value={noik.author_id}/>
                     </td>
                     <td class="px-3 py-2">
                         <span class="lg:hidden">Actions:</span>
