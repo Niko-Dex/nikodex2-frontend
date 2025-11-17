@@ -1,7 +1,7 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
     import { onMount } from "svelte";
-    import toast from "svelte-french-toast";
+    import toast, { Toaster } from "svelte-french-toast";
 
     let username = $state("");
     let description = $state("");
