@@ -2,7 +2,7 @@
 This repository contain the front-end for the Nikodex. This is what the user will see and interact when the user visit the website.
 
 ## Overview
-The frontend for the Nikodex are structured as follows:
+The main part of the frontend for the Nikodex is structured as follows:
  - `/`: the homepage for the Nikodex, containing informations about the site (user space) (visible to everyone) 
    - `/noik`: the Niko list, for showcasing the Nikosonas the community have created. 
    - `/blog`: the Nikodex's blogs, for displaying informations or updates published by the site's Admin. 
@@ -11,7 +11,7 @@ The frontend for the Nikodex are structured as follows:
    - `/admin/noik`: the dashboard for the Niko list, where Admins can create, edit, or delete entries. 
    - `/admin/blog`: the dashboard for the Nikodex's blogs, where Admins can create, edit, or delete blog entries.
 
-As you can notice, the Nikodex is split into two "spaces": the user space, where everyone can access, and the admin space, where only user with an Admin account can access. Informations on how to create or manage Admin accounts can be found in the README for the `nikodex2-backend`. 
+As listed above, the Nikodex is split into two "spaces": the user space, where everyone can access, and the admin space, where only user with an Admin account can access. Informations on how to create or manage Admin accounts can be found in the README for the `nikodex2-backend`. 
 
 ## Dependecies
 To setup the frontend for Nikodex v2, you will need:
