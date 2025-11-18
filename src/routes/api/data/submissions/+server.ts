@@ -6,7 +6,7 @@ export const GET: RequestHandler = async ({ request, fetch, cookies }) => {
   try {
     const submissionReq = await fetch(`${env.API_SERVER_URL}/submissions`);
 
-    return resWithErrHandling(submissionReq);
+    return await resWithErrHandling(submissionReq);
   } catch (err) {
     return errSrv(err);
   }
