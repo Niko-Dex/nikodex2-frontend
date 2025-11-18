@@ -29,7 +29,6 @@
       .then((r) => r.json())
       .then((r) => {
         currentUsers = r;
-        console.log(currentUsers);
       });
     toast.promise(apiDataCurrent, {
       loading: "loading pls wait...",
