@@ -30,7 +30,7 @@
       .then((r) => {
         currentUsers = r;
       });
-    toast.promise(apiDataCurrent, {
+    await toast.promise(apiDataCurrent, {
       loading: "loading pls wait...",
       success: "loaded search data!",
       error: (e) => `oops! ${e.message}`,
@@ -41,6 +41,10 @@
     await getMaximumPages();
   });
 </script>
+
+<svelte:head>
+  <title>Search Accounts...</title>
+</svelte:head>
 
 <section class="w-full relative flex justify-center p-4">
   <div

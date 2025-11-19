@@ -15,14 +15,12 @@ export async function fetchNikos(id: number, apiData: Niko[]) {
           short_desc: noik["description"],
           abilities: noik["abilities"].map((v: { name: string }) => v.name),
           id: noik["id"],
+          author_id: noik["author_id"],
         });
       }
-    })
-    .catch(async (err) => {
-      console.log(`err: ${err}`);
     });
 
-  toast.promise(fetchNoiks, {
+  await toast.promise(fetchNoiks, {
     success: "Data loaded!",
     loading: "Loading..",
     error: (e) => `Problem while loading user! ${e}`,

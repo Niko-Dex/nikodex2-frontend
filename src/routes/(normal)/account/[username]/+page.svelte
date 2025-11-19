@@ -14,7 +14,7 @@
     style="background-image: url({Background})"
     class="absolute -z-1 top-0 left-0 w-full h-full bg-no-repeat bg-cover bg-center no-antialias bg-fixed"
   ></div>
-  <div class="w-screen flex flex-col gap-4 min-h-screen">
+  <div class="max-w-[1200px] w-[1200px] flex flex-col gap-4 min-h-screen">
     {#if !data.isOk}
       <section class="gap-3 flex flex-col">
         <h1 class="text-center h1-txt-size bg-red-500">Whoops!</h1>
