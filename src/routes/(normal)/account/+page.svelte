@@ -2,8 +2,8 @@
     import Background from "$lib/assets/images/page/user/world_machine.png";
     import Card from "$lib/components/Card.svelte";
     import CardContainer from "$lib/components/CardContainer.svelte";
+    import EditModal from "$lib/components/EditModal.svelte";
     import { goto } from "$app/navigation";
-    import { page } from "$app/state";
     import type { PageProps } from "./$types";
     import toast, { Toaster } from "svelte-french-toast";
     import { onMount } from "svelte";
@@ -18,6 +18,12 @@
 
     let pageOpt = $state("main");
     let apiData: Niko[] = $state([]);
+
+    let is_editing = $state(false);
+    let selected_id = $state(0);
+    let niko_name = $state("");
+    let niko_desc = $state("");
+    let niko_fulldesc = $state("");
 
     async function updateUser(redirect: boolean) {
         const fetchUser = fetch(`/api/user/me`, {
@@ -56,12 +62,6 @@
 
         await fetchNikos(data.id, apiData);
     });
-    /*
-        TODO:
-        Add Noik uploading
-        Show the amount of Noiks the user has made
-        Make the page a bit better, it's currently only a test-page.
-    */
 </script>
 
 <svelte:head>
@@ -154,6 +154,7 @@
                             name={data.name}
                             short_desc={data.short_desc}
                             id={data.id}
+                            edit_allow={true}
                         />
                     {/each}
                 </CardContainer>

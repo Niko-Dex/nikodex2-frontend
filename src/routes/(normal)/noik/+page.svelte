@@ -48,6 +48,8 @@
             const data = await res.json();
 
             for (let d of data) {
+                const author_id = d["author_id"] || 0;
+
                 apiData.push({
                     name: d["name"],
                     author: d["author"],
@@ -57,6 +59,7 @@
                         (v: { name: string }) => v.name,
                     ),
                     id: d["id"],
+                    author_id: author_id,
                 });
             }
             dataLoaded = true;

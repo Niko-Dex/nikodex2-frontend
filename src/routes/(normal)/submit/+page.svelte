@@ -1,8 +1,9 @@
 <script lang="ts">
-    import type { PageProps } from "./$types";
+    import type { PageData, ActionData } from "./$types";
     import Background from "$lib/assets/images/page/user/world_machine.png";
     let { data, form }: { data: PageData; form: ActionData } = $props();
     import toast, { Toaster } from "svelte-french-toast";
+    import FileUpload from "$lib/components/FileUpload.svelte";
 
     let name = $state("");
     let desc = $state("");
@@ -65,10 +66,7 @@
                     bind:value={full_desc}
                 ></textarea>
             </div>
-            <div>
-                <label for="file">Image</label>
-                <input class="min-w-full btn" name="file" type="file" />
-            </div>
+            <FileUpload name="file" />
             <input class="min-w-full btn" type="submit" value="Submit!" />
         </form>
     </div>
