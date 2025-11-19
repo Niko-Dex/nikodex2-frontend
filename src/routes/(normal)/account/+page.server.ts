@@ -1,8 +1,6 @@
 import { env } from "$env/dynamic/private";
-import { json, redirect } from "@sveltejs/kit";
+import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
-import toast from "svelte-french-toast";
-import { errSrv } from "../../api/helper";
 export const load = (async (event) => {
   try {
     const token = event.cookies.get("token") ?? "";
