@@ -3,15 +3,16 @@
     interface Props {
         elm?: HTMLInputElement,
         accept?: string,
-        disabled?: boolean
+        disabled?: boolean,
+        name?: string,
     }
 
-    let { elm = $bindable(), accept, disabled }: Props = $props()
+    let { elm = $bindable(), accept, disabled, name }: Props = $props()
     let files: FileList | null | undefined = $state();
 </script>
 <div class="flex gap-2 fill-(--theme-color)">
     <label class="transition duration-200 border-4 border-(--theme-color) p-2 bg-black block w-full min-w-[300px] hover:bg-(--theme-color) hover:text-black hover:fill-black {disabled ? "pointer-events-none cursor-default" : "hover:cursor-pointer"}">
-        <input type="file" bind:this={elm} class="hidden" accept={accept} disabled={disabled} bind:files={files}>
+        <input type="file" bind:this={elm} class="hidden" accept={accept} disabled={disabled} name={name} bind:files={files}>
         <div class="flex items-center gap-2 break-all">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M440-200h80v-167l64 64 56-57-160-160-160 160 57 56 63-63v167ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg>
             {#if files && files.length > 0}
