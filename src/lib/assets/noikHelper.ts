@@ -13,7 +13,7 @@ export async function fetchNikos(id: number, apiData: Niko[]) {
           author: noik["author_name"],
           description: noik["full_desc"],
           short_desc: noik["description"],
-          abilities: noik["abilities"].map((v: { name: string }) => v.name),
+          abilities: noik["abilities"],
           id: noik["id"],
           author_id: noik["author_id"],
         });

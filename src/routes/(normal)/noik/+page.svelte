@@ -55,9 +55,7 @@
                     author: d["author_name"],
                     description: d["full_desc"],
                     short_desc: d["description"],
-                    abilities: d["abilities"].map(
-                        (v: { name: string }) => v.name,
-                    ),
+                    abilities: d["abilities"],
                     id: d["id"],
                     author_id: author_id,
                 });

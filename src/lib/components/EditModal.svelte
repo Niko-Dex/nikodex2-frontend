@@ -8,10 +8,87 @@
         full_desc = "",
         author = "",
         author_id = 0,
+        abilities = [] as { id: number; name: string; niko_id: number }[],
     } = $props();
+
+    let page = $state("main");
+    let at: { id: number; name: string; niko_id: number }[] = $state([]);
+    let deletedAbilities: number[] = $state([]);
+
+    function addAbility() {
+        at.push({
+            id: -1,
+            name: "Ability..",
+            niko_id: id,
+        });
+    }
+
+    function removeAbility(idx: number) {
+        deletedAbilities.push(at[idx].id);
+        at.splice(idx, 1);
+    }
+
+    export function setAbilities(
+        arr: { id: number; name: string; niko_id: number }[],
+    ) {
+        at = arr;
+    }
 
     function close() {
         open = false;
+    }
+
+    async function submitAbilityEdit() {
+        try {
+            for (let ability of at ?? []) {
+                let out = null;
+                if (isNaN(ability.id) || ability.id < 0) {
+                    out = await fetch(`/api/data/abilities`, {
+                        method: "POST",
+                        body: JSON.stringify({
+                            name: ability.name,
+                            niko_id: ability.niko_id,
+                        }),
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    });
+                } else {
+                    out = await fetch(`/api/data/abilities?id=${ability.id}`, {
+                        method: "PUT",
+                        body: JSON.stringify({
+                            name: ability.name,
+                            niko_id: ability.niko_id,
+                        }),
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    });
+                }
+
+                if (out == null) continue;
+                if (out.status == 401) location.reload();
+                if (out.status != 200) throw new Error(await out.text());
+            }
+
+            for (let deleteAbility of deletedAbilities) {
+                if (isNaN(deleteAbility) || deleteAbility < 0) continue;
+                let out = await fetch(
+                    `/api/data/abilities?id=${deleteAbility}`,
+                    {
+                        method: "DELETE",
+                    },
+                );
+                if (out.status == 401) location.reload();
+                if (out.status != 200) throw new Error(await out.text());
+            }
+
+            console.log("Successfully saved abilities!");
+        } catch (e) {
+            toast.error(
+                `Something has gone wrong while trying to update abilities! ${e}`,
+            );
+        }
     }
 
     async function submitEdit() {
@@ -47,12 +124,57 @@
             class="border-4 border-(--theme-color) p-4 bg-black flex gap-4 mx-8 my-auto"
         >
             <div class="flex flex-col gap-2 min-w-3xl">
-                <h1>Editing {name}..</h1>
-                <input type="text" bind:value={name} />
-                <input type="text" bind:value={description} />
-                <textarea bind:value={full_desc}></textarea>
-                <button class="btn" onclick={async () => await submitEdit()}
-                    >Submit</button
+                <h1>Editing {name}.. - {page}</h1>
+                <div>
+                    <button
+                        class={page == "main"
+                            ? "active btn w-fit"
+                            : "btn w-fit"}
+                        onclick={() => (page = "main")}>Main Info</button
+                    >
+                    <button
+                        class={page == "abilities"
+                            ? "active btn w-fit"
+                            : "btn w-fit"}
+                        onclick={() => (page = "abilities")}>Abilities</button
+                    >
+                </div>
+                {#if page == "main"}
+                    <input type="text" bind:value={name} />
+                    <input type="text" bind:value={description} />
+                    <textarea bind:value={full_desc}></textarea>
+                {:else}
+                    <p>Abilities</p>
+                    <button class="btn w-fit" onclick={() => addAbility()}
+                        >Add Ability</button
+                    >
+                    <div
+                        class="h-60 max-h-60 overflow-scroll flex flex-col gap-2"
+                    >
+                        {#each at as a, idx}
+                            <div
+                                class="border-2 border-(--theme-color) p-2 flex flex-row gap-2"
+                            >
+                                <input
+                                    class="w-full border-zinc-800 bg-zinc-900"
+                                    type="text"
+                                    bind:value={at[idx].name}
+                                />
+                                <button
+                                    class="btn w-fit"
+                                    onclick={() => removeAbility(idx)}
+                                    >Remove..</button
+                                >
+                            </div>
+                        {/each}
+                    </div>
+                {/if}
+                <button
+                    class="btn"
+                    onclick={async () => {
+                        await submitEdit();
+                        await submitAbilityEdit();
+                    }}>Submit</button
                 >
                 <button class="btn" onclick={() => close()}>Close</button>
             </div>

@@ -185,6 +185,7 @@
                             name={data.name}
                             short_desc={data.short_desc}
                             id={data.id}
+                            author_id={data.author_id}
                             edit_allow={true}
                         />
                     {/each}

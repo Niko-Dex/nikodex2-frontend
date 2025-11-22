@@ -7,13 +7,14 @@
     const viewMore = "...";
     let expanded = $state(false);
     let edit_mode = $state(false);
+    let editModal: EditModal;
 
     let {
         name = "",
         author = "",
         short_desc = "",
         description = "",
-        abilities = [] as string[],
+        abilities = [] as { id: number; name: string; niko_id: number }[],
         id = 0,
         author_id = 0,
         full_expand = false,
@@ -27,16 +28,17 @@
     let timeout: ReturnType<typeof setTimeout> | null = null;
     let shortenedAbilities = $derived.by(() => {
         let curLen = 0;
-        let out: string[] = [];
+        let out: { id: number; name: string; niko_id: number }[] = [];
         for (let i of abilities.slice(0, maxAbilitiesCnt)) {
             if (curLen >= maxAbilitiesChar) {
-                out.push(viewMore);
+                out.push({ name: viewMore, id: i.id, niko_id: i.niko_id });
                 break;
             }
-            let str = i.slice(0, maxAbilitiesChar - viewMore.length);
-            if (i.length >= maxAbilitiesChar - viewMore.length) str += viewMore;
-            out.push(str);
-            curLen += i.length;
+            let str = i.name.slice(0, maxAbilitiesChar - viewMore.length);
+            if (i.name.length >= maxAbilitiesChar - viewMore.length)
+                str += viewMore;
+            out.push({ name: str, id: i.id, niko_id: i.niko_id });
+            curLen += i.name.length;
         }
         return out;
     });
@@ -63,6 +65,7 @@
     {author}
     {author_id}
     bind:open={edit_mode}
+    bind:this={editModal}
 />
 <div
     class="{expanded
@@ -130,7 +133,12 @@
             {#if edit_allow}
                 <button
                     class="btn text-center"
-                    onclick={() => (edit_mode = true)}>Edit..</button
+                    onclick={() => {
+                        edit_mode = true;
+                        if (editModal) {
+                            editModal.setAbilities(abilities);
+                        }
+                    }}>Edit..</button
                 >
             {/if}
         </div>
@@ -151,7 +159,7 @@
             <p class="bg-white text-black w-fit px-1">Abilities:</p>
             <ul class="list-disc list-inside">
                 {#each expanded ? abilities : shortenedAbilities as ability}
-                    <li class="break-words">{ability}</li>
+                    <li class="break-words">{ability.name}</li>
                 {:else}
                     <li><em>[undetermined]</em></li>
                 {/each}
