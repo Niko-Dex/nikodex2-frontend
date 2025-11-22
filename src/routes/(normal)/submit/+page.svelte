@@ -66,7 +66,10 @@
                     bind:value={full_desc}
                 ></textarea>
             </div>
-            <FileUpload name="file" />
+            <div>
+                <span>Image of Nikosona</span>
+                <FileUpload name="file" accept="image/*" />
+            </div>
             <input class="min-w-full btn" type="submit" value="Submit!" />
         </form>
     </div>
