@@ -10,7 +10,7 @@ export async function fetchNikos(id: number, apiData: Niko[]) {
       for (let noik of res) {
         apiData.push({
           name: noik["name"],
-          author: noik["author"],
+          author: noik["author_name"],
           description: noik["full_desc"],
           short_desc: noik["description"],
           abilities: noik["abilities"].map((v: { name: string }) => v.name),

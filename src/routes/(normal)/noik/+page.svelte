@@ -52,7 +52,7 @@
 
                 apiData.push({
                     name: d["name"],
-                    author: d["author"],
+                    author: d["author_name"],
                     description: d["full_desc"],
                     short_desc: d["description"],
                     abilities: d["abilities"].map(
@@ -94,13 +94,14 @@
             for (let d of data) {
                 apiData.push({
                     name: d["name"],
-                    author: d["author"],
+                    author: d["author_name"],
                     description: d["full_desc"],
                     short_desc: d["description"],
                     abilities: d["abilities"].map(
                         (v: { name: string }) => v.name,
                     ),
                     id: d["id"],
+                    author_id: d["author_id"],
                 });
             }
             dataLoaded = true;
@@ -182,6 +183,7 @@
                         name={data.name}
                         short_desc={data.short_desc}
                         id={data.id}
+                        author_id={data.author_id}
                     />
                 {/each}
             </CardContainer>
