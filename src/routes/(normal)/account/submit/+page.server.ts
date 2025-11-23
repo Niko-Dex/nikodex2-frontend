@@ -34,6 +34,28 @@ export const actions = {
       const text = await res.text();
       console.log(`backend error! ${res.status}: ${text}`);
       return fail(res.status, { msg: text, error: true });
+    } else {
+      const formData = new FormData();
+      formData.append("title", "Submission");
+      formData.append(
+        "msg",
+        "A new Niko was submitted! More info on dashboard!",
+      );
+      formData.append("fields[n]", "3");
+      formData.append("fields[0]", `Name;${data.get("name")}`);
+      formData.append("fields[1]", `Desc;${data.get("description")}`);
+      formData.append("fields[2]", `Full Desc;${data.get("full_desc")}`);
+
+      const b_res = await fetch(`${env.BOT_SERVER_URL}/audit`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!b_res.ok) {
+        console.log(
+          `Error while trying to audit the action.. ${await b_res.text()}`,
+        );
+      }
     }
 
     return { success: true };
