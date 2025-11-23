@@ -109,7 +109,7 @@
             </a>
         </div>
 
-        <div class="flex flex-row gap-2">
+        <div class="flex flex-col sm:flex-row gap-2">
             <button
                 class={pageOpt == "main" ? "btn active" : "btn"}
                 onclick={() => {pageOpt = "main"}}>General Info</button
@@ -122,7 +122,7 @@
                 class={pageOpt == "submissions" ? "btn active" : "btn"}
                 onclick={async () => {pageOpt = "submissions"; await getPendingSubmissions();}}>Submissions</button
             >
-            <a class="btn w-fit" href="/account/migrate"
+            <a class="btn sm:w-fit text-center" href="/account/migrate"
                 >Migrate Nikos from Discord</a
             >
         </div>
