@@ -133,7 +133,8 @@
         <a class="btn w-fit" href="/account">Go Back</a>
         <h1 class="h1-txt-size">Migration of Nikos</h1>
         {#if !data.authenticated}
-            <a class="btn" href="/dred">Log in with Discord</a>
+            <p>You are currently not log in with Discord!</p>
+            <a class="btn w-fit" href="/dred">Log in with Discord</a>
         {:else}
             <h1 class="text-3xl">Logged in as {data.discord_username}!</h1>
             <h1 class="text-2xl">
