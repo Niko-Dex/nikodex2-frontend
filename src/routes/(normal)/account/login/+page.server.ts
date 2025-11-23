@@ -1,4 +1,4 @@
-import type { Actions, PageServerLoad } from "./$types";
+import type { Actions } from "./$types";
 import { goto } from "$app/navigation";
 import { fail, redirect } from "@sveltejs/kit";
 
@@ -13,7 +13,7 @@ export const actions = {
       method: "POST",
       body: JSON.stringify({ username, password }),
     });
-    if (!response.ok) return fail(401, { error: "failed to sign-in!" });
+    if (!response.ok) return fail(401, { error: "Failed to sign-in! Incorrect username or password." });
     redirect(303, "/account");
   },
 } satisfies Actions;
