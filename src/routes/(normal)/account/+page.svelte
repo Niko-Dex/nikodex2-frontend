@@ -3,15 +3,13 @@
     import Background from "$lib/assets/images/page/user/world_machine.png";
     import Card from "$lib/components/Card.svelte";
     import CardContainer from "$lib/components/CardContainer.svelte";
-    import EditModal from "$lib/components/EditModal.svelte";
     import { goto } from "$app/navigation";
     import type { PageProps } from "./$types";
-    import toast, { Toaster } from "svelte-french-toast";
+    import toast from "svelte-french-toast";
     import { onMount } from "svelte";
     import { fetchNikos } from "$lib/assets/noikHelper";
-    import { page } from "$app/state";
-    import UserProfileIcon from "$lib/assets/images/page/account/oneshotprofilepicture.png";
-    let { data }: PageProps = $props();
+    import LogoutIcon from "$lib/assets/images/components/LogoutIcon.svelte";
+        let { data }: PageProps = $props();
 
     let loaded = $state(true);
     let new_username = $state("");
@@ -46,8 +44,8 @@
             });
 
         await toast.promise(fetchPendingSubmissions, {
-            loading: "getting current submissions...",
-            success: "submissions ok!",
+            loading: "Getting submissions...",
+            success: "Fetched submissions data!",
             error: (e) => `buh i got an error: ${e.message}`,
         });
     }
@@ -85,9 +83,6 @@
         new_username = data.username;
         new_description = data.description;
         loaded = true;
-
-        await fetchNikos(data.id, apiData);
-        await getPendingSubmissions();
     });
 </script>
 
@@ -101,30 +96,42 @@
         style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url({Background}); "
     ></div>
     <div class="flex flex-col max-w-[1200px] w-[1200px] p-4 gap-4 min-h-screen">
-        <h1 class="h2-txt-size">
-            Hello, {data.username}!
-        </h1>
-        <p class="text-sm">Your ID is: {data.id}</p>
-        {#if data.is_admin}
-            <p class="text-sm">You are an admin!</p>
-        {/if}
+        <div class="flex justify-between items-center">
+            <h1 class="h2-txt-size">
+                Hello, {data.username}!
+            </h1>
+            <a
+                class="btn w-fit flex flex-row items-center gap-4"
+                href="/api/user/logout"
+            >
+                <LogoutIcon />
+                Log Out
+            </a>
+        </div>
 
-        <div class="flex flex-row gap-2 justify-stretch">
+        <div class="flex flex-row gap-2">
             <button
                 class={pageOpt == "main" ? "btn active" : "btn"}
-                onclick={() => (pageOpt = "main")}>General Info</button
+                onclick={() => {pageOpt = "main"}}>General Info</button
             >
             <button
                 class={pageOpt == "noiks" ? "btn active" : "btn"}
-                onclick={() => (pageOpt = "noiks")}>Nikos</button
+                onclick={async () => {pageOpt = "noiks"; apiData = []; await fetchNikos(data.id, apiData);}}>Nikos</button
             >
             <button
                 class={pageOpt == "submissions" ? "btn active" : "btn"}
-                onclick={() => (pageOpt = "submissions")}>Submissions</button
+                onclick={async () => {pageOpt = "submissions"; await getPendingSubmissions();}}>Submissions</button
+            >
+            <a class="btn w-fit" href="/account/migrate"
+                >Migrate Nikos from Discord</a
             >
         </div>
         {#if pageOpt == "main"}
-            <div class="flex flex-col p-4 gap-2">
+            <p>Your user ID is: {data.id}</p>
+            {#if data.is_admin}
+                <p>You are an admin!</p>
+            {/if}
+            <div class="flex flex-col gap-2">
                 <h1 class="text-3xl">Bio/About Me</h1>
                 <div class="min-w-full">
                     <textarea class="w-full" bind:value={new_description}
@@ -136,7 +143,7 @@
                     >Update Info</button
                 >
             </div>
-            <div class="flex flex-col p-4 gap-2">
+            <div class="flex flex-col gap-2">
                 <h1 class="text-3xl">Login info</h1>
 
                 <div class="min-w-full">
@@ -171,10 +178,7 @@
                 >
             </div>
         {:else if pageOpt == "noiks"}
-            <div class="flex flex-row justify-between items-center">
-                <h1 class="text-3xl">Your Noiks! ({apiData.length})</h1>
-                <a class="btn" href="/submit">Submit a Niko</a>
-            </div>
+            <h1 class="text-3xl">Your Noiks! ({apiData.length})</h1>
             {#if loaded}
                 <CardContainer>
                     {#each apiData as data (data.id)}
@@ -202,27 +206,10 @@
                     full_desc={submissionPiece.full_desc}
                     image={`/api/data/submissions/img?id=${submissionPiece.id}`}
                 />
+            {:else}
+            <p><em>you currently don't have any submissons!</em></p>
             {/each}
+            <a class="btn w-fit" href="/account/submit">Submit a Niko</a>
         {/if}
-        <div class="flex flex-row gap-2">
-            <a
-                class="btn w-fit flex flex-row items-center gap-4"
-                href="/api/user/logout"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="32px"
-                    viewBox="0 -960 960 960"
-                    width="32px"
-                    ><path
-                        d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"
-                    /></svg
-                >
-                Log Out
-            </a>
-            <a class="btn w-fit" href="/account/migrate"
-                >Migrate Nikos from Discord..</a
-            >
-        </div>
     </div>
 </section>
