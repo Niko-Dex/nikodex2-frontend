@@ -136,12 +136,11 @@
             <p>You are currently not log in with Discord!</p>
             <a class="btn w-fit" href="/dred">Log in with Discord</a>
         {:else}
-            <h1 class="text-3xl">Logged in as {data.discord_username}!</h1>
-            <h1 class="text-2xl">
+            <h2 class="h2-txt-size">Logged in as {data.discord_username}!</h2>
+            <p>
                 Here you can request the NikoDex Dev team to move your Nikos to
                 your NikoDex account!
-            </h1>
-            <button class="btn" onclick={() => openSearch()}>Add Niko</button>
+            </p>
             <div class="flex flex-col gap-2">
                 {#each nikosList as niko (niko.id)}
                     <NikoSmallCard
@@ -153,6 +152,7 @@
                     />
                 {/each}
             </div>
+            <button class="btn" onclick={() => openSearch()}>Add Niko</button>
             <button class="btn" onclick={async () => await postRequest()}
                 >Submit</button
             >
