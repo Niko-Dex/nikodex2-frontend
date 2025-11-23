@@ -35,7 +35,7 @@ Firstly, create a new account with hCaptcha. Use any provider that you currently
 
 ![step 1](readme_images/img1.png)
 
-After creating your account, you will be presented with this page. If not, click on the "Sites" menu in the top toolbar.
+After creating your account, you will be presented with this page.
 
 Copy the specified site key, as stated by the arrow down below. After copying the site key, paste it to the .env file's `PUBLIC_HCAPTCHA_SITE_KEY` field.
 
