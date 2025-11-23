@@ -26,10 +26,11 @@ To setup the frontend for Nikodex v2, you will need:
 
 ## Setup for develoption/production
 
-This project connects to the back-end API on <https://github.com/Niko-Dex/nikodex2-backend/> along with the Discord's bot for handling submit data at <https://github.com/Niko-Dex/nikodex2-bot/>, so you want to also clone both the repos and configure the API server.
-After that, create a .env file at the root of the project with the following data:
+This project connects to the back-end API on <https://github.com/Niko-Dex/nikodex2-backend/> along with the Discord's bot for handling submit data at <https://github.com/Niko-Dex/nikodex2-bot/>, so you would want to also clone both the repos and configure both the API server and the bot.
 
-## Setting up hCaptcha
+After that, you will need to setup hCaptcha and .env file.
+
+### Setting up hCaptcha
 
 Firstly, create a new account with hCaptcha. Use any provider that you currently have. Or, if you already have an hCaptcha account, use that one. *This is for people that haven't setup an hCaptcha yet.*
 
@@ -47,8 +48,8 @@ After clicking on it, you will be presented with the Secret Key that hCaptcha wi
 
 ![step 3](readme_images/img3.png)
 
-## .env File
-
+### Setting up .env file
+Create a `.env` file at the root of the directory with the following content
 ```.env
 # setup with the backend
 

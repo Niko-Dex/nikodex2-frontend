@@ -22,8 +22,8 @@ export async function fetchNikos(id: number, apiData: Niko[]) {
 
   await toast.promise(fetchNoiks, {
     success: "Data loaded!",
-    loading: "Loading..",
-    error: (e) => `Problem while loading user! ${e}`,
+    loading: "Loading",
+    error: (e) => `Problem while loading data! ${e}`,
   });
 }
 export const beforePage = writable("/");
