@@ -40,5 +40,5 @@ export async function GET({ fetch, cookies, url }) {
         console.log(error);
         return errSrv(error)
     }
-    throw redirect(307, "/submit")
+    throw redirect(307, "/account/migrate")
 }
