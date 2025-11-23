@@ -7,7 +7,7 @@
     import type { PageProps } from "./$types";
     import toast from "svelte-french-toast";
     import { onMount } from "svelte";
-    import { fetchNikos } from "$lib/assets/noikHelper";
+    import { fetchNikos } from "$lib/helper/noikHelper";
     import LogoutIcon from "$lib/assets/images/components/LogoutIcon.svelte";
         let { data }: PageProps = $props();
 

@@ -1,6 +1,6 @@
 <script>
   import { beforeNavigate } from "$app/navigation";
-  import { beforePage } from "$lib/assets/noikHelper";
+  import { beforePage } from "$lib/helper/noikHelper";
   let { children } = $props();
   import { onMount } from "svelte";
   onMount(() => {

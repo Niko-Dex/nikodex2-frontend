@@ -2,7 +2,7 @@
   import type { PageProps } from "./$types";
 
   import Background from "$lib/assets/images/page/user/world_machine.png";
-  import { beforePage, fetchNikos } from "$lib/assets/noikHelper";
+  import { beforePage, fetchNikos } from "$lib/helper/noikHelper";
   import { onMount } from "svelte";
   import CardContainer from "$lib/components/CardContainer.svelte";
   import Card from "$lib/components/Card.svelte";
