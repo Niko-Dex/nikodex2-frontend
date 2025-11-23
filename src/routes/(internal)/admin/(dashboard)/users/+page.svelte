@@ -85,12 +85,13 @@
             </tbody>
         </table>
     </div>
-    <div class="w-full grid grid-cols-3">
+    <div class="flex flex-row gap-4 justify-center bg-gray-700 p-4 w-fit mx-auto">
         <button
-            class="btn"
+            class="btn border-white border-2 hover:bg-white"
             onclick={() => {
                 currentPage = Math.min(maxPages, currentPage++);
-            }}>Prev</button
+            }}
+            disabled={currentPage <= 1}>Prev</button
         >
         <input
             bind:value={currentPage}
@@ -103,10 +104,11 @@
             }}
         />
         <button
-            class="btn"
+            class="btn border-white border-2 hover:bg-white"
             onclick={() => {
                 currentPage = Math.max(0, currentPage--);
-            }}>Next</button
+            }}
+            disabled={currentPage >= maxPages}>Next</button
         >
     </div>
 </div>
