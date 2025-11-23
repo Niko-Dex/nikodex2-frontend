@@ -27,6 +27,7 @@
       </section>
     {:else}
       <a class="btn w-fit" href={$beforePage}>Go Back</a>
+      <!-- TODO: Merge UserViewport content into here. UserViewport is only used in this one page. -->
       <UserViewport userData={data.requestedInformation} />
     {/if}
   </div>
