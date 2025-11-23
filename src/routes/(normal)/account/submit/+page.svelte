@@ -30,6 +30,7 @@
     <div
         class="max-w-[1200px] w-[1200px] flex flex-col gap-4 min-h-screen pt-5"
     >
+        <a class="btn w-fit" href="/account">Go Back</a>
         <h1 class="h1-txt-size">Submit a Niko!</h1>
 
         <form
@@ -45,6 +46,7 @@
                     name="name"
                     type="text"
                     bind:value={name}
+                    required
                 />
             </div>
             <div>
@@ -55,6 +57,7 @@
                     name="description"
                     type="text"
                     bind:value={desc}
+                    required
                 />
             </div>
             <div>
@@ -64,11 +67,12 @@
                     class="min-w-full"
                     name="full_desc"
                     bind:value={full_desc}
+                    required
                 ></textarea>
             </div>
             <div>
                 <span>Image of Nikosona</span>
-                <FileUpload name="file" accept="image/*" />
+                <FileUpload name="file" accept="image/*" required={true} />
             </div>
             <input class="min-w-full btn" type="submit" value="Submit!" />
         </form>
