@@ -118,7 +118,7 @@
 <Toaster />
 {#if open}
     <div
-        class="fixed w-screen h-screen top-0 left-0 z-5 bg-black/75 flex justify-center"
+        class="fixed w-screen h-screen top-0 left-0 z-10 bg-black/75 flex justify-center"
     >
         <div
             class="border-4 border-(--theme-color) p-4 bg-black flex gap-4 mx-8 my-auto"
@@ -140,33 +140,42 @@
                     >
                 </div>
                 {#if page == "main"}
-                    <input type="text" bind:value={name} />
-                    <input type="text" bind:value={description} />
-                    <textarea bind:value={full_desc}></textarea>
+                    <label>
+                        <p>Name</p>
+                        <input class="w-full" type="text" bind:value={name} />
+                    </label>
+                    <label>
+                        <p>Short description</p>
+                        <input class="w-full" type="text" bind:value={description} />
+                    </label>
+                    <label>
+                        <p>Full description</p>
+                        <textarea class="w-full" bind:value={full_desc}></textarea>
+                    </label>
                 {:else}
                     <p>Abilities</p>
-                    <button class="btn w-fit" onclick={() => addAbility()}
-                        >Add Ability</button
-                    >
                     <div
-                        class="h-60 max-h-60 overflow-scroll flex flex-col gap-2"
+                        class="h-60 max-h-60 overflow-y-auto flex flex-col gap-2"
                     >
                         {#each at as a, idx}
                             <div
-                                class="border-2 border-(--theme-color) p-2 flex flex-row gap-2"
+                                class="flex flex-row gap-2"
                             >
                                 <input
-                                    class="w-full border-zinc-800 bg-zinc-900"
+                                    class="w-full"
                                     type="text"
                                     bind:value={at[idx].name}
                                 />
                                 <button
                                     class="btn w-fit"
                                     onclick={() => removeAbility(idx)}
-                                    >Remove..</button
+                                    >Remove</button
                                 >
                             </div>
                         {/each}
+                        <button class="btn w-fit" onclick={() => addAbility()}
+                            >Add Ability</button
+                        >
                     </div>
                 {/if}
                 <button
