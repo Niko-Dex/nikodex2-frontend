@@ -1,5 +1,32 @@
 import { env } from "$env/dynamic/private";
 import { errSrv, resWithErrHandling } from "../helper";
+
+async function auditNiko(jsonObj: any, title: string) {
+  const formData = new FormData();
+  formData.append("title", title);
+  formData.append("msg", title);
+  if (jsonObj.id) {
+    formData.append("fields[n]", "4");
+    formData.append("fields[0]", `ID;${jsonObj.id}`);
+    formData.append("fields[1]", `Name;${jsonObj.name}`);
+    formData.append("fields[2]", `Desc;${jsonObj.description}`);
+    formData.append("fields[3]", `Full desc;${jsonObj.full_desc}`);
+  } else {
+    formData.append("fields[n]", "3");
+    formData.append("fields[0]", `Name;${jsonObj.name}`);
+    formData.append("fields[1]", `Desc;${jsonObj.description}`);
+    formData.append("fields[2]", `Full desc;${jsonObj.full_desc}`);
+  }
+
+  const b_res = await fetch(`${env.BOT_SERVER_URL}/audit`, {
+    method: "POST",
+    body: formData,
+  });
+  if (!b_res.ok) {
+    console.log(`Error while auditing.. ${await b_res.text()}`);
+  }
+}
+
 export async function GET({ request, fetch, cookies }) {
   try {
     const res = await fetch(`${env.API_SERVER_URL}/nikos`);
@@ -24,23 +51,7 @@ export async function POST({ request, fetch, cookies }) {
 
     if (res.ok) {
       const reqJson = JSON.parse(reqText);
-      const formData = new FormData();
-      formData.append("title", "A Niko was added!");
-      formData.append(
-        "msg",
-        "A Niko was added to the dex! (Most likely a admin approved a Niko)",
-      );
-      formData.append("fields[n]", "3");
-      formData.append("fields[0]", `Name;${reqJson.name}`);
-      formData.append("fields[1]", `Desc;${reqJson.description}`);
-      formData.append("fields[2]", `Full desc;${reqJson.full_desc}`);
-
-      const b_res = await fetch(`${env.BOT_SERVER_URL}/audit`, {
-        method: "POST",
-        body: formData,
-      });
-      if (!b_res.ok)
-        console.log(`Error while auditing.. ${await b_res.text()}`);
+      await auditNiko(reqJson, "A Niko was created!");
     }
 
     return await resWithErrHandling(res);
@@ -67,26 +78,7 @@ export async function PUT({ request, fetch, cookies }) {
 
     if (res.ok) {
       const reqJson = JSON.parse(reqText);
-      console.log(reqJson);
-      const formData = new FormData();
-      formData.append("title", "A Niko was updated!");
-      formData.append(
-        "msg",
-        "This niko was updated either by the user or an admin",
-      );
-      formData.append("fields[n]", "4");
-      formData.append(`fields[0]`, `ID;${url.searchParams.get("id")}`);
-      formData.append("fields[1]", `Name;${reqJson.name}`);
-      formData.append("fields[2]", `Desc;${reqJson.description}`);
-      formData.append("fields[3]", `Full desc;${reqJson.full_desc}`);
-
-      const b_res = await fetch(`${env.BOT_SERVER_URL}/audit`, {
-        method: "POST",
-        body: formData,
-      });
-      if (!b_res.ok) {
-        console.log(`Error while auditing.. ${await b_res.text()}`);
-      }
+      await auditNiko(reqJson, "A Niko got updated!");
     }
 
     return await resWithErrHandling(res);
@@ -109,18 +101,8 @@ export async function DELETE({ request, fetch, cookies }) {
     );
 
     if (res.ok) {
-      const formData = new FormData();
-      formData.append("title", "A Niko was deleted!");
-      formData.append("msg", "A Niko was deleted..");
-      formData.append("fields[n]", "1");
-      formData.append("fields[0]", `ID;${url.searchParams.get("id")}`);
-
-      const b_res = await fetch(`${env.BOT_SERVER_URL}/audit`, {
-        method: "POST",
-        body: formData,
-      });
-      if (!b_res.ok)
-        console.log(`Error while auditing.. ${await b_res.text()}`);
+      const resJson = await res.json();
+      await auditNiko(resJson, "A Niko got deleted..");
     }
 
     return await resWithErrHandling(res);
