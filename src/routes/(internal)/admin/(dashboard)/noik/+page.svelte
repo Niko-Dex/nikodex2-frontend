@@ -321,7 +321,7 @@
                         <td class="px-3 py-2">
                             <span class="lg:hidden">Author ID:</span>
                             <input
-                                class="w-full min-w-[100px] cursor-not-allowed"
+                                class="w-full min-w-[100px]"
                                 disabled={!editMode[noik.id]}
                                 type="number"
                                 placeholder="placeholder :<"
