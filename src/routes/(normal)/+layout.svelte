@@ -145,7 +145,7 @@
       >
       <Link custom_class="flex-1 lg:flex-none" href="/blog">Blog</Link>
       <DropdownMenu
-        title={"Accounts..."}
+        title="Accounts"
         menuData={[
           {
             linkName: "My Account!",
@@ -176,19 +176,12 @@
         <span class="sm:hidden">Nikodex's Discord Server</span>
       </Link>
       <button
-        class="md:p-[4px] no-antialias btn flex items-center gap-4 justify-between"
+        class="md:p-[4px] no-antialias btn flex items-center gap-4"
         onclick={() => (themeOpen = !themeOpen)}
         aria-label="Theme changer"
       >
+        <img src="{ThemeBtn}" alt="theme changer icon">
         <span class="sm:hidden">Change theme</span>
-        <div
-          class="w-[32px] h-[32px] no-antialias"
-          style="mask: url({themeOpen
-            ? CloseBtn
-            : ThemeBtn}) no-repeat center; -webkit-mask: url({themeOpen
-            ? CloseBtn
-            : ThemeBtn}) no-repeat center; -webkit-mask-size: contain; mask-size: contain; background-color: var(--theme-color)"
-        ></div>
       </button>
     </div>
   </nav>
