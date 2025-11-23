@@ -1,9 +1,11 @@
 <script lang="ts">
+    import LogoutIcon from "$lib/assets/images/components/LogoutIcon.svelte";
     import Link from "$lib/components/Link.svelte";
     import Transition from "$lib/components/Transition.svelte";
     import "../../../../app.css";
 
     let { children } = $props();
+    let navBarOpen = $state(false)
     import { Toaster } from "svelte-french-toast";
 </script>
 
@@ -15,37 +17,49 @@
 <Transition />
 <div class="w-full relative flex justify-center flex-col">
     <nav
-        class="bg-black sticky top-0 w-full border-b-4 border-(--theme-color) px-4 py-2 justify-between items-center flex flex-col gap-2 lg:flex-row z-3"
+        class="bg-black sticky top-0 w-full border-b-4 border-(--theme-color) px-4 py-2 justify-between items-center flex flex-col gap-2 xl:flex-row z-3"
     >
-        <h2 class="h2-txt-size">Admin Dashboard</h2>
-        <div class="link flex gap-4 flex-shrink w-full overflow-auto lg:w-auto">
-            <Link custom_class="flex-1 lg:flex-none" href="/admin">Main</Link>
-            <Link custom_class="flex-1 lg:flex-none" href="/admin/users"
+        <div class="flex items-center w-full xl:w-max justify-between">
+            <h2 class="h2-txt-size">Admin Dashboard</h2>
+            <button
+                aria-label="Menu"
+                class="hover:cursor-pointer"
+                onclick={() => (navBarOpen = !navBarOpen)}
+            >
+                <svg
+                class="xl:hidden"
+                xmlns="http://www.w3.org/2000/svg"
+                height="32px"
+                viewBox="0 -960 960 960"
+                width="32px"
+                fill="#e3e3e3"
+                ><path
+                    d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
+                /></svg
+                >
+            </button>
+        </div>
+        <div class="link gap-2 md:gap-4 flex-shrink w-full overflow-auto xl:w-auto flex-col sm:flex-row flex-wrap xl:flex-nowrap justify-end {navBarOpen ? 'flex' : 'hidden xl:flex'}">
+            <Link custom_class="flex-1 xl:flex-none" href="/admin">Home</Link>
+            <Link custom_class="flex-1 xl:flex-none" href="/admin/users"
                 >Users</Link
             >
-            <Link custom_class="flex-1 lg:flex-none" href="/admin/noik"
+            <Link custom_class="flex-1 xl:flex-none" href="/admin/noik"
                 >Noik</Link
             >
-            <Link custom_class="flex-1 lg:flex-none" href="/admin/blog"
+            <Link custom_class="flex-1 xl:flex-none" href="/admin/blog"
                 >Blog</Link
             >
-            <Link custom_class="flex-1 lg:flex-none" href="/admin/submissions"
+            <Link custom_class="flex-1 xl:flex-none" href="/admin/submissions"
                 >Submissions</Link
             >
             <Link
-                custom_class="flex-0 lg:flex-none"
+                custom_class="flex-0 xl:flex-none items-center gap-2"
                 hasMinSize={false}
                 href="/admin/logout"
             >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="24px"
-                    viewBox="0 -960 960 960"
-                    width="24px"
-                    ><path
-                        d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"
-                    /></svg
-                >
+                <LogoutIcon />
+                <span class="sm:hidden">Log out</span>
             </Link>
         </div>
     </nav>
