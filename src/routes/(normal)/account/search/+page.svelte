@@ -55,11 +55,11 @@
     <h1 class="h1-txt-size">The User Listo!</h1>
     <p>Look through all the cool listings, woah!</p>
     <div
-      class="p-4 bg-black border-4 border-(--theme-color) w-full flex flex-row gap-4"
+      class="w-full flex flex-row gap-4"
     >
       <input
         bind:value={usernameToSearchFor}
-        class="w-full border-4"
+        class="w-full"
         placeholder="Search user by username..."
         onchange={async () => {
           await getCurrentUsers();
@@ -68,13 +68,15 @@
       <button class="btn">Search..</button>
     </div>
     {#each currentUsers as _userPart}
-      <UserCard username={_userPart.username} />{/each}
-    <div class="w-full grid grid-cols-3">
+      <UserCard username={_userPart.username} />
+    {/each}
+    <div class="flex flex-row gap-4 justify-center bg-gray-700 p-4 w-fit mx-auto">
       <button
-        class="btn"
+        class="btn border-white hover:bg-white"
         onclick={() => {
           currentPage = Math.min(maxPages, currentPage++);
-        }}>Prev</button
+        }}
+        disabled={currentPage <= 1}>Prev</button
       >
       <input
         bind:value={currentPage}
@@ -87,10 +89,11 @@
         }}
       />
       <button
-        class="btn"
+        class="btn border-white hover:bg-white"
         onclick={() => {
           currentPage = Math.max(0, currentPage--);
-        }}>Next</button
+        }}
+        disabled={currentPage >= maxPages}>Next</button
       >
     </div>
   </div>
