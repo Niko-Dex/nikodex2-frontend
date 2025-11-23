@@ -22,7 +22,7 @@
 <section class="flex flex-row-reverse">
   <button
     onclick={() => (isShown = true)}
-    class="btn w-full flex flex-row gap-2"
+    class="btn w-full flex flex-row gap-2 items-center"
   >
     <slot />
   </button>
