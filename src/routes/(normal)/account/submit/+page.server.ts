@@ -4,7 +4,7 @@ import type { PageServerLoad, Actions } from "./$types";
 export const load = (async (event) => {
   try {
     const token = event.cookies.get("token") ?? "";
-    const res = await fetch(`${env.API_SERVER_URL}/users/me`, {
+    const res = await event.fetch(`${env.API_SERVER_URL}/users/me`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -14,13 +14,13 @@ export const load = (async (event) => {
       redirect(307, "account/login");
     }
     return await res.json();
-  } catch (err) {
+  } catch {
     return redirect(307, "account/login");
   }
 }) satisfies PageServerLoad;
 
 export const actions = {
-  default: async ({ cookies, request }) => {
+  default: async ({ fetch, cookies, request }) => {
     const data = await request.formData();
     data.get("file");
     const res = await fetch(`${env.API_SERVER_URL}/submissions`, {

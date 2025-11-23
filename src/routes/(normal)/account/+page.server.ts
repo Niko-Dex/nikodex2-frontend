@@ -14,7 +14,7 @@ export const load = (async (event) => {
       redirect(307, "account/login");
     }
     return await res.json();
-  } catch (err) {
+  } catch {
     return redirect(307, "account/login");
   }
 }) satisfies PageServerLoad;
