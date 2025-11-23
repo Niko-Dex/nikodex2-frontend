@@ -145,15 +145,15 @@
         <p><em>click on any of the nikosona to patpat! :3</em></p>
 
         <div
-            class="p-4 bg-black border-4 border-(--theme-color) w-full flex flex-row gap-4"
+            class="w-full flex flex-row gap-4"
         >
             <input
-                class="w-full border-4"
+                class="w-full"
                 placeholder="Search nikos by name..."
                 bind:value={searchQuery}
             />
             <button class="btn" onclick={async () => await getSearchData()}
-                >Search..</button
+                >Search</button
             >
             {#if searchQuery.length > 0}
                 <button class="btn" onclick={async () => await clearSearch()}
