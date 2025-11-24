@@ -18,8 +18,6 @@
 
 <svelte:head>
     <title>Nikodex Login!</title>
-    <script src="https://js.hcaptcha.com/1/api.js" async defer>
-    </script>
 </svelte:head>
 
 <!-- TODO: Seperate the sign-up page from the main login page. -->
