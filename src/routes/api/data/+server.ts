@@ -101,7 +101,8 @@ export async function DELETE({ request, fetch, cookies }) {
     );
 
     if (res.ok) {
-      const resJson = await res.json();
+      const clone = res.clone()
+      const resJson = await clone.json();
       await auditNiko(resJson, "A Niko got deleted..");
     }
 
