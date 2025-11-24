@@ -31,14 +31,16 @@
         method="POST"
         class="flex flex-col max-w-[420px] w-[420px] p-4 gap-4"
     >
+        <h2 class="h2-txt-size text-center">Sign in to Nikodex</h2>
         <label for="username"
             >Username
             <input
                 type="text"
-                class="border-4 w-full"
+                class="w-full"
                 id="username"
                 name="username"
                 placeholder="Your username??"
+                autocomplete="username"
                 required
             />
         </label>
@@ -46,9 +48,10 @@
             >Password
             <input
                 type="password"
-                class="border-4 w-full"
+                class="w-full"
                 id="password"
                 name="password"
+                autocomplete="current-password"
                 placeholder="Your password!! ssh... keep it a secret :3 also, pls use something different than 123"
                 required
             />
@@ -58,9 +61,9 @@
             <h1>Captcha</h1>
             <Turnstile siteKey={env["PUBLIC_TURNSTILE_SITE_KEY"] ?? ""} />
         </div>
-        <button disabled={isProcessing} type="submit" class="btn">Log In</button
+        <button disabled={isProcessing} type="submit" class="btn">Sign In</button
         >
-        <a class="text-blue-900" href="/account/signup"
+        <a class="" href="/account/signup"
             >Don't have an account?</a
         >
     </form>

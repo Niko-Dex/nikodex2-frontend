@@ -35,13 +35,15 @@
         method="POST"
         class="flex flex-col max-w-[420px] w-[420px] p-4 gap-4"
     >
+        <h2 class="h2-txt-size text-center">Sign up for Nikodex</h2>
         <label for="username"
             >Username
             <input
                 type="text"
-                class="border-4 w-full"
+                class="w-full"
                 id="username"
                 name="username"
+                autocomplete="username"
                 placeholder="Your username??"
                 required
             />
@@ -50,9 +52,10 @@
             >Password
             <input
                 type="password"
-                class="border-4 w-full"
+                class="w-full"
                 id="password"
                 name="password"
+                autocomplete="new-password"
                 placeholder="Your password!! ssh... keep it a secret :3 also, pls use something different than 123"
                 required
             />
@@ -61,9 +64,10 @@
             >Confirm Password
             <input
                 type="password"
-                class="border-4 w-full"
+                class="w-full"
                 id="confirm_password"
                 name="confirm_password"
+                autocomplete="new-password"
                 placeholder="Your password again!"
                 required
             />
@@ -76,6 +80,6 @@
         <button disabled={isProcessing} type="submit" class="btn"
             >Sign up</button
         >
-        <a class="text-blue-900" href="/account/login">Want to log in?</a>
+        <a href="/account/login">Want to log in?</a>
     </form>
 </section>

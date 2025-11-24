@@ -42,7 +42,7 @@ export const actions = {
     );
     if (!success) {
       return fail(401, {
-        error: error || "Failed to log-in! Captcha failure.",
+        error: `Unable to sign in! Cannot verify captcha. ${error}`
       });
     }
 
