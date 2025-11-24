@@ -23,6 +23,7 @@ As listed above, the Nikodex is split into two "spaces": the user space, where e
 To setup the frontend for Nikodex v2, you will need:
 
 - NodeJS (>=24)
+- A Cloudflare account
 
 ## Setup for develoption/production
 
@@ -32,13 +33,13 @@ After that, you will need to setup Cloudflare Turnstiles and .env file.
 
 ### Setting up Cloudflare Turnstiles
 
-## Local development
+#### Local development
 
-For local development, you just need to use testing sitekeys and testing secret keys. Refer to [Cloudflare Docs](https://developers.cloudflare.com/turnstile/troubleshooting/testing/) to get these keys.
+For local development, you will need to use testing sitekeys and testing secret keys. Refer to [Cloudflare Docs](https://developers.cloudflare.com/turnstile/troubleshooting/testing/) to get these keys.
 
-## Production
+#### Production
 
-For production, you will need to use a real sitekey and secret key of course. Head to Cloudflare and make an account if you haven't already.
+For production, you will need to use a real sitekey and secret key. Go to Cloudflare and make an account if you haven't already.
 
 You should be able to find the Turnstile section in Application security > Turnstile
 
