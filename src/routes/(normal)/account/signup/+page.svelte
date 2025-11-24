@@ -10,6 +10,10 @@
     if (form?.error) {
         toast.error(form.error);
     }
+
+    if (form?.success) {
+        toast.success("Successfully signed up! Please log in.");
+    }
 </script>
 
 <svelte:head>
@@ -26,7 +30,7 @@
     ></div>
     <form
         onsubmit={() => {
-            toast.loading("Logging in");
+            toast.loading("Signing up..");
         }}
         method="POST"
         class="flex flex-col max-w-[420px] w-[420px] p-4 gap-4"
@@ -53,15 +57,25 @@
                 required
             />
         </label>
+        <label for="confirm_password"
+            >Confirm Password
+            <input
+                type="password"
+                class="border-4 w-full"
+                id="confirm_password"
+                name="confirm_password"
+                placeholder="Your password again!"
+                required
+            />
+        </label>
 
         <div>
             <h1>Captcha</h1>
             <Turnstile siteKey={env["PUBLIC_TURNSTILE_SITE_KEY"] ?? ""} />
         </div>
-        <button disabled={isProcessing} type="submit" class="btn">Log In</button
+        <button disabled={isProcessing} type="submit" class="btn"
+            >Sign up</button
         >
-        <a class="text-blue-900" href="/account/signup"
-            >Don't have an account?</a
-        >
+        <a class="text-blue-900" href="/account/login">Want to log in?</a>
     </form>
 </section>

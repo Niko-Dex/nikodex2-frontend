@@ -28,25 +28,27 @@ To setup the frontend for Nikodex v2, you will need:
 
 This project connects to the back-end API on <https://github.com/Niko-Dex/nikodex2-backend/> along with the Discord's bot for handling submit data at <https://github.com/Niko-Dex/nikodex2-bot/>, so you would want to also clone both the repos and configure both the API server and the bot.
 
-After that, you will need to setup hCaptcha and .env file.
+After that, you will need to setup Cloudflare Turnstiles and .env file.
 
-### Setting up hCaptcha
+### Setting up Cloudflare Turnstiles
 
-Firstly, create a new account with hCaptcha. Use any provider that you currently have. Or, if you already have an hCaptcha account, use that one. *This is for people that haven't setup an hCaptcha yet.*
+## Local development
+
+For local development, you just need to use testing sitekeys and testing secret keys. Refer to [Cloudflare Docs](https://developers.cloudflare.com/turnstile/troubleshooting/testing/) to get these keys.
+
+## Production
+
+For production, you will need to use a real sitekey and secret key of course. Head to Cloudflare and make an account if you haven't already.
+
+You should be able to find the Turnstile section in Application security > Turnstile
 
 ![step 1](readme_images/img1.png)
 
-After creating your account, you will be presented with this page.
-
-Copy the specified site key, as stated by the arrow down below. After copying the site key, paste it to the .env file's `PUBLIC_HCAPTCHA_SITE_KEY` field.
-
-After that, click on *"Generate Secret"*
+After that, you can click 'Add widget', which would actually make a new site-key and secret key. Copy them and add them to the .env file.
 
 ![step 2](readme_images/img2.png)
 
-After clicking on it, you will be presented with the Secret Key that hCaptcha will use. Do not lose this key, copy it to the .env file's `HCAPTCHA_SECRET_KEY` field.
-
-![step 3](readme_images/img3.png)
+More info at [Cloudflare Docs for Turnstile](https://developers.cloudflare.com/turnstile/)
 
 ### Setting up .env file
 Create a `.env` file at the root of the directory with the following content
@@ -57,10 +59,9 @@ API_SERVER_URL="<url_of_api_server>" # the backend API server address. in many c
 JWT_SECRET="" # the same JWT secret that you setup in the API server
 ORIGIN="" # for local development, you may want to put the address that Vite provide you (for instance: http://localhost:5173). for production, you will need to put in the domain you're using to host the front-end (for instance: https://example.com)
 
-# hCaptcha setup
-PUBLIC_HCAPTCHA_SITE_KEY="" # this should be the site key you have recieved from the setup of hCaptcha.
-HCAPTCHA_SECRET_KEY="" # this should be the secret key you have recieved from the setup of hCaptcha.
-
+# turnstile setup
+PUBLIC_TURNSTILE_SITE_KEY=""
+TURNSTILE_SECRET_KEY=""
 
 # setup with the Discord's bot (for client ID and client secret, take a look at README for nikodex2-bot repo)
 

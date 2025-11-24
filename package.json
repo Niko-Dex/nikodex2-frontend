@@ -28,6 +28,7 @@
 		"globals": "^16.0.0",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
+		"svelte-turnstile": "^0.11.0",
 		"tailwindcss": "^4.0.0",
 		"typescript": "^5.0.0",
 		"typescript-eslint": "^8.20.0",
@@ -43,6 +44,7 @@
 		"gif-encoder": "^0.7.2",
 		"jsonwebtoken": "^9.0.2",
 		"node-machine-id": "^1.1.12",
+		"svelte-captcha-enhance": "^1.2.3",
 		"svelte-french-toast": "^2.0.0-alpha.0"
 	}
 }

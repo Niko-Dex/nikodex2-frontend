@@ -33,8 +33,9 @@ async function validateToken(token: string, secret: string) {
 }
 
 export const actions = {
-  default: async ({ request, fetch, getClientAddress }) => {
+  default: async ({ fetch, request, getClientAddress }) => {
     const formData = await request.formData();
+
     const token = formData.get("cf-turnstile-response");
     const { success, error } = await validateToken(
       token?.toString() ?? "",
@@ -42,19 +43,23 @@ export const actions = {
     );
     if (!success) {
       return fail(401, {
-        error: error || "Failed to log-in! Captcha failure.",
+        error: error || "Failed to sign up! Captcha failure.",
       });
     }
 
-    const { username, password } = Object.fromEntries(formData);
-    const response = await fetch("/api/user/login", {
+    const { username, password, confirm_password } =
+      Object.fromEntries(formData);
+    if (password != confirm_password) {
+      return fail(401, {
+        error: "Passwords don't match!",
+      });
+    }
+
+    const response = await fetch("/api/user/signup", {
       method: "POST",
       body: JSON.stringify({ username, password }),
     });
-    if (!response.ok)
-      return fail(401, {
-        error: "Failed to log-in! Incorrect username or password.",
-      });
-    redirect(303, "/account");
+    if (!response.ok) return fail(401, await response.json());
+    return { success: true };
   },
 } satisfies Actions;
