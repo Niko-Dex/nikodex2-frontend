@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { PageData, ActionData } from "./$types";
     import Background from "$lib/assets/images/page/user/world_machine.png";
-    let { data, form }: { data: PageData; form: ActionData } = $props();
+    let { form }: { data: PageData; form: ActionData } = $props();
     import toast, { Toaster } from "svelte-french-toast";
     import FileUpload from "$lib/components/FileUpload.svelte";
 
