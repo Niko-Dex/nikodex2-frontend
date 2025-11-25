@@ -12,6 +12,7 @@
     import { onMount, onDestroy } from "svelte";
     import Card from "$lib/components/Card.svelte";
     import { version } from "$app/environment";
+    import { parseISO, differenceInHours } from "date-fns"
 
     let bg1Y = $state(0);
     function bg1Scroll() {
@@ -46,13 +47,20 @@
     let ping_proxy = $state("");
     let ping_backend = $state("");
 
+    let refresh_at: string = $state("")
+    let whenRefresh = $derived(differenceInHours(refresh_at, new Date()))
+
     onMount(async () => {
         fetch(`/api/data/count`)
             .then((v) => v.text())
             .then((v) => (data.cnt = v));
 
         fetch("/api/data/random_notd")
-            .then((v) => v.json())
+            .then((v) => {
+                refresh_at = v.headers.get("x-refreshat") ?? ""
+                console.log(parseISO(refresh_at))
+                return v.json()
+            })
             .then((d) => {
                 notd.name = d["name"];
                 notd.author = d["author_name"];
@@ -168,9 +176,10 @@
     <div class="flex flex-col gap-4 max-w-[1200px] w-[1200px]">
         <h1 class="h1-txt-size">Noik of The Day</h1>
         <p>
-            A random Noik is selected each day at midnight (GMT) to be featured
+            A random Noik is selected each day to be featured
             here. If your Noik show up here, then be proud i guess lol :3
         </p>
+        <p>New NoTD will be picked after {whenRefresh} hours.</p>
         <Card
             name={notd?.name}
             id={notd?.id}
