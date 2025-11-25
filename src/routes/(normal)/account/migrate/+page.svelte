@@ -1,4 +1,5 @@
 <script lang="ts">
+    import LogoutIcon from "$lib/assets/images/components/LogoutIcon.svelte";
     import Background from "$lib/assets/images/page/user/world_machine.png";
     import NikoSmallCard from "$lib/components/NikoSmallCard.svelte";
     import toast, { Toaster } from "svelte-french-toast";
@@ -136,7 +137,16 @@
             <p>You are currently not log in with Discord!</p>
             <a class="btn w-fit" href="/dred">Log in with Discord</a>
         {:else}
-            <h2 class="h2-txt-size">Logged in as {data.discord_username}!</h2>
+            <div class="flex justify-between">
+                <h2 class="h2-txt-size">Logged in as {data.discord_username}!</h2>
+                <a
+                    class="btn w-fit flex flex-row items-center gap-4"
+                    href="/api/discord_auth/logout"
+                >
+                    <LogoutIcon />
+                    Log Out
+                </a>
+            </div>
             <p>
                 Here you can request the NikoDex Dev team to move your Nikos to
                 your NikoDex account!

@@ -2,7 +2,7 @@ import { json, redirect } from '@sveltejs/kit';
 import { env } from "$env/dynamic/private"
 import { errSrv } from '../../helper.js';
 
-export async function POST({ fetch, cookies, url }) {
+export async function GET({ fetch, cookies, url }) {
     try {
         const token = cookies.get('discord_token') ?? ""
 
@@ -23,11 +23,10 @@ export async function POST({ fetch, cookies, url }) {
             secure: true,
             path: "/"
         });
-
-        return json({ msg: 'ok' }, { status: 200 })
     }
     catch(error) {
         console.error(error);
         return errSrv(error)
     }
+    throw redirect(307, "/account/migrate")
 }
