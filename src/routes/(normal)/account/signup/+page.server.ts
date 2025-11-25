@@ -1,18 +1,23 @@
 import type { Actions } from "./$types";
-import { fail, redirect } from "@sveltejs/kit";
-import { env } from "$env/dynamic/private";
+import { fail } from "@sveltejs/kit";
 
 export const actions = {
   default: async ({ fetch, request, getClientAddress }) => {
     const formData = await request.formData();
     const token = formData.get("cf-turnstile-response");
 
-    const { username, password, confirm_password } =
+    const { username, password, confirm_password, agree_tok } =
       Object.fromEntries(formData);
     if (password != confirm_password) {
       return fail(400, {
         error: "Passwords don't match!",
       });
+    }
+
+    if (agree_tok) {
+      return fail(400, {
+        error: "Please agree to be a good kbity!"
+      })
     }
 
     const response = await fetch("/api/user/signup", {

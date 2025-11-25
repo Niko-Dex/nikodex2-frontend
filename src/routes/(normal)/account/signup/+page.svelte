@@ -71,9 +71,14 @@
         </label>
 
         <div>
-            <h1>Captcha</h1>
+            <span>Captcha</span>
             <Turnstile siteKey={env["PUBLIC_TURNSTILE_SITE_KEY"] ?? ""} />
         </div>
+
+        <label class="flex items-center gap-4">
+            <input type="checkbox" name="agree_tok" required>
+            I agree to be a good kbity when using the Nikodex :3
+        </label>
         <button disabled={isProcessing} type="submit" class="btn"
             >Sign up</button
         >
