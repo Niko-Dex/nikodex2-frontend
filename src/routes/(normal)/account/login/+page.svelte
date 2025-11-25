@@ -16,7 +16,6 @@
     <title>Nikodex Login!</title>
 </svelte:head>
 
-<!-- TODO: Seperate the sign-up page from the main login page. -->
 <section class="w-full relative flex justify-center items-center min-h-screen">
     <div
         class="absolute top-0 left-0 w-full h-full bg-no-repeat bg-cover bg-center no-antialias bg-fixed -z-1"
