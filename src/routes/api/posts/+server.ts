@@ -12,13 +12,12 @@ export async function GET({ request, fetch, cookies }) {
 
 export async function POST({ request, fetch, cookies }) {
   try {
-    const res = await fetch(`${env.API_SERVER_URL}/nikos`, {
+    const res = await fetch(`${env.API_SERVER_URL}/posts`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${cookies.get("token")}`,
-        "Content-Type": "application/json",
       },
-      body: await request.text(),
+      body: await request.formData(),
     });
 
     return await resWithErrHandling(res);

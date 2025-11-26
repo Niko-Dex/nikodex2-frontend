@@ -2,7 +2,12 @@
     import type { PageProps } from "./$types";
     import Background from "$lib/assets/images/page/user/world_machine.png";
     let { data }: PageProps = $props();
+    import { format } from "date-fns";
 </script>
+
+<svelte:head>
+    <title>NikoDex - {data.postData.title}</title>
+</svelte:head>
 
 <section class="w-full relative flex justify-center">
     <div
@@ -20,6 +25,12 @@
                     href="/account/{data.postData.user.username}"
                     >{data.postData.user.username}</a
                 >
+            </p>
+            <p>
+                Posted on {format(
+                    Date.parse(data.postData.post_datetime),
+                    "dd MMM yyyy - HH:mm:ss",
+                )}
             </p>
         </div>
         <p>{data.postData.content}</p>
