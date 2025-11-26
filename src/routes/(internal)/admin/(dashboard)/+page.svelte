@@ -104,7 +104,9 @@
 </script>
 
 <Toaster />
-<div class="xl:px-4 flex flex-col gap-2 lg:gap-4 max-w-[1200px] m-auto">
+<div
+    class="xl:px-8 p-4 w-full flex flex-col gap-2 lg:gap-4 max-w-[1200px] m-auto"
+>
     <h1 class="h1-txt-size text-center">Welcome, {username}!</h1>
     <p class="text-center"><em>[{description}]</em></p>
     <p class="text-center">

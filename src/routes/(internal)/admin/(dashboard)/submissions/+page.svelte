@@ -63,7 +63,7 @@
     });
 </script>
 
-<div class="xl:px-4 flex flex-col gap-4">
+<div class="xl:px-8 p-4 flex flex-col gap-4">
     <h2 class="h2-txt-size">Submissions</h2>
     <p>We currently have {currentSubmissions.length} submissions.</p>
     <div class="overflow-x-auto w-full flex flex-col gap-4 relative">

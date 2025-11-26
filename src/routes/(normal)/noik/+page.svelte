@@ -2,15 +2,8 @@
     import Background from "$lib/assets/images/page/noik/bg1.png";
     import Card from "$lib/components/Card.svelte";
     import CardContainer from "$lib/components/CardContainer.svelte";
-    import { json } from "@sveltejs/kit";
+    import PageChanger from "$lib/components/PageChanger.svelte";
     import { onMount } from "svelte";
-
-    function replace_img(
-        ev: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement },
-    ) {
-        const elm = ev.target as HTMLImageElement;
-        elm.src = elm.getAttribute("data-secsrc") ?? elm.src;
-    }
 
     let dataLoaded = $state(false);
     let dataErr = $state(false);
@@ -19,22 +12,6 @@
     let currentPage = $state(1);
     let searchQuery = $state("");
     let orderingOpt = $state("oldest_added");
-    let pageSelectDetect = $state() as HTMLDivElement;
-    let pageSelectAtBottom = $state(false);
-
-    async function prevPage() {
-        if (currentPage != 1) {
-            currentPage--;
-            await getData();
-        }
-    }
-
-    async function nextPage() {
-        if (currentPage + 1 <= maxPages) {
-            currentPage++;
-            await getData();
-        }
-    }
 
     async function getData() {
         if (currentPage < 1 || currentPage > maxPages) return;
@@ -115,17 +92,6 @@
     }
 
     onMount(async () => {
-        const observer = new IntersectionObserver(
-            (data) => {
-                pageSelectAtBottom = data[0].isIntersecting;
-            },
-            {
-                root: null,
-                threshold: 1,
-            },
-        );
-
-        observer.observe(pageSelectDetect);
         await getMaxPages();
         await getData();
     });
@@ -144,9 +110,7 @@
         <h1 class="h1-txt-size">The Noik List!</h1>
         <p><em>click on any of the nikosona to patpat! :3</em></p>
 
-        <div
-            class="w-full flex flex-row gap-4"
-        >
+        <div class="w-full flex flex-row gap-4">
             <input
                 class="w-full"
                 placeholder="Search nikos by name..."
@@ -173,7 +137,7 @@
         </select>
         {#if dataLoaded}
             <CardContainer>
-                {#each apiData as data}
+                {#each apiData as data (data.id)}
                     <Card
                         abilities={data.abilities}
                         author={data.author}
@@ -199,32 +163,11 @@
         {/if}
     </div>
 </section>
-<div bind:this={pageSelectDetect}></div>
-{#if !dataErr}
-    <div
-        class="bg-gray-700 flex justify-center gap-4 p-2 {pageSelectAtBottom
-            ? 'w-full'
-            : 'p-4 w-fit mx-auto sticky bottom-4'}"
-    >
-        <button
-            class="transition duration-100 hover:bg-white hover:text-black hover:cursor-pointer border-2 border-white px-4 py-1 disabled:opacity-50 disabled:pointer-events-none"
-            onclick={prevPage}
-            disabled={currentPage <= 1 || !dataLoaded}>Prev</button
-        >
-        <input
-            class="text-center border-2 border-white min-w-20"
-            type="number"
-            min={1}
-            max={maxPages}
-            bind:value={currentPage}
-            aria-label="Page number"
-            onchange={async () => await getData()}
-            disabled={!dataLoaded}
-        />
-        <button
-            class="transition duration-100 hover:bg-white hover:text-black hover:cursor-pointer border-2 border-white px-4 py-1 disabled:opacity-50 disabled:pointer-events-none"
-            onclick={nextPage}
-            disabled={currentPage >= maxPages || !dataLoaded}>Next</button
-        >
-    </div>
-{/if}
+<PageChanger
+    {maxPages}
+    onupdate={async (page) => {
+        currentPage = page;
+        await getData();
+    }}
+    disabled={!dataLoaded || dataErr}
+/>

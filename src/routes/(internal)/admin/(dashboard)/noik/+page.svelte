@@ -227,7 +227,7 @@
     });
 </script>
 
-<div class="xl:px-4 flex flex-col gap-4">
+<div class="xl:px-8 p-4 flex flex-col gap-4">
     <h2 class="h2-txt-size">Noik Entries</h2>
     <p>Database currently holding {apiData.length} entires.</p>
     <div class="overflow-x-auto w-full flex flex-col gap-4 relative">

@@ -5,7 +5,7 @@
     import "../../../../app.css";
 
     let { children } = $props();
-    let navBarOpen = $state(false)
+    let navBarOpen = $state(false);
     import { Toaster } from "svelte-french-toast";
 </script>
 
@@ -27,19 +27,23 @@
                 onclick={() => (navBarOpen = !navBarOpen)}
             >
                 <svg
-                class="xl:hidden"
-                xmlns="http://www.w3.org/2000/svg"
-                height="32px"
-                viewBox="0 -960 960 960"
-                width="32px"
-                fill="#e3e3e3"
-                ><path
-                    d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
-                /></svg
+                    class="xl:hidden"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="32px"
+                    viewBox="0 -960 960 960"
+                    width="32px"
+                    fill="#e3e3e3"
+                    ><path
+                        d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
+                    /></svg
                 >
             </button>
         </div>
-        <div class="link gap-2 md:gap-4 flex-shrink w-full overflow-auto xl:w-auto flex-col sm:flex-row flex-wrap xl:flex-nowrap justify-end {navBarOpen ? 'flex' : 'hidden xl:flex'}">
+        <div
+            class="link gap-2 md:gap-4 flex-shrink w-full overflow-auto xl:w-auto flex-col sm:flex-row flex-wrap xl:flex-nowrap justify-end {navBarOpen
+                ? 'flex'
+                : 'hidden xl:flex'}"
+        >
             <Link custom_class="flex-1 xl:flex-none" href="/admin">Home</Link>
             <Link custom_class="flex-1 xl:flex-none" href="/admin/users"
                 >Users</Link
@@ -63,7 +67,5 @@
             </Link>
         </div>
     </nav>
-    <div class="p-4">
-        {@render children?.()}
-    </div>
+    {@render children?.()}
 </div>

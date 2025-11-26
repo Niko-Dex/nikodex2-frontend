@@ -1,4 +1,5 @@
 <script lang="ts">
+    import PageChanger from "$lib/components/PageChanger.svelte";
     import { onMount } from "svelte";
     import toast from "svelte-french-toast";
 
@@ -41,7 +42,7 @@
     });
 </script>
 
-<div class="xl:px-4 flex flex-col gap-4">
+<div class="xl:px-8 p-4 flex flex-col gap-4">
     <h2 class="h2-txt-size">Users</h2>
     <p>Total Users: {totalUsersCount} | {currentUsers.length} users shown</p>
 
@@ -60,7 +61,7 @@
                 </tr>
             </thead>
             <tbody>
-                {#each currentUsers as user}
+                {#each currentUsers as user (user.id)}
                     <tr
                         class="flex flex-col lg:table-row lg:flex-none text-[16px] odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
                     >
@@ -85,30 +86,11 @@
             </tbody>
         </table>
     </div>
-    <div class="flex flex-row gap-4 justify-center bg-gray-700 p-4 w-fit mx-auto">
-        <button
-            class="btn border-white border-2 hover:bg-white"
-            onclick={() => {
-                currentPage = Math.min(maxPages, currentPage++);
-            }}
-            disabled={currentPage <= 1}>Prev</button
-        >
-        <input
-            bind:value={currentPage}
-            class="text-center border-2 border-white min-w-20"
-            type="number"
-            min={1}
-            max={maxPages}
-            onchange={async () => {
-                await getUsers();
-            }}
-        />
-        <button
-            class="btn border-white border-2 hover:bg-white"
-            onclick={() => {
-                currentPage = Math.max(0, currentPage--);
-            }}
-            disabled={currentPage >= maxPages}>Next</button
-        >
-    </div>
+    <PageChanger
+        {maxPages}
+        onupdate={async (page) => {
+            currentPage = page;
+            await getUsers();
+        }}
+    />
 </div>
