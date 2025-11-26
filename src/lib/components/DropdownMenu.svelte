@@ -24,10 +24,16 @@
 <div class="flex flex-row-reverse relative">
     <button
         onclick={() => (isShown = true)}
-        class="btn w-full flex flex-row gap-2 items-center sm:p-1"
+        class="btn w-full flex flex-row gap-2 items-center sm:p-1 group"
     >
         {#if btn_img != ""}
-            <img src={btn_img} width="32" height="32" alt={title} />
+            <img
+                src={btn_img}
+                width="32"
+                height="32"
+                alt={title}
+                class="group-hover:invert"
+            />
             <span class="sm:hidden">{title}</span>
         {:else}
             <span>{title}</span>

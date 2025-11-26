@@ -36,7 +36,6 @@
         await checkAPI();
     });
 
-    let themeOpen = $state(false);
     let navBarOpen = $state(false);
 </script>
 
