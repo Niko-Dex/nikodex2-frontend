@@ -1,38 +1,36 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
-    import Logo from "$lib/assets/images/logo.png"
-    let validating = $state(false)
-    import toast from "svelte-french-toast"
+    import Logo from "$lib/assets/images/logo.png";
+    let validating = $state(false);
+    import toast from "svelte-french-toast";
 
     async function submit(ev: SubmitEvent) {
-        ev.preventDefault()
-        validating = true
-        ev.submitter?.setAttribute("disabled", "")
-        const formData = new FormData(ev.target as HTMLFormElement)
-        const {username, password} = Object.fromEntries(formData.entries())
+        ev.preventDefault();
+        validating = true;
+        ev.submitter?.setAttribute("disabled", "");
+        const formData = new FormData(ev.target as HTMLFormElement);
+        const { username, password } = Object.fromEntries(formData.entries());
 
         const adminLogin = fetch(`/api/admin/auth`, {
             method: "POST",
-            body: JSON.stringify({username, password}),
+            body: JSON.stringify({ username, password }),
             headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(async v => {
-            const jsonData = await v.json()
-            validating = false
-            ev.submitter?.removeAttribute("disabled")
-            if (!v.ok) throw new Error(jsonData["error"])
+                "Content-Type": "application/json",
+            },
+        }).then(async (v) => {
+            const jsonData = await v.json();
+            validating = false;
+            ev.submitter?.removeAttribute("disabled");
+            if (!v.ok) throw new Error(jsonData["error"]);
 
-            await goto("/admin")
-        })
+            await goto("/admin");
+        });
 
         await toast.promise(adminLogin, {
             success: "Successfully logged in!",
             loading: "Logging in",
-            error: (e) => `Error while logging in: ${e.message}`
-        })
-
+            error: (e) => `Error while logging in: ${e.message}`,
+        });
     }
 </script>
 
@@ -41,21 +39,43 @@
 </svelte:head>
 
 <div class="flex justify-center items-center w-screen h-screen">
-    <form onsubmit={submit} method="post" class="min-w-80 flex flex-col gap-6 max-w-[420px] m-4">
+    <form
+        onsubmit={submit}
+        method="post"
+        class="min-w-80 flex flex-col gap-6 max-w-[420px] m-4"
+    >
         <div class="flex flex-col justify-center items-center gap-2">
-            <img src={Logo} alt="Nikodex Logo">
+            <img src={Logo} alt="Nikodex Logo" />
             <h1 class="h1-txt-size">Admin Login</h1>
         </div>
         <div class="field flex flex-col gap-2">
             <label for="username">
                 Username
-                <input type="text" name="username" id="username" class="block w-full">
+                <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    class="block w-full"
+                    autocomplete="username"
+                    required
+                    disabled={validating}
+                />
             </label>
             <label for="password">
                 Password
-                <input type="password" name="password" id="password" class="block w-full">
+                <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    class="block w-full"
+                    autocomplete="current-password"
+                    required
+                    disabled={validating}
+                />
             </label>
         </div>
-        <button type="submit" class="w-full btn">{validating ? "Logging in..." : "Login"}</button>
+        <button type="submit" class="w-full btn" disabled={validating}
+            >{validating ? "Logging in..." : "Login"}</button
+        >
     </form>
 </div>

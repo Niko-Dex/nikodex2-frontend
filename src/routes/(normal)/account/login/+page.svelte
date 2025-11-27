@@ -4,7 +4,7 @@
     import toast from "svelte-french-toast";
     import type { PageProps } from "./$types";
     import { env } from "$env/dynamic/public";
-    let { form, data }: PageProps = $props();
+    let { form }: PageProps = $props();
     let isProcessing = $state(false);
 
     if (form?.error) {
@@ -28,7 +28,7 @@
         method="POST"
         class="flex flex-col max-w-[420px] w-[420px] p-4 gap-4"
     >
-        <h2 class="h2-txt-size text-center">Sign in to Nikodex</h2>
+        <h1 class="h1-txt-size text-center">Sign In</h1>
         <label for="username"
             >Username
             <input
@@ -58,10 +58,9 @@
             <h1>Captcha</h1>
             <Turnstile siteKey={env["PUBLIC_TURNSTILE_SITE_KEY"] ?? ""} />
         </div>
-        <button disabled={isProcessing} type="submit" class="btn">Sign In</button
+        <button disabled={isProcessing} type="submit" class="btn"
+            >Sign In</button
         >
-        <a class="" href="/account/signup"
-            >Don't have an account?</a
-        >
+        <a class="" href="/account/signup">Don't have an account?</a>
     </form>
 </section>

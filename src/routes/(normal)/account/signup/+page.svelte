@@ -32,7 +32,7 @@
         method="POST"
         class="flex flex-col max-w-[420px] w-[420px] p-4 gap-4"
     >
-        <h2 class="h2-txt-size text-center">Sign up for Nikodex</h2>
+        <h1 class="h1-txt-size text-center">Sign Up</h1>
         <label for="username"
             >Username
             <input
@@ -76,7 +76,7 @@
         </div>
 
         <label class="flex items-center gap-4">
-            <input type="checkbox" name="agree_tok" required>
+            <input type="checkbox" name="agree_tok" required />
             I agree to be a good kbity when using the Nikodex :3
         </label>
         <button disabled={isProcessing} type="submit" class="btn"
