@@ -1,15 +1,28 @@
 <script lang="ts">
     import type { PageProps } from "./$types";
-
     import Background from "$lib/assets/images/page/user/world_machine.png";
     import { beforePage, fetchNikos } from "$lib/helper/noikHelper";
     import { onMount } from "svelte";
     import CardContainer from "$lib/components/CardContainer.svelte";
     import Card from "$lib/components/Card.svelte";
+    import PostCard from "$lib/components/PostCard.svelte";
     let { data }: PageProps = $props();
-    let apiData: Niko[] = $state([]);
+    let userNoiks: Niko[] = $state([]);
+    let userPosts: Post[] = $state([]);
+    let page = $state("noiks");
+
     onMount(async () => {
-        await fetchNikos(data.requestedInformation.id, apiData);
+        await fetchNikos(data.requestedInformation.id, userNoiks);
+
+        await fetch(
+            `/api/posts/user?user_id=${data.requestedInformation.id}`,
+        ).then(async (e) => {
+            if (e.ok) {
+                userPosts = await e.json();
+            } else {
+                console.log(await e.text());
+            }
+        });
     });
 </script>
 
@@ -35,22 +48,51 @@
                     <p>{data.requestedInformation.description}</p>
                 {/if}
             </div>
-            <h2 class="h2-txt-size">Noiks:</h2>
-            {#if apiData.length == 0}
-                <p class="text-center h2-txt-size">no noiks! 3:</p>
-            {:else}
-                <CardContainer>
-                    {#each apiData as _apiData (_apiData.id)}
-                        <Card
-                            id={_apiData.id}
-                            author={_apiData.author}
-                            name={_apiData.name}
-                            description={_apiData.description}
-                            abilities={_apiData.abilities}
-                            short_desc={_apiData.short_desc}
-                        />
-                    {/each}
-                </CardContainer>
+            <div class="flex flex-row gap-2 items-stretch">
+                <button
+                    class={page == "noiks" ? "active btn w-full" : "btn w-full"}
+                    onclick={() => (page = "noiks")}>Noiks</button
+                >
+                <button
+                    class={page == "posts" ? "active btn w-full" : "btn w-full"}
+                    onclick={() => (page = "posts")}>Posts</button
+                >
+            </div>
+
+            {#if page == "noiks"}
+                {#if userNoiks.length == 0}
+                    <p class="text-center h2-txt-size">no noiks! 3:</p>
+                {:else}
+                    <h2 class="h2-txt-size">Noiks ({userNoiks.length}):</h2>
+                    <CardContainer>
+                        {#each userNoiks as _apiData (_apiData.id)}
+                            <Card
+                                id={_apiData.id}
+                                author={_apiData.author}
+                                name={_apiData.name}
+                                description={_apiData.description}
+                                abilities={_apiData.abilities}
+                                short_desc={_apiData.short_desc}
+                            />
+                        {/each}
+                    </CardContainer>
+                {/if}
+            {/if}
+            {#if page == "posts"}
+                {#if userPosts.length == 0}
+                    <p class="text-center h2-txt-size">no posts! 3:</p>
+                {:else}
+                    <h2 class="h2-txt-size">Posts ({userPosts.length})</h2>
+                    <div class="grid grid-cols-2 gap-2">
+                        {#each userPosts as _post (_post.id)}
+                            <PostCard
+                                id={_post.id}
+                                title={_post.title}
+                                username={_post.user.username}
+                            />
+                        {/each}
+                    </div>
+                {/if}
             {/if}
         </section>
     </div>

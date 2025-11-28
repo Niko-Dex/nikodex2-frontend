@@ -5,7 +5,12 @@
     import { onMount } from "svelte";
     import { toast, Toaster } from "svelte-french-toast";
     import FileUpload from "$lib/components/FileUpload.svelte";
+    import PageChanger from "$lib/components/PageChanger.svelte";
+    import PostCard from "$lib/components/PostCard.svelte";
 
+    let dataErr = $state(false);
+    let maxPages = $state(1);
+    let currentPage = $state(1);
     let apiData: Post[] = $state([]);
     let newPostModal = $state(false);
     let postTitle = $state("");
@@ -25,20 +30,41 @@
         newPostModal = false;
     }
 
-    onMount(() => {
-        const req = fetch(`/api/posts`).then(async (res) => {
-            if (!res.ok) {
-                throw new Error((await res.json())["error"]);
-            } else {
-                apiData = await res.json();
-            }
-        });
+    async function getData() {
+        if (currentPage < 1 || currentPage > maxPages) return;
+        const req = fetch(`/api/posts/page?page=${currentPage}&count=10`).then(
+            async (res) => {
+                if (!res.ok) {
+                    dataErr = true;
+                    throw new Error((await res.json())["error"]);
+                } else {
+                    apiData = await res.json();
+                }
+            },
+        );
 
         toast.promise(req, {
             loading: "Loading posts..",
             error: (e) => `Error! ${e}`,
             success: "Loaded posts!",
         });
+    }
+
+    async function getMaxPages() {
+        try {
+            dataErr = false;
+            const res = await fetch(`/api/posts/count`);
+            const data = await res.text();
+            maxPages = Math.ceil(Number.parseFloat(data) / 10.0);
+        } catch (err) {
+            console.log(err);
+            dataErr = true;
+        }
+    }
+
+    onMount(async () => {
+        await getMaxPages();
+        await getData();
     });
 </script>
 
@@ -116,25 +142,20 @@
         </div>
         <div class="grid grid-cols-2 gap-2">
             {#each apiData as post}
-                <a
-                    href={`/post/${post.id}`}
-                    class="bg-black border-4 border-(--theme-color) p-2"
-                >
-                    <p>{post.title}</p>
-                    <p>
-                        By: <span class="bg-white text-black w-fit px-1"
-                            >{post.user.username}</span
-                        >
-                    </p>
-                    <div class="flex flex-col items-center">
-                        <img
-                            alt={post.title}
-                            src={`/api/posts/image?id=${post.id}`}
-                            class="h-56"
-                        />
-                    </div>
-                </a>
+                <PostCard
+                    id={post.id}
+                    title={post.title}
+                    username={post.user.username}
+                />
             {/each}
         </div>
     </div>
 </section>
+<PageChanger
+    {maxPages}
+    onupdate={async (page) => {
+        currentPage = page;
+        await getData();
+    }}
+    disabled={dataErr}
+/>

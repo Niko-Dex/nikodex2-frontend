@@ -144,6 +144,7 @@
                 href="/noik">The Niko List</Link
             >
             <Link custom_class="flex-1 lg:flex-none" href="/blog">Blog</Link>
+            <Link custom_class="flex-1 lg:flex-none" href="/posts">Posts</Link>
             <DropdownMenu
                 title="Accounts"
                 btn_img={ProfilePictureIcon}
