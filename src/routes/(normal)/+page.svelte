@@ -9,7 +9,7 @@
     import Pat2 from "$lib/assets/images/page/home/petpet2.gif";
     import Pat3 from "$lib/assets/images/page/home/petpet3.gif";
 
-    import { onMount, onDestroy } from "svelte";
+    import { onMount } from "svelte";
     import Card from "$lib/components/Card.svelte";
     import { version } from "$app/environment";
     import { parseISO, differenceInHours } from "date-fns";
@@ -164,9 +164,9 @@
             <em>Discord link</em> above.
         </p>
         <p>
-            Oh yeah! Did you know that the Nikodex now has accounts? A Nikodex
-            account grants you the ability to make a submission, and edit your
-            current Nikos.
+            Oh yeah! Did you know that the Nikodex now has <em>accounts</em>? A
+            Nikodex account grants you the ability to make a submission, edit
+            your current Nikosonas, and much more!
         </p>
     </div>
 </section>
@@ -195,8 +195,8 @@
     <div class="flex flex-col gap-4 max-w-[1200px] w-[1200px]">
         <h1 class="h1-txt-size">Current Status</h1>
         <div
-            style="--normal: repeat(auto-fit, minmax(240px, 1fr));"
-            class="grid gap-4 text-center grid-cols-(--normal)"
+            style="--md: repeat(auto-fit, minmax(240px, 1fr)); --normal: repeat(auto-fit, minmax(120px, 1fr));"
+            class="grid gap-4 text-center md:grid-cols-(--md) grid-cols-(--normal)"
         >
             <div class="flex flex-col justify-center items-center">
                 <h1 class="h1-txt-size">
@@ -215,13 +215,12 @@
             </div>
             <div class="flex flex-col justify-center items-center">
                 <h1 class="h1-txt-size">{ping_backend}ms</h1>
-                <p>Ping (bAPI - fAPI)</p>
+                <p>Internal server Ping</p>
             </div>
             <div class="flex flex-col justify-center items-center">
                 <h1 class="h1-txt-size">{ping_proxy}ms</h1>
-                <p>Ping (frontend - fAPI)</p>
+                <p>Ping</p>
             </div>
         </div>
-        <p class="text-right">*bAPI: backend API, fAPI: frontend API</p>
     </div>
 </section>
