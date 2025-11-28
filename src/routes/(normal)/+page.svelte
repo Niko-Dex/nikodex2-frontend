@@ -12,7 +12,7 @@
     import { onMount, onDestroy } from "svelte";
     import Card from "$lib/components/Card.svelte";
     import { version } from "$app/environment";
-    import { parseISO, differenceInHours } from "date-fns"
+    import { parseISO, differenceInHours } from "date-fns";
 
     let bg1Y = $state(0);
     function bg1Scroll() {
@@ -47,8 +47,8 @@
     let ping_proxy = $state("");
     let ping_backend = $state("");
 
-    let refresh_at: string = $state("")
-    let whenRefresh = $derived(differenceInHours(refresh_at, new Date()))
+    let refresh_at: string = $state("");
+    let whenRefresh = $derived(differenceInHours(refresh_at, new Date()));
 
     onMount(async () => {
         fetch(`/api/data/count`)
@@ -57,9 +57,9 @@
 
         fetch("/api/data/random_notd")
             .then((v) => {
-                refresh_at = v.headers.get("x-refreshat") ?? ""
-                console.log(parseISO(refresh_at))
-                return v.json()
+                refresh_at = v.headers.get("x-refreshat") ?? "";
+                console.log(parseISO(refresh_at));
+                return v.json();
             })
             .then((d) => {
                 notd.name = d["name"];
@@ -159,15 +159,14 @@
             Explore all the Noiks the OSDS community has to offer at <em
                 >The Niko List</em
             >
-            on the navbar! You can also make a submission to the list in the
-            <em>Submit a Niko</em>
-            section, and also read on the latest updates in the <em>Blog</em> section.
+            on the navigation bar above! You can read on the latest updates about
+            the Nikodex in <em>Blogs</em>, and join our Discord server at the
+            <em>Discord link</em> above.
         </p>
         <p>
-            Found a bug? Wanna help contribute to the Nikodex? Wanna talk with
-            the dev? You can do all of that and more at <a href="/discord"
-                ><u>[The Nikodex's Discord server]</u></a
-            >!
+            Oh yeah! Did you know that the Nikodex now has accounts? A Nikodex
+            account grants you the ability to make a submission, and edit your
+            current Nikos.
         </p>
     </div>
 </section>
@@ -176,8 +175,8 @@
     <div class="flex flex-col gap-4 max-w-[1200px] w-[1200px]">
         <h1 class="h1-txt-size">Noik of The Day</h1>
         <p>
-            A random Noik is selected each day to be featured
-            here. If your Noik show up here, then be proud i guess lol :3
+            A random Noik is selected each day to be featured here. If your Noik
+            show up here, then be proud i guess lol :3
         </p>
         <p>New NoTD will be picked after {whenRefresh} hours.</p>
         <Card
