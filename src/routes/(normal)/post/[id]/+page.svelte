@@ -3,6 +3,7 @@
     import Background from "$lib/assets/images/page/user/world_machine.png";
     let { data }: PageProps = $props();
     import { format } from "date-fns";
+    import { beforePage } from "$lib/helper/noikHelper";
 </script>
 
 <svelte:head>
@@ -17,6 +18,7 @@
     <div
         class="max-w-[1200px] w-[1200px] flex flex-col gap-4 min-h-screen pt-5"
     >
+        <a class="btn w-fit" href={$beforePage}>Go Back</a>
         <div class="flex flex-col gap-0.5">
             <h1 class="h1-txt-size">{data.postData.title}</h1>
             <p>
