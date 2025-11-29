@@ -8,6 +8,10 @@
         By: <span class="bg-white text-black w-fit px-1">{username}</span>
     </p>
     <div class="flex flex-col items-center">
-        <img alt={title} src={`/api/posts/image?id=${id}`} class="h-56" />
+        <img
+            alt={title}
+            src={`/api/posts/image?id=${id}`}
+            class="h-56 non-pixelated"
+        />
     </div>
 </a>
