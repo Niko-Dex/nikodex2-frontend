@@ -3,31 +3,21 @@
     import toast from "svelte-french-toast";
     import FileUpload from "$lib/components/FileUpload.svelte";
     import PageChanger from "$lib/components/PageChanger.svelte";
+    import { SvelteSet } from "svelte/reactivity";
+    import type { Niko } from "$lib/types/nikosona";
 
-    let apiData: {
-        id: number;
-        name: string;
-        author: string;
-        img_link: string;
-        short_desc: string;
-        description: string;
-        author_id: number | undefined;
-        abilities: {
-            name: string;
-            niko_id: number;
-            id: number;
-        }[];
-    }[] = $state([]);
+    let apiData: Niko[] = $state([]);
     let maxPages = $state(0);
     let currentPage = $state(1);
     let dataErr = $state(false);
+    let totalCnt = $state(0);
 
     let editMode: { [id: number]: boolean } = $state({});
     let oldData: { [id: number]: (typeof apiData)[number] } = {};
 
-    let editAbilitiesRow: (typeof apiData)[number] | null = $state(null);
+    let editAbilitiesRow: Niko | null = $state(null);
     let editImage: { [id: number]: HTMLInputElement } = $state({});
-    let markedDeletionAbilities: Set<number> = new Set();
+    let markedDeletionAbilities: Set<number> = new SvelteSet<number>();
 
     function startEdit(row: (typeof apiData)[number]) {
         editMode[row.id] = true;
@@ -40,10 +30,11 @@
             method: "PUT",
             body: JSON.stringify({
                 name: row.name,
-                description: row.short_desc,
-                full_desc: row.description,
+                description: row.description,
+                full_desc: row.full_desc,
                 author_id: row.author_id,
-            }),
+                is_blacklisted: row.is_blacklisted,
+            } satisfies Omit<Niko, "id" | "author" | "abilities">),
             headers: {
                 "Content-Type": "application/json",
             },
@@ -147,7 +138,9 @@
     }
 
     async function getData() {
-        const fetchData = fetch(`/api/data`).then(async (out) => {
+        const fetchData = fetch(
+            `/api/data/page?page=${currentPage}&sort_by=oldest_added`,
+        ).then(async (out) => {
             const jsonData = await out.json();
             if (!out.ok) throw new Error(jsonData["error"]);
             apiData = [];
@@ -156,11 +149,11 @@
                     id: d["id"],
                     name: d["name"],
                     author: d["author_name"],
-                    description: d["full_desc"],
-                    short_desc: d["description"],
+                    full_desc: d["full_desc"],
+                    description: d["description"],
                     abilities: d["abilities"],
-                    img_link: d["image"],
                     author_id: d["author_id"],
+                    is_blacklisted: d["is_blacklisted"],
                 });
             }
         });
@@ -176,6 +169,7 @@
             dataErr = false;
             const res = await fetch(`/api/data/count`);
             const data = await res.text();
+            totalCnt = Number.parseInt(data);
             maxPages = Math.ceil(Number.parseFloat(data) / 14.0);
         } catch (err) {
             console.log(err);
@@ -249,7 +243,7 @@
 
 <div class="xl:px-8 p-4 flex flex-col gap-4">
     <h2 class="h2-txt-size">Noik Entries</h2>
-    <p>Database currently holding {apiData.length} entires.</p>
+    <p>Database currently holding {totalCnt} entires.</p>
     <div class="overflow-x-auto w-full flex flex-col gap-4 relative">
         <table
             class="table-auto text-left rtl:text-right bg-slate-800 text-gray-500 dark:text-gray-400 w-full"
@@ -266,11 +260,12 @@
                     <th class="px-3 py-2">Full Description</th>
                     <th class="px-3 py-2 max-w-[128px]">Abilities</th>
                     <th class="px-3 py-2 max-w-[128px]">Author ID</th>
+                    <th class="px-3 py-2">Non-pattable?</th>
                     <th class="px-3 py-2">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                {#each apiData as noik}
+                {#each apiData as noik (noik.id)}
                     <tr
                         class="flex flex-col lg:table-row lg:flex-none text-[16px] odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
                     >
@@ -313,7 +308,7 @@
                             <input
                                 type="text"
                                 disabled={!editMode[noik.id]}
-                                bind:value={noik.short_desc}
+                                bind:value={noik.description}
                                 class="w-full min-w-[100px]"
                             />
                         </td>
@@ -321,7 +316,7 @@
                             <span class="lg:hidden">Long description</span>
                             <textarea
                                 disabled={!editMode[noik.id]}
-                                bind:value={noik.description}
+                                bind:value={noik.full_desc}
                                 class="w-full min-w-[400px]"
                             ></textarea>
                         </td>
@@ -346,6 +341,14 @@
                                 type="number"
                                 placeholder="placeholder :<"
                                 bind:value={noik.author_id}
+                            />
+                        </td>
+                        <td class="px-3 py-2">
+                            <span class="lg:hidden">Non-pattable?</span>
+                            <input
+                                type="checkbox"
+                                disabled={!editMode[noik.id]}
+                                bind:checked={noik.is_blacklisted}
                             />
                         </td>
                         <td class="px-3 py-2">
