@@ -53,7 +53,7 @@ body {
 @layer components {
     input,
     textarea {
-        @apply bg-black text-white border-1 border-(--theme-color) placeholder:text-gray-500 placeholder:italic focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 disabled:pointer-events-none disabled:brightness-70 disabled:bg-gray-900;
+        @apply bg-black text-white border-1 border-(--theme-color) placeholder:text-gray-500 placeholder:italic focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 disabled:cursor-not-allowed disabled:brightness-70 disabled:bg-gray-900;
     }
 
     img {
@@ -65,7 +65,7 @@ body {
     }
 
     select {
-        @apply border-4 border-(--theme-color) bg-black hover:cursor-pointer hover:bg-(--theme-color) hover:text-black p-2 transition duration-200 disabled:pointer-events-none disabled:brightness-70 disabled:bg-gray-900;
+        @apply border-4 border-(--theme-color) bg-black hover:cursor-pointer hover:bg-(--theme-color) hover:text-black p-2 transition duration-200 disabled:cursor-not-allowed disabled:brightness-70 disabled:bg-gray-900;
     }
 
     .h2-txt-size {
