@@ -1,5 +1,4 @@
 <script lang="ts">
-    import PendingSubmissionCard from "./../../../lib/components/PendingSubmissionCard.svelte";
     import Background from "$lib/assets/images/page/user/world_machine.png";
     import Card from "$lib/components/Card.svelte";
     import CardContainer from "$lib/components/CardContainer.svelte";
