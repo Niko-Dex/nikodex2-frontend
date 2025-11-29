@@ -1,7 +1,8 @@
 <script lang="ts">
-    import FileUpload from "$lib/components/FileUpload.svelte";
     import { onMount } from "svelte";
     import toast from "svelte-french-toast";
+    import FileUpload from "$lib/components/FileUpload.svelte";
+    import PageChanger from "$lib/components/PageChanger.svelte";
 
     let apiData: {
         id: number;
@@ -17,6 +18,9 @@
             id: number;
         }[];
     }[] = $state([]);
+    let maxPages = $state(0);
+    let currentPage = $state(1);
+    let dataErr = $state(false);
 
     let editMode: { [id: number]: boolean } = $state({});
     let oldData: { [id: number]: (typeof apiData)[number] } = {};
@@ -167,6 +171,18 @@
         });
     }
 
+    async function getMaxPages() {
+        try {
+            dataErr = false;
+            const res = await fetch(`/api/data/count`);
+            const data = await res.text();
+            maxPages = Math.ceil(Number.parseFloat(data) / 14.0);
+        } catch (err) {
+            console.log(err);
+            dataErr = true;
+        }
+    }
+
     async function deleteData(row: (typeof apiData)[number]) {
         if (!confirm(`Are you sure you want to delete "${row.name}" entries?`))
             return;
@@ -200,13 +216,16 @@
             author_id: null,
         };
 
-        const fetchData = fetch("/api/data", {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: {
-                "Content-Type": "application/json",
+        const fetchData = fetch(
+            `/api/data?page=${currentPage}&sort_by=oldest_added`,
+            {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json",
+                },
             },
-        }).then(async (out) => {
+        ).then(async (out) => {
             if (out.status == 401) location.reload();
             if (!out.ok) throw new Error(await out.text());
             await getData();
@@ -223,6 +242,7 @@
     }
 
     onMount(async () => {
+        await getMaxPages();
         await getData();
     });
 </script>
@@ -460,4 +480,12 @@
             </div>
         </div>
     {/if}
+    <PageChanger
+        {maxPages}
+        onupdate={async (page) => {
+            currentPage = page;
+            await getData();
+        }}
+        disabled={dataErr}
+    />
 </div>
