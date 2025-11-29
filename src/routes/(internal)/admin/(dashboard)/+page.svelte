@@ -103,7 +103,6 @@
     }
 </script>
 
-<Toaster />
 <div
     class="xl:px-8 p-4 w-full flex flex-col gap-2 lg:gap-4 max-w-[1200px] m-auto"
 >

@@ -8,6 +8,7 @@ type Niko = {
     name: string;
     niko_id: number;
   }[];
+  is_blacklisted: boolean;
   id: number;
   author_id: number;
 };

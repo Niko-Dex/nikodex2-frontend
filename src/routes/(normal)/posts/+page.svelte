@@ -1,5 +1,4 @@
 <script lang="ts">
-    import type { PageProps } from "./$types";
     let { data, form } = $props();
     import Background from "$lib/assets/images/page/user/world_machine.png";
     import { onMount } from "svelte";
@@ -72,19 +71,17 @@
     <title>Posts!</title>
 </svelte:head>
 
-<Toaster />
-
 {#if newPostModal}
     <div
-        class="transition duration-200 bg-black/75 fixed w-screen h-screen top-0 left-0 z-5 flex justify-center"
+        class="transition duration-200 bg-black/75 fixed w-screen h-screen top-0 left-0 z-5 flex justify-center p-4"
     >
         <div
-            class="border-4 border-(--theme-color) p-4 bg-black flex gap-4 mx-8 my-auto"
+            class="border-4 border-(--theme-color) p-4 bg-black flex gap-4 mx-8 my-auto md:w-fit w-full"
         >
-            <div class="flex flex-col gap-2">
+            <div class="flex flex-col gap-2 w-full">
                 <h1 class="text-3xl">New Post..</h1>
                 <form
-                    class="min-w-3xl"
+                    class="md:min-w-3xl w-full"
                     method="POST"
                     enctype="multipart/form-data"
                 >
@@ -138,10 +135,12 @@
                 <button class="btn" onclick={() => openModal()}
                     >Make a Post!</button
                 >
+            {:else}
+                <p><em>You must be logged in to make posts! :o</em></p>
             {/if}
         </div>
         <div class="grid grid-cols-2 gap-2">
-            {#each apiData as post}
+            {#each apiData as post, idx (idx)}
                 <PostCard
                     id={post.id}
                     title={post.title}

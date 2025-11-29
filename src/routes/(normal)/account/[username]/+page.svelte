@@ -6,6 +6,7 @@
     import CardContainer from "$lib/components/CardContainer.svelte";
     import Card from "$lib/components/Card.svelte";
     import PostCard from "$lib/components/PostCard.svelte";
+    import { resolve } from "$app/paths";
     let { data }: PageProps = $props();
     let userNoiks: Niko[] = $state([]);
     let userPosts: Post[] = $state([]);
@@ -32,7 +33,9 @@
         class="absolute -z-1 top-0 left-0 w-full h-full bg-no-repeat bg-cover bg-center no-antialias bg-fixed"
     ></div>
     <div class="max-w-[1200px] w-[1200px] flex flex-col gap-4 min-h-screen">
-        <a class="btn w-fit" href={$beforePage}>Go Back</a>
+        <a class="btn w-fit" href={resolve("/(normal)/account/search")}
+            >Go Back</a
+        >
         <h1 class="h1-txt-size text-center p-2">
             {data.requestedInformation.username}
         </h1>

@@ -1,5 +1,6 @@
 <script lang="ts">
     import PageChanger from "$lib/components/PageChanger.svelte";
+    import BanHammer from "$lib/assets/images/page/account/ban_hammer.png";
     import { onMount } from "svelte";
     import toast from "svelte-french-toast";
 
@@ -36,6 +37,17 @@
         });
     }
 
+    async function deleteUser(id: number) {
+        const deleteFetch = fetch(`/api/user/delete?id=${id}`, {
+            method: "DELETE",
+        });
+        await toast.promise(deleteFetch, {
+            success: "Deleted User Successfully!",
+            loading: "Deleting User...",
+            error: (e) => `Error when deleting user: ${e.message}`,
+        });
+    }
+
     onMount(async () => {
         await getUsers();
         await getMaximumPages();
@@ -58,6 +70,7 @@
                     <th class="px-3 py-2">USERNAME</th>
                     <th class="px-3 py-2">DESCRIPTION</th>
                     <th class="px-3 py-2">IS_ADMIN</th>
+                    <th class="px-3 py-2">ACTIONS</th>
                 </tr>
             </thead>
             <tbody>
@@ -80,6 +93,30 @@
                         <td class="px-3 py-2">
                             <span class="lg:hidden">IS_ADMIN:</span>
                             <span>{user.is_admin}</span>
+                        </td>
+                        <td class="px-3 py-2">
+                            <span class="lg:hidden">ACTIONS:</span>
+                            <button
+                                class="btn flex flex-row items-center gap-2"
+                                disabled={user.is_admin}
+                                onclick={async () => {
+                                    if (
+                                        confirm(
+                                            `Are you sure you want to delete this user: ${user.username}`,
+                                        )
+                                    ) {
+                                        await deleteUser(user.id);
+                                        await getUsers();
+                                    }
+                                }}
+                            >
+                                <img
+                                    src={BanHammer}
+                                    alt="Ban Hammer"
+                                    class="w-4 h-4 mr-2 non-pixelated"
+                                />
+                                Delete User
+                            </button>
                         </td>
                     </tr>
                 {/each}

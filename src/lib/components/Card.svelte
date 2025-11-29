@@ -1,5 +1,4 @@
 <script lang="ts">
-    import blacklist from "$lib/assets/data/blacklist.json";
     import Squares from "$lib/assets/images/components/nohand.png";
     import EditModal from "$lib/components/EditModal.svelte";
     const maxAbilitiesChar = 100;
@@ -16,6 +15,7 @@
         description = "",
         abilities = [] as { id: number; name: string; niko_id: number }[],
         id = 0,
+        is_blacklisted = false,
         author_id = 0,
         full_expand = false,
         edit_allow = false,
@@ -24,7 +24,6 @@
     let img_link = $derived(`/api/image?id=${id}`);
     let patpat_link = $derived(`/api/patpat?id=${id}`);
 
-    let isBlacklisted = $derived(blacklist.findIndex((v) => v == id) != -1);
     let timeout: ReturnType<typeof setTimeout> | null = null;
     let shortenedAbilities = $derived.by(() => {
         let curLen = 0;
@@ -62,6 +61,7 @@
     {name}
     description={short_desc}
     full_desc={description}
+    {is_blacklisted}
     {author}
     {author_id}
     bind:open={edit_mode}
@@ -90,7 +90,7 @@
                     : ''}"
                 onpointerdown={patpat}
             >
-                {#if isBlacklisted}
+                {#if is_blacklisted}
                     <div class="relative w-full h-full">
                         <img
                             src={img_link}
@@ -158,7 +158,7 @@
             </p>
             <p class="bg-white text-black w-fit px-1">Abilities:</p>
             <ul class="list-disc list-inside">
-                {#each expanded ? abilities : shortenedAbilities as ability}
+                {#each expanded ? abilities : shortenedAbilities as ability, idx (idx)}
                     <li class="break-words">{ability.name}</li>
                 {:else}
                     <li><em>[undetermined]</em></li>

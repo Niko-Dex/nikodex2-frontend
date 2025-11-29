@@ -5,4 +5,5 @@ type Submission = {
   description: string;
   full_desc: string;
   image: string;
+  is_blacklisted: boolean;
 };

@@ -1,21 +1,23 @@
 import { env } from "$env/dynamic/private";
 import { errSrv, resWithErrHandling } from "../helper";
 
-async function auditNiko(jsonObj: any, title: string) {
+async function auditNiko(jsonObj: Ni, title: string) {
   const formData = new FormData();
   formData.append("title", title);
   formData.append("msg", title);
   if (jsonObj.id) {
-    formData.append("fields[n]", "4");
+    formData.append("fields[n]", "5");
     formData.append("fields[0]", `ID;${jsonObj.id}`);
     formData.append("fields[1]", `Name;${jsonObj.name}`);
     formData.append("fields[2]", `Desc;${jsonObj.description}`);
     formData.append("fields[3]", `Full desc;${jsonObj.full_desc}`);
+    formData.append("fields[4]", `Is Pattable;${!jsonObj.is_blacklisted}`);
   } else {
-    formData.append("fields[n]", "3");
+    formData.append("fields[n]", "4");
     formData.append("fields[0]", `Name;${jsonObj.name}`);
     formData.append("fields[1]", `Desc;${jsonObj.description}`);
     formData.append("fields[2]", `Full desc;${jsonObj.full_desc}`);
+    formData.append("fields[3]", `Is Pattable;${!jsonObj.is_blacklisted}`);
   }
 
   const b_res = await fetch(`${env.BOT_SERVER_URL}/audit`, {
@@ -27,7 +29,7 @@ async function auditNiko(jsonObj: any, title: string) {
   }
 }
 
-export async function GET({ request, fetch, cookies }) {
+export async function GET({ fetch }) {
   try {
     const res = await fetch(`${env.API_SERVER_URL}/nikos`);
     return await resWithErrHandling(res);
@@ -101,7 +103,7 @@ export async function DELETE({ request, fetch, cookies }) {
     );
 
     if (res.ok) {
-      const clone = res.clone()
+      const clone = res.clone();
       const resJson = await clone.json();
       await auditNiko(resJson, "A Niko got deleted..");
     }

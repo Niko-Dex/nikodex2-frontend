@@ -4,10 +4,12 @@
     let { form }: { data: PageData; form: ActionData } = $props();
     import toast, { Toaster } from "svelte-french-toast";
     import FileUpload from "$lib/components/FileUpload.svelte";
+    import AllowPatsComponent from "$lib/components/AllowPatsComponent.svelte";
 
     let name = $state("");
     let desc = $state("");
     let full_desc = $state("");
+    let is_blacklisted = $state(false);
 
     if (form?.error) {
         toast.error(form.msg);
@@ -21,14 +23,13 @@
     <title>Submit a Niko!!</title>
 </svelte:head>
 
-<Toaster />
 <section class="w-full relative flex justify-center">
     <div
         class="absolute top-0 left-0 w-full h-full bg-no-repeat bg-cover bg-center no-antialias bg-fixed -z-1"
         style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url({Background}); "
     ></div>
     <div
-        class="max-w-[1200px] w-[1200px] flex flex-col gap-4 min-h-screen pt-5"
+        class="max-w-[1200px] w-[1200px] flex flex-col p-4 gap-4 min-h-screen pt-5"
     >
         <a class="btn w-fit" href="/account">Go Back</a>
         <h1 class="h1-txt-size">Submit a Niko!</h1>
@@ -70,6 +71,7 @@
                     required
                 ></textarea>
             </div>
+            <AllowPatsComponent bind:is_blacklisted />
             <div>
                 <span>Image of Nikosona</span>
                 <FileUpload name="file" accept="image/*" required={true} />

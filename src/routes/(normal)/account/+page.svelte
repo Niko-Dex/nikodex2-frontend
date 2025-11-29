@@ -9,7 +9,7 @@
     import { onMount } from "svelte";
     import { fetchNikos } from "$lib/helper/noikHelper";
     import LogoutIcon from "$lib/assets/images/components/LogoutIcon.svelte";
-        let { data }: PageProps = $props();
+    let { data }: PageProps = $props();
 
     let loaded = $state(true);
     let new_username = $state("");
@@ -112,15 +112,24 @@
         <div class="flex flex-col sm:flex-row gap-2">
             <button
                 class={pageOpt == "main" ? "btn active" : "btn"}
-                onclick={() => {pageOpt = "main"}}>General Info</button
+                onclick={() => {
+                    pageOpt = "main";
+                }}>General Info</button
             >
             <button
                 class={pageOpt == "noiks" ? "btn active" : "btn"}
-                onclick={async () => {pageOpt = "noiks"; apiData = []; await fetchNikos(data.id, apiData);}}>Nikos</button
+                onclick={async () => {
+                    pageOpt = "noiks";
+                    apiData = [];
+                    await fetchNikos(data.id, apiData);
+                }}>Nikos</button
             >
             <button
                 class={pageOpt == "submissions" ? "btn active" : "btn"}
-                onclick={async () => {pageOpt = "submissions"; await getPendingSubmissions();}}>Submissions</button
+                onclick={async () => {
+                    pageOpt = "submissions";
+                    await getPendingSubmissions();
+                }}>Submissions</button
             >
             <a class="btn sm:w-fit text-center" href="/account/migrate"
                 >Migrate Nikos from Discord</a
@@ -190,6 +199,7 @@
                             short_desc={data.short_desc}
                             id={data.id}
                             author_id={data.author_id}
+                            is_blacklisted={data.is_blacklisted}
                             edit_allow={true}
                         />
                     {/each}
@@ -207,7 +217,7 @@
                     image={`/api/data/submissions/img?id=${submissionPiece.id}`}
                 />
             {:else}
-            <p><em>you currently don't have any submissons!</em></p>
+                <p><em>you currently don't have any submissons!</em></p>
             {/each}
             <a class="btn w-fit" href="/account/submit">Submit a Niko</a>
         {/if}

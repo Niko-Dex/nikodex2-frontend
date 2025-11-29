@@ -70,6 +70,16 @@
             />
         </label>
 
+        <div class="bg-red-500 p-2">
+            <h2 class="text-center font-bold">Attention</h2>
+            <p class="p-3">
+                <em>
+                    If any users put offensive content in their profile, the
+                    NikoDex team will have the right to delete them.
+                </em>
+            </p>
+        </div>
+
         <div>
             <span>Captcha</span>
             <Turnstile siteKey={env["PUBLIC_TURNSTILE_SITE_KEY"] ?? ""} />

@@ -26,7 +26,6 @@
 
             for (let d of data) {
                 const author_id = d["author_id"] || 0;
-
                 apiData.push({
                     name: d["name"],
                     author: d["author_name"],
@@ -35,6 +34,7 @@
                     abilities: d["abilities"],
                     id: d["id"],
                     author_id: author_id,
+                    is_blacklisted: d["is_blacklisted"],
                 });
             }
             dataLoaded = true;
@@ -77,6 +77,7 @@
                     ),
                     id: d["id"],
                     author_id: d["author_id"],
+                    is_blacklisted: d["is_blacklisted"],
                 });
             }
             dataLoaded = true;
@@ -145,6 +146,7 @@
                         name={data.name}
                         short_desc={data.short_desc}
                         id={data.id}
+                        is_blacklisted={data.is_blacklisted}
                         author_id={data.author_id}
                     />
                 {/each}

@@ -24,11 +24,11 @@ async function fetchUser(token: string) {
       },
     });
     if (!res.ok) {
-      redirect(307, "account/login");
+      redirect(307, "/account/login");
     }
     return await res.json();
   } catch (err) {
-    return redirect(307, "account/login");
+    return redirect(307, "/account/login");
   }
 }
 

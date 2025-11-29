@@ -1,5 +1,6 @@
 <script lang="ts">
     import toast, { Toaster } from "svelte-french-toast";
+    import AllowPatsComponent from "./AllowPatsComponent.svelte";
     let {
         open = $bindable(false),
         id = 0,
@@ -7,8 +8,8 @@
         description = "",
         full_desc = "",
         author = "",
+        is_blacklisted = false,
         author_id = 0,
-        abilities = [] as { id: number; name: string; niko_id: number }[],
     } = $props();
 
     let page = $state("main");
@@ -98,8 +99,9 @@
             author: author,
             full_desc: full_desc,
             author_id: author_id,
+            is_blacklisted: is_blacklisted,
         });
-
+        console.log(reqBody);
         const req = fetch(`/api/data?id=${id}`, {
             method: "PUT",
             body: reqBody,
@@ -115,15 +117,14 @@
     }
 </script>
 
-<Toaster />
 {#if open}
     <div
-        class="fixed w-screen h-screen top-0 left-0 z-10 bg-black/75 flex justify-center"
+        class="fixed w-full h-screen top-0 left-0 z-10 bg-black/75 flex justify-center"
     >
         <div
-            class="border-4 border-(--theme-color) p-4 bg-black flex gap-4 mx-8 my-auto"
+            class="border-4 border-(--theme-color) p-4 bg-black flex gap-4 mx-8 my-auto md:w-max w-full"
         >
-            <div class="flex flex-col gap-2 min-w-3xl">
+            <div class="flex flex-col gap-2 md:min-w-3xl w-full">
                 <h1>Editing {name}.. - {page}</h1>
                 <div>
                     <button
@@ -146,21 +147,25 @@
                     </label>
                     <label>
                         <p>Short description</p>
-                        <input class="w-full" type="text" bind:value={description} />
+                        <input
+                            class="w-full"
+                            type="text"
+                            bind:value={description}
+                        />
                     </label>
+                    <AllowPatsComponent bind:is_blacklisted />
                     <label>
                         <p>Full description</p>
-                        <textarea class="w-full" bind:value={full_desc}></textarea>
+                        <textarea class="w-full" bind:value={full_desc}
+                        ></textarea>
                     </label>
                 {:else}
                     <p>Abilities</p>
                     <div
                         class="h-60 max-h-60 overflow-y-auto flex flex-col gap-2"
                     >
-                        {#each at as a, idx}
-                            <div
-                                class="flex flex-row gap-2"
-                            >
+                        {#each at as _, idx (idx)}
+                            <div class="flex flex-row gap-2">
                                 <input
                                     class="w-full"
                                     type="text"

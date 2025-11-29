@@ -60,12 +60,20 @@ body {
         image-rendering: pixelated;
     }
 
+    .non-pixelated {
+        image-rendering: auto;
+    }
+
     select {
         @apply border-4 border-(--theme-color) bg-black hover:cursor-pointer hover:bg-(--theme-color) hover:text-black p-2 transition duration-200 disabled:pointer-events-none disabled:brightness-70 disabled:bg-gray-900;
     }
 
     .h2-txt-size {
         @apply text-xl md:text-3xl lg:text-4xl font-bold;
+    }
+
+    .chckbox {
+        @apply border-2 p-3 cursor-pointer;
     }
 
     .h1-txt-size {

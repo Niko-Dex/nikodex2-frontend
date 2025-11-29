@@ -11,7 +11,7 @@
 <div
     class="p-4 bg-black border-4 border-(--theme-color) w-full flex flex-row gap-2 justify-between"
 >
-    <div class="flex flex-row">
+    <div class="flex flex-row gap-4">
         <div class="img w-24 h-3xs">
             <img
                 alt={`Image of ${name}`}

@@ -112,7 +112,7 @@
                     src={logo}
                     alt="Logo"
                     style="--shadow: 2px 2px red"
-                    class="max-h-12 hover:drop-shadow-(--shadow) transition duration-100"
+                    class="max-h-12 hover:drop-shadow-(--shadow) transition duration-100 non-pixelated"
                 />
             </a>
             <button

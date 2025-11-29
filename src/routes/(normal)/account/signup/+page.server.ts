@@ -13,23 +13,23 @@ export const actions = {
         error: "Passwords don't match!",
       });
     }
-
-    if (agree_tok) {
+    if (agree_tok != "on") {
       return fail(400, {
-        error: "Please agree to be a good kbity!"
-      })
+        error: "Please agree to be a good kbity!",
+      });
     }
 
     const response = await fetch("/api/user/signup", {
       method: "POST",
       body: JSON.stringify({ username, password }),
       headers: {
-        "X-Turnstile-Token": token?.toString() ?? ""
-      }
+        "X-Turnstile-Token": token?.toString() ?? "",
+      },
     });
-    if (!response.ok) return fail(response.status, {
-      error: (await response.json())["error"],
-    });
+    if (!response.ok)
+      return fail(response.status, {
+        error: (await response.json())["error"],
+      });
     return { success: true };
   },
 } satisfies Actions;

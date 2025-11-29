@@ -23,6 +23,8 @@ export const actions = {
   default: async ({ fetch, cookies, request }) => {
     const data = await request.formData();
     data.get("file");
+    if (!data.has("is_blacklisted")) data.set("is_blacklisted", "false");
+
     const res = await fetch(`${env.API_SERVER_URL}/submissions`, {
       method: "POST",
       body: data,
@@ -41,10 +43,14 @@ export const actions = {
         "msg",
         "A new Niko was submitted! More info on dashboard!",
       );
-      formData.append("fields[n]", "3");
+      formData.append("fields[n]", "4");
       formData.append("fields[0]", `Name;${data.get("name")}`);
       formData.append("fields[1]", `Desc;${data.get("description")}`);
       formData.append("fields[2]", `Full Desc;${data.get("full_desc")}`);
+      formData.append(
+        "fields[3]",
+        `Is Pattable;${!data.get("is_blacklisted")}`,
+      );
 
       const b_res = await fetch(`${env.BOT_SERVER_URL}/audit`, {
         method: "POST",

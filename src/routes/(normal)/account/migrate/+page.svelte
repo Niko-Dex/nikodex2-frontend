@@ -49,6 +49,7 @@
                     ),
                     id: d["id"],
                     author_id: d["author_id"],
+                    is_blacklisted: d["is_blacklisted"],
                 });
             }
         } catch (e) {
@@ -79,7 +80,6 @@
     }
 </script>
 
-<Toaster />
 {#if searchOpen}
     <div
         class="fixed w-screen h-screen top-0 left-0 z-5 bg-black/75 flex justify-center"
@@ -87,13 +87,14 @@
         <div
             class="border-4 border-(--theme-color) p-4 bg-black flex gap-4 mx-8 my-auto"
         >
-            <div class="flex flex-col gap-2 min-w-3xl">
+            <div class="flex flex-col gap-2 md:min-w-3xl">
                 <h1>Add a Niko to your Request..</h1>
 
                 <div class="w-full flex flex-row gap-4">
                     <input
                         class="w-full border-4"
                         placeholder="Search nikos by name..."
+                        onchange={async () => await getSearchData()}
                         bind:value={searchQuery}
                     />
                     <button
@@ -138,7 +139,9 @@
             <a class="btn w-fit" href="/dred">Log in with Discord</a>
         {:else}
             <div class="flex justify-between">
-                <h2 class="h2-txt-size">Logged in as {data.discord_username}!</h2>
+                <h2 class="h2-txt-size">
+                    Logged in as {data.discord_username}!
+                </h2>
                 <a
                     class="btn w-fit flex flex-row items-center gap-4"
                     href="/api/discord_auth/logout"

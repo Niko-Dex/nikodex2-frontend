@@ -2,6 +2,7 @@
     import { onMount } from "svelte";
     import toast from "svelte-french-toast";
     import type { PageProps } from "./$types";
+    import { sub } from "date-fns";
     let currentSubmissions: Submission[] = $state([]);
     let editMode: { [n: string]: any } = $state({});
 
@@ -46,6 +47,7 @@
                         author: jsonData["username"],
                         full_desc: submission.full_desc,
                         author_id: submission.user_id,
+                        is_blacklisted: submission.is_blacklisted,
                     }),
                 }).then(async (r) => {
                     if (!r.ok) throw new Error((await r.json())["error"]);
@@ -77,13 +79,14 @@
                     <th class="px-3 py-2">ID</th>
                     <th class="px-3 py-2">USER ID</th>
                     <th class="px-3 py-2">IMAGE</th>
+                    <th class="px-3 py-2">IS PATTABLE</th>
                     <th class="px-3 py-2">NAME</th>
                     <th class="px-3 py-2">DESCRIPTION</th>
                     <th class="px-3 py-2">ACTIONS</th>
                 </tr>
             </thead>
             <tbody>
-                {#each currentSubmissions as currentSubmission}
+                {#each currentSubmissions as currentSubmission, idx (idx)}
                     <tr
                         class="flex flex-col lg:table-row lg:flex-none text-[16px] odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
                     >
@@ -102,6 +105,10 @@
                                 width="100"
                                 height="100"
                             />
+                        </td>
+                        <td class="px-3 py-2">
+                            <span class="lg:hidden">IS PATTABLE:</span>
+                            <span>{!currentSubmission.is_blacklisted}</span>
                         </td>
                         <td class="px-3 py-2">
                             <span class="lg:hidden">NAME:</span>
