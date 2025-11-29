@@ -4,6 +4,9 @@
     let { data }: PageProps = $props();
     import { format } from "date-fns";
     import { beforePage } from "$lib/helper/noikHelper";
+    import { resolve } from "$app/paths";
+
+    const imgLink = `/api/posts/image?id=${data.postData.id}`;
 </script>
 
 <svelte:head>
@@ -18,7 +21,7 @@
     <div
         class="max-w-[1200px] w-[1200px] flex flex-col gap-4 min-h-screen pt-5"
     >
-        <a class="btn w-fit" href={$beforePage}>Go Back</a>
+        <a class="btn w-fit" href={resolve("/posts")}>Go Back</a>
         <div class="flex flex-col gap-0.5">
             <h1 class="h1-txt-size">{data.postData.title}</h1>
             <p>
@@ -37,13 +40,11 @@
         </div>
         <p>{data.postData.content}</p>
 
-        <div class="w-full flex flex-col items-center">
+        <div class="w-full flex flex-col items-center gap-4">
             <div class="max-w-[70%] p-4 border-2 border-(--theme-color)">
-                <img
-                    alt={`Image of ${data.postData.title}`}
-                    src={`/api/posts/image?id=${data.postData.id}`}
-                />
+                <img alt={`Image of ${data.postData.title}`} src={imgLink} />
             </div>
+            <a href={imgLink} class="btn">Open Image!</a>
         </div>
         <br />
     </div>
