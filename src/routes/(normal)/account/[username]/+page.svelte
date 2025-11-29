@@ -1,12 +1,14 @@
 <script lang="ts">
     import type { PageProps } from "./$types";
     import Background from "$lib/assets/images/page/user/world_machine.png";
-    import { beforePage, fetchNikos } from "$lib/helper/noikHelper";
+    import { fetchNikos } from "$lib/helper/noikHelper";
     import { onMount } from "svelte";
     import CardContainer from "$lib/components/CardContainer.svelte";
     import Card from "$lib/components/Card.svelte";
     import PostCard from "$lib/components/PostCard.svelte";
     import { resolve } from "$app/paths";
+    import type { Niko } from "$lib/types/nikosona";
+    import type { Post } from "$lib/types/post";
     let { data }: PageProps = $props();
     let userNoiks: Niko[] = $state([]);
     let userPosts: Post[] = $state([]);
@@ -73,9 +75,9 @@
                                 id={_apiData.id}
                                 author={_apiData.author}
                                 name={_apiData.name}
-                                description={_apiData.description}
+                                description={_apiData.full_desc}
                                 abilities={_apiData.abilities}
-                                short_desc={_apiData.short_desc}
+                                short_desc={_apiData.description}
                             />
                         {/each}
                     </CardContainer>

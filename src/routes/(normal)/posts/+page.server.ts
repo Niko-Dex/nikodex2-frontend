@@ -1,8 +1,8 @@
 import { env } from "$env/dynamic/private";
-import { error, fail } from "@sveltejs/kit";
+import { fail, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 
-export const load = (async ({ fetch, params }) => {
+export const load = (async ({ fetch }) => {
   const fetchMessage = await fetch(`/api/user/me`);
   if (!fetchMessage.ok) {
     return {

@@ -74,7 +74,7 @@
         const old = oldData[row.id];
         if (old) {
             for (let i in row) {
-                //@ts-ignore
+                //@ts-expect-error THERE WON'T BE ANY ERROR, ZED!
                 row[i] = oldData[row.id][i];
             }
         }
@@ -439,7 +439,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {#each editAbilitiesRow?.abilities ?? [] as ability}
+                            {#each editAbilitiesRow?.abilities ?? [] as ability, idx (idx)}
                                 <tr
                                     class="text-[16px] odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
                                 >

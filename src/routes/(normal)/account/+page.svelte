@@ -8,6 +8,7 @@
     import { onMount } from "svelte";
     import { fetchNikos } from "$lib/helper/noikHelper";
     import LogoutIcon from "$lib/assets/images/components/LogoutIcon.svelte";
+    import type { Niko } from "$lib/types/nikosona";
     let { data }: PageProps = $props();
 
     let loaded = $state(true);
@@ -193,9 +194,9 @@
                         <Card
                             abilities={data.abilities}
                             author={data.author}
-                            description={data.description}
+                            description={data.full_desc}
                             name={data.name}
-                            short_desc={data.short_desc}
+                            short_desc={data.description}
                             id={data.id}
                             author_id={data.author_id}
                             is_blacklisted={data.is_blacklisted}

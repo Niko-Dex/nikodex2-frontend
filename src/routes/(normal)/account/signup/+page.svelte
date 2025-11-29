@@ -4,7 +4,7 @@
     import toast from "svelte-french-toast";
     import type { PageProps } from "./$types";
     import { env } from "$env/dynamic/public";
-    let { form, data }: PageProps = $props();
+    let { form }: PageProps = $props();
     let isProcessing = $state(false);
 
     if (form?.error) {

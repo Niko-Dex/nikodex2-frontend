@@ -3,6 +3,7 @@
     import toast from "svelte-french-toast";
     import { onMount } from "svelte";
     import PageChanger from "$lib/components/PageChanger.svelte";
+    import type { User } from "$lib/types/user";
 
     let maxPages = $state(0);
     let currentPage = $state(1);
@@ -16,7 +17,6 @@
             maxPages = Math.ceil(Number.parseFloat(res) / 14.0);
         } catch (err) {
             console.error(`error: ${err}`);
-            err = true;
         }
     }
     async function getCurrentUsers() {

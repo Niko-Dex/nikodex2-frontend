@@ -2,7 +2,8 @@
     import LogoutIcon from "$lib/assets/images/components/LogoutIcon.svelte";
     import Background from "$lib/assets/images/page/user/world_machine.png";
     import NikoSmallCard from "$lib/components/NikoSmallCard.svelte";
-    import toast, { Toaster } from "svelte-french-toast";
+    import type { Niko } from "$lib/types/nikosona.js";
+    import toast from "svelte-french-toast";
     let { data } = $props();
     let nikosList: Niko[] = $state([]);
     let searchOpen = $state(false);
@@ -42,8 +43,8 @@
                 searchList.push({
                     name: d["name"],
                     author: d["author_name"],
-                    description: d["full_desc"],
-                    short_desc: d["description"],
+                    full_desc: d["full_desc"],
+                    description: d["description"],
                     abilities: d["abilities"].map(
                         (v: { name: string }) => v.name,
                     ),

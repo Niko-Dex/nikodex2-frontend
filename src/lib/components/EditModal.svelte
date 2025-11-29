@@ -1,5 +1,5 @@
 <script lang="ts">
-    import toast, { Toaster } from "svelte-french-toast";
+    import toast from "svelte-french-toast";
     import AllowPatsComponent from "./AllowPatsComponent.svelte";
     let {
         open = $bindable(false),
@@ -164,7 +164,7 @@
                     <div
                         class="h-60 max-h-60 overflow-y-auto flex flex-col gap-2"
                     >
-                        {#each at as _, idx (idx)}
+                        {#each at as ability, idx (ability.id)}
                             <div class="flex flex-row gap-2">
                                 <input
                                     class="w-full"

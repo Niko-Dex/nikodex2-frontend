@@ -1,10 +1,8 @@
 <script lang="ts">
+    import type { Submission } from "$lib/types/submission";
     import { onMount } from "svelte";
     import toast from "svelte-french-toast";
-    import type { PageProps } from "./$types";
-    import { sub } from "date-fns";
     let currentSubmissions: Submission[] = $state([]);
-    let editMode: { [n: string]: any } = $state({});
 
     async function getAllPendingSubmissions() {
         const fetchData = fetch("/api/data/submissions", {
@@ -82,6 +80,7 @@
                     <th class="px-3 py-2">IS PATTABLE</th>
                     <th class="px-3 py-2">NAME</th>
                     <th class="px-3 py-2">DESCRIPTION</th>
+                    <th class="px-3 py-2">FULL DESCRIPTION</th>
                     <th class="px-3 py-2">ACTIONS</th>
                 </tr>
             </thead>
@@ -117,6 +116,10 @@
                         <td class="px-3 py-2">
                             <span class="lg:hidden">Description:</span>
                             <span>{currentSubmission.description}</span>
+                        </td>
+                        <td class="px-3 py-2">
+                            <span class="lg:hidden">Full description:</span>
+                            <span>{currentSubmission.full_desc}</span>
                         </td>
                         <td class="px-3 py-2">
                             <span class="lg:hidden">Actions:</span>

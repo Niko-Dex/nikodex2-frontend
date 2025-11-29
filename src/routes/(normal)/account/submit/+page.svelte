@@ -2,7 +2,7 @@
     import type { PageData, ActionData } from "./$types";
     import Background from "$lib/assets/images/page/user/world_machine.png";
     let { form }: { data: PageData; form: ActionData } = $props();
-    import toast, { Toaster } from "svelte-french-toast";
+    import toast from "svelte-french-toast";
     import FileUpload from "$lib/components/FileUpload.svelte";
     import AllowPatsComponent from "$lib/components/AllowPatsComponent.svelte";
 

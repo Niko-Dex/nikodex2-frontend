@@ -1,3 +1,4 @@
+import type { Niko } from "$lib/types/nikosona";
 import toast from "svelte-french-toast";
 import { writable } from "svelte/store";
 
@@ -11,8 +12,8 @@ export async function fetchNikos(id: number, apiData: Niko[]) {
         apiData.push({
           name: noik["name"],
           author: noik["author_name"],
-          description: noik["full_desc"],
-          short_desc: noik["description"],
+          full_desc: noik["full_desc"],
+          description: noik["description"],
           abilities: noik["abilities"],
           id: noik["id"],
           author_id: noik["author_id"],

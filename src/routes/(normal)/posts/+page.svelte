@@ -2,10 +2,11 @@
     let { data, form } = $props();
     import Background from "$lib/assets/images/page/user/world_machine.png";
     import { onMount } from "svelte";
-    import { toast, Toaster } from "svelte-french-toast";
+    import { toast } from "svelte-french-toast";
     import FileUpload from "$lib/components/FileUpload.svelte";
     import PageChanger from "$lib/components/PageChanger.svelte";
     import PostCard from "$lib/components/PostCard.svelte";
+    import type { Post } from "$lib/types/post.js";
 
     let dataErr = $state(false);
     let maxPages = $state(1);

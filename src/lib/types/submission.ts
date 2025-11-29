@@ -1,4 +1,4 @@
-type Submission = {
+export type Submission = {
   id: number;
   user_id: number;
   name: string;
