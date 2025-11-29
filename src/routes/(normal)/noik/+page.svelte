@@ -3,6 +3,7 @@
     import Card from "$lib/components/Card.svelte";
     import CardContainer from "$lib/components/CardContainer.svelte";
     import PageChanger from "$lib/components/PageChanger.svelte";
+    import type { Niko } from "$lib/types/nikosona";
     import { onMount } from "svelte";
 
     let dataLoaded = $state(false);
@@ -29,8 +30,8 @@
                 apiData.push({
                     name: d["name"],
                     author: d["author_name"],
-                    description: d["full_desc"],
-                    short_desc: d["description"],
+                    full_desc: d["full_desc"],
+                    description: d["description"],
                     abilities: d["abilities"],
                     id: d["id"],
                     author_id: author_id,
@@ -70,8 +71,8 @@
                 apiData.push({
                     name: d["name"],
                     author: d["author_name"],
-                    description: d["full_desc"],
-                    short_desc: d["description"],
+                    full_desc: d["full_desc"],
+                    description: d["description"],
                     abilities: d["abilities"].map(
                         (v: { name: string }) => v.name,
                     ),
@@ -142,9 +143,9 @@
                     <Card
                         abilities={data.abilities}
                         author={data.author}
-                        description={data.description}
+                        description={data.full_desc}
                         name={data.name}
-                        short_desc={data.short_desc}
+                        short_desc={data.description}
                         id={data.id}
                         is_blacklisted={data.is_blacklisted}
                         author_id={data.author_id}

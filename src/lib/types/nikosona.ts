@@ -1,7 +1,8 @@
-type Niko = {
+export type Niko = {
+  id: number;
   name: string;
   author: string;
-  short_desc: string;
+  full_desc: string;
   description: string;
   abilities: {
     id: number;
@@ -9,6 +10,5 @@ type Niko = {
     niko_id: number;
   }[];
   is_blacklisted: boolean;
-  id: number;
-  author_id: number;
+  author_id: number | undefined;
 };
