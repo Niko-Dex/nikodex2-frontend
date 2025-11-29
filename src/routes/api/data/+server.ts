@@ -1,7 +1,8 @@
 import { env } from "$env/dynamic/private";
-import { errSrv, resWithErrHandling } from "../helper";
+import type { Niko } from "$lib/types/nikosona";
+import { errSrv } from "../helper";
 
-async function auditNiko(jsonObj: Ni, title: string) {
+async function auditNiko(jsonObj: Niko, title: string) {
   const formData = new FormData();
   formData.append("title", title);
   formData.append("msg", title);
@@ -32,7 +33,7 @@ async function auditNiko(jsonObj: Ni, title: string) {
 export async function GET({ fetch }) {
   try {
     const res = await fetch(`${env.API_SERVER_URL}/nikos`);
-    return await resWithErrHandling(res);
+    return res;
   } catch (e) {
     return errSrv(e);
   }
@@ -56,7 +57,7 @@ export async function POST({ request, fetch, cookies }) {
       await auditNiko(reqJson, "A Niko was created!");
     }
 
-    return await resWithErrHandling(res);
+    return res;
   } catch (e) {
     return errSrv(e);
   }
@@ -83,7 +84,7 @@ export async function PUT({ request, fetch, cookies }) {
       await auditNiko(reqJson, "A Niko got updated!");
     }
 
-    return await resWithErrHandling(res);
+    return res;
   } catch (e) {
     return errSrv(e);
   }
@@ -108,7 +109,7 @@ export async function DELETE({ request, fetch, cookies }) {
       await auditNiko(resJson, "A Niko got deleted..");
     }
 
-    return await resWithErrHandling(res);
+    return res;
   } catch (e) {
     return errSrv(e);
   }

@@ -9,14 +9,6 @@ export function errSrv(e: unknown) {
     }
 }
 
-export async function resWithErrHandling(res: Response) {
-    const res2 = res.clone()
-    if (res2.ok) return res
-    else {
-        return json({ error: (await res2.json())["detail"] }, { status: res2.status })
-    }
-}
-
 interface TokenValidateResponse {
     "error-codes": string[];
     success: boolean;

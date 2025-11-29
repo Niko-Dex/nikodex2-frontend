@@ -1,7 +1,7 @@
 import { json } from "@sveltejs/kit";
 
 import { env } from "$env/dynamic/private";
-import { errSrv, resWithErrHandling } from "../../helper";
+import { errSrv } from "../../helper";
 
 export async function GET({ request, fetch, cookies }) {
   try {
@@ -16,7 +16,7 @@ export async function GET({ request, fetch, cookies }) {
       return json({ error: "Invalid token!" }, { status: 401 });
     }
 
-    return await resWithErrHandling(res);
+    return res;
   } catch (e) {
     return errSrv(e);
   }
@@ -33,7 +33,7 @@ export async function PUT({ request, fetch, cookies }) {
       body: await request.text(),
     });
 
-    return await resWithErrHandling(res);
+    return res;
   } catch (e) {
     return errSrv(e);
   }

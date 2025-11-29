@@ -1,5 +1,5 @@
 import { env } from "$env/dynamic/private";
-import { errSrv, resWithErrHandling } from "../../../helper";
+import { errSrv } from "../../../helper";
 import type { RequestHandler } from "./$types";
 
 export const GET: RequestHandler = async ({ request }) => {
@@ -10,7 +10,7 @@ export const GET: RequestHandler = async ({ request }) => {
         "username"
       )}&page=${url.searchParams.get("page")}`
     );
-    return await resWithErrHandling(fetchRequest);
+    return fetchRequest;
   } catch (err) {
     return errSrv(err);
   }

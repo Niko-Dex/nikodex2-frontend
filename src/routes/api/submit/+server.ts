@@ -1,5 +1,5 @@
 import { env } from "$env/dynamic/private"
-import { errSrv, resWithErrHandling } from '../helper';
+import { errSrv } from '../helper';
 
 export async function POST({ request, fetch, cookies }) {
     try {
@@ -11,7 +11,7 @@ export async function POST({ request, fetch, cookies }) {
             }
         })
 
-        return await resWithErrHandling(res)
+        return res
     }
     catch (e) {
         return errSrv(e)

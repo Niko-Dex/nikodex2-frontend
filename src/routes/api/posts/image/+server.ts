@@ -1,5 +1,5 @@
 import { env } from "$env/dynamic/private";
-import { errSrv, resWithErrHandling } from "../../helper";
+import { errSrv } from "../../helper";
 
 export async function GET({ request, fetch, cookies }) {
   try {
@@ -7,7 +7,7 @@ export async function GET({ request, fetch, cookies }) {
     const res = await fetch(
       `${env.API_SERVER_URL}/posts/image/?id=${url.searchParams.get("id")}`,
     );
-    return await resWithErrHandling(res);
+    return res;
   } catch (e) {
     return errSrv(e);
   }

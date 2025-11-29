@@ -1,12 +1,12 @@
 import { env } from "$env/dynamic/private";
-import { errSrv, resWithErrHandling } from "../../helper";
+import { errSrv } from "../../helper";
 import type { RequestHandler } from "./$types";
 
 export const GET: RequestHandler = async ({ request, fetch, cookies }) => {
   try {
     const submissionReq = await fetch(`${env.API_SERVER_URL}/submissions`);
 
-    return await resWithErrHandling(submissionReq);
+    return submissionReq;
   } catch (err) {
     return errSrv(err);
   }
@@ -26,7 +26,7 @@ export const DELETE: RequestHandler = async ({ request, cookies }) => {
         },
       }
     );
-    return await resWithErrHandling(deleteSubmissionReq);
+    return deleteSubmissionReq;
   } catch (err) {
     return errSrv(err);
   }

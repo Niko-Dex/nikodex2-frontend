@@ -1,6 +1,6 @@
 import { env } from '$env/dynamic/private';
 import { json } from '@sveltejs/kit';
-import { resWithErrHandling, validateTurnstileToken } from '../../helper';
+import { validateTurnstileToken } from '../../helper';
 import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = async ({fetch, request}) => {
@@ -29,5 +29,5 @@ export const POST: RequestHandler = async ({fetch, request}) => {
             }
         }
     )
-    return resWithErrHandling(createAccountFetch)
+    return createAccountFetch
 };

@@ -1,5 +1,5 @@
 import { env } from "$env/dynamic/private";
-import { errSrv, resWithErrHandling } from "../../helper.js";
+import { errSrv } from "../../helper.js";
 
 async function auditAbility(jsonObj: any, title: string) {
   const formData = new FormData();
@@ -42,7 +42,7 @@ export async function POST({ request, fetch, cookies }) {
       await auditAbility(reqJson, "An ability was created");
     }
 
-    return await resWithErrHandling(res);
+    return res;
   } catch (e) {
     return errSrv(e);
   }
@@ -69,7 +69,7 @@ export async function PUT({ request, fetch, cookies }) {
       await auditAbility(reqJson, "An ability got updated!");
     }
 
-    return await resWithErrHandling(res);
+    return res;
   } catch (e) {
     return errSrv(e);
   }
@@ -94,7 +94,7 @@ export async function DELETE({ request, fetch, cookies }) {
       await auditAbility(resJson, "An ability got deleted!");
     }
 
-    return await resWithErrHandling(res);
+    return res;
   } catch (e) {
     return errSrv(e);
   }

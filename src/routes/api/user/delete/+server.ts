@@ -1,5 +1,5 @@
 import { env } from "$env/dynamic/private";
-import { errSrv, resWithErrHandling } from "../../helper";
+import { errSrv } from "../../helper";
 import type { RequestHandler } from "./$types";
 
 export const DELETE: RequestHandler = async ({ request, fetch, cookies }) => {
@@ -14,7 +14,7 @@ export const DELETE: RequestHandler = async ({ request, fetch, cookies }) => {
         },
       },
     );
-    return await resWithErrHandling(fetchMessage);
+    return fetchMessage;
   } catch (error) {
     return errSrv(error);
   }
