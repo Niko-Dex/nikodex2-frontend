@@ -161,7 +161,7 @@
                 </tr>
             </thead>
             <tbody>
-                {#each apiData as blog}
+                {#each apiData as blog (blog.id)}
                     <tr
                         class="flex flex-col lg:table-row lg:flex-none text-[16px] odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700"
                     >
@@ -195,31 +195,33 @@
                         </td>
                         <td class="px-3 py-2">
                             <span class="lg:hidden">Actions:</span>
-                            {#if !editMode[blog.id]}
-                                <button
-                                    class="hover:cursor-pointer hover:text-white"
-                                    onclick={() => startEdit(blog)}
-                                    >[Edit]</button
-                                >
-                                <button
-                                    class="hover:cursor-pointer hover:text-red-500"
-                                    onclick={async () => {
-                                        await deleteEntry(blog);
-                                    }}>[Delete]</button
-                                >
-                            {:else}
-                                <button
-                                    class="hover:cursor-pointer hover:text-green-500"
-                                    onclick={async () => {
-                                        await saveEdit(blog);
-                                    }}>[Save]</button
-                                >
-                                <button
-                                    class="hover:cursor-pointer hover:text-red-500"
-                                    onclick={() => cancelEdit(blog)}
-                                    >[Cancel]</button
-                                >
-                            {/if}
+                            <div class="flex flex-wrap gap-2">
+                                {#if !editMode[blog.id]}
+                                    <button
+                                        class="btn min-w-20"
+                                        onclick={() => startEdit(blog)}
+                                        >Edit</button
+                                    >
+                                    <button
+                                        class="btn min-w-20"
+                                        onclick={async () => {
+                                            await deleteEntry(blog);
+                                        }}>Delete</button
+                                    >
+                                {:else}
+                                    <button
+                                        class="btn min-w-20"
+                                        onclick={async () => {
+                                            await saveEdit(blog);
+                                        }}>Save</button
+                                    >
+                                    <button
+                                        class="btn min-w-20"
+                                        onclick={() => cancelEdit(blog)}
+                                        >Cancel</button
+                                    >
+                                {/if}
+                            </div>
                         </td>
                     </tr>
                 {/each}

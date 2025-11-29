@@ -95,7 +95,7 @@
                             <span>{currentSubmission.id}</span>
                         </td>
                         <td class="px-3 py-2">
-                            <span class="lg:hidden">USER ID:</span>
+                            <span class="lg:hidden">User ID:</span>
                             <span>{currentSubmission.user_id}</span>
                         </td>
                         <td class="px-3 py-2">
@@ -107,40 +107,42 @@
                             />
                         </td>
                         <td class="px-3 py-2">
-                            <span class="lg:hidden">IS PATTABLE:</span>
+                            <span class="lg:hidden">Is pattable:</span>
                             <span>{!currentSubmission.is_blacklisted}</span>
                         </td>
                         <td class="px-3 py-2">
-                            <span class="lg:hidden">NAME:</span>
+                            <span class="lg:hidden">Name:</span>
                             <span>{currentSubmission.name}</span>
                         </td>
                         <td class="px-3 py-2">
-                            <span class="lg:hidden">DESCRIPTION:</span>
+                            <span class="lg:hidden">Description:</span>
                             <span>{currentSubmission.description}</span>
                         </td>
                         <td class="px-3 py-2">
-                            <span class="lg:hidden">ACTIONS:</span>
-                            <button
-                                class="hover:text-red-500 cursor-pointer"
-                                onclick={async () => {
-                                    if (
-                                        confirm(
-                                            "Are you sure you want to delete this submission?",
-                                        )
-                                    ) {
-                                        await removeSubmission(
-                                            currentSubmission.id,
-                                        );
-                                    }
-                                }}>[Delete]</button
-                            >
-                            /
-                            <button
-                                class="hover:text-green-500 cursor-pointer"
-                                onclick={async () =>
-                                    await acceptSubmission(currentSubmission)}
-                                >[Accept]</button
-                            >
+                            <span class="lg:hidden">Actions:</span>
+                            <div class="flex flex-wrap gap-2">
+                                <button
+                                    class="btn min-w-20"
+                                    onclick={async () => {
+                                        if (
+                                            confirm(
+                                                "Are you sure you want to delete this submission?",
+                                            )
+                                        ) {
+                                            await removeSubmission(
+                                                currentSubmission.id,
+                                            );
+                                        }
+                                    }}>Delete</button
+                                >
+                                <button
+                                    class="btn min-w-20"
+                                    onclick={async () =>
+                                        await acceptSubmission(
+                                            currentSubmission,
+                                        )}>Accept</button
+                                >
+                            </div>
                         </td>
                     </tr>
                 {/each}

@@ -208,6 +208,7 @@
             full_desc: "placeholder",
             description: "placeholder",
             author_id: null,
+            is_blacklisted: false,
         };
 
         const fetchData = fetch(
@@ -256,10 +257,10 @@
                     <th class="px-3 py-2">Name</th>
                     <th class="px-3 py-2">Image</th>
                     <th class="px-3 py-2">Author</th>
+                    <th class="px-3 py-2">Author ID</th>
                     <th class="px-3 py-2">Short Description</th>
                     <th class="px-3 py-2">Full Description</th>
-                    <th class="px-3 py-2 max-w-[128px]">Abilities</th>
-                    <th class="px-3 py-2 max-w-[128px]">Author ID</th>
+                    <th class="px-3 py-2">Abilities</th>
                     <th class="px-3 py-2">Non-pattable?</th>
                     <th class="px-3 py-2">Actions</th>
                 </tr>
@@ -282,17 +283,18 @@
                                 class="w-full min-w-[80px]"
                             />
                         </td>
-                        <td class="px-3 py-2">
+                        <td class="px-3 py-2 flex flex-col gap-2">
                             <span class="lg:hidden">Image:</span>
                             <FileUpload
                                 disabled={!editMode[noik.id]}
                                 accept="image/*"
                                 bind:elm={editImage[noik.id]}
                             />
-                            <a href="/api/image?id={noik.id}" target="_blank"
-                                >[View image]</a
+                            <a
+                                href="/api/image?id={noik.id}"
+                                target="_blank"
+                                class="btn w-fit">View image</a
                             >
-                            <!-- <input type="text" disabled={!editMode[noik.id]} bind:value={noik.img_link} class="w-full min-w-[100px]"> -->
                         </td>
                         <td class="px-3 py-2">
                             <span class="lg:hidden">Author:</span>
@@ -301,6 +303,16 @@
                                 disabled={true}
                                 bind:value={noik.author}
                                 class="w-full min-w-[100px]"
+                            />
+                        </td>
+                        <td class="px-3 py-2">
+                            <span class="lg:hidden">Author ID:</span>
+                            <input
+                                class="w-full min-w-[100px]"
+                                disabled={!editMode[noik.id]}
+                                type="number"
+                                placeholder="placeholder :<"
+                                bind:value={noik.author_id}
                             />
                         </td>
                         <td class="px-3 py-2">
@@ -334,16 +346,6 @@
                             <!-- <input type="text" disabled value="<to be implemented>"> -->
                         </td>
                         <td class="px-3 py-2">
-                            <span class="lg:hidden">Author ID:</span>
-                            <input
-                                class="w-full min-w-[100px]"
-                                disabled={!editMode[noik.id]}
-                                type="number"
-                                placeholder="placeholder :<"
-                                bind:value={noik.author_id}
-                            />
-                        </td>
-                        <td class="px-3 py-2">
                             <span class="lg:hidden">Non-pattable?</span>
                             <input
                                 type="checkbox"
@@ -353,35 +355,35 @@
                         </td>
                         <td class="px-3 py-2">
                             <span class="lg:hidden">Actions:</span>
-                            {#if !editMode[noik.id]}
-                                <button
-                                    class="hover:cursor-pointer hover:text-white"
-                                    onclick={() => {
-                                        startEdit(noik);
-                                    }}>[Edit]</button
-                                >
-                                /
-                                <button
-                                    class="hover:cursor-pointer hover:text-red-500"
-                                    onclick={async () => {
-                                        await deleteData(noik);
-                                    }}>[Delete]</button
-                                >
-                            {:else}
-                                <button
-                                    class="hover:cursor-pointer hover:text-green-500"
-                                    onclick={async () => {
-                                        await saveEdit(noik);
-                                    }}>[Save]</button
-                                >
-                                /
-                                <button
-                                    class="hover:cursor-pointer hover:text-red-500"
-                                    onclick={() => {
-                                        cancelEdit(noik);
-                                    }}>[Cancel]</button
-                                >
-                            {/if}
+                            <div class="flex flex-wrap gap-2">
+                                {#if !editMode[noik.id]}
+                                    <button
+                                        class="btn min-w-20"
+                                        onclick={() => {
+                                            startEdit(noik);
+                                        }}>Edit</button
+                                    >
+                                    <button
+                                        class="btn min-w-20"
+                                        onclick={async () => {
+                                            await deleteData(noik);
+                                        }}>Delete</button
+                                    >
+                                {:else}
+                                    <button
+                                        class="btn min-w-20"
+                                        onclick={async () => {
+                                            await saveEdit(noik);
+                                        }}>Save</button
+                                    >
+                                    <button
+                                        class="btn min-w-20"
+                                        onclick={() => {
+                                            cancelEdit(noik);
+                                        }}>Cancel</button
+                                    >
+                                {/if}
+                            </div>
                         </td>
                     </tr>
                 {/each}
