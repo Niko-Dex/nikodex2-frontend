@@ -29,6 +29,10 @@
     });
 </script>
 
+<svelte:head>
+    <title>NikoDex - {data.requestedInformation.username}</title>
+</svelte:head>
+
 <section class="w-full relative flex justify-center p-4">
     <div
         style="background-image: url({Background})"
