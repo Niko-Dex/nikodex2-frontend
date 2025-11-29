@@ -1,14 +1,10 @@
 <script lang="ts">
-    import type { PageProps } from "./$types";
     import Background from "$lib/assets/images/page/user/world_machine.png";
     import toast from "svelte-french-toast";
     import { onMount } from "svelte";
-    import UserCard from "$lib/components/UserCard.svelte";
     import PageChanger from "$lib/components/PageChanger.svelte";
-    let { data }: PageProps = $props();
 
     let maxPages = $state(0);
-    let err = $state(false);
     let currentPage = $state(1);
     let usernameToSearchFor = $state("");
     let currentUsers: User[] = $state([]);
@@ -67,7 +63,12 @@
             <button class="btn">Search..</button>
         </div>
         {#each currentUsers as _userPart (_userPart.id)}
-            <UserCard username={_userPart.username} />
+            <section
+                class="bg-black border-4 p-4 border-(--theme-color) flex flex-row items-center"
+            >
+                <h1 class="w-full">{_userPart.username}</h1>
+                <a class="btn" href="/account/{_userPart.username}">View</a>
+            </section>
         {/each}
     </div>
 </section>

@@ -209,13 +209,37 @@
             {/if}
         {:else}
             {#each currentSubmissions as submissionPiece (submissionPiece.id)}
-                <PendingSubmissionCard
-                    id={submissionPiece.id}
-                    name={submissionPiece.name}
-                    description={submissionPiece.description}
-                    full_desc={submissionPiece.full_desc}
-                    image={`/api/data/submissions/img?id=${submissionPiece.id}`}
-                />
+                <section
+                    class="border-4 border-(--theme-color) p-5 bg-black flex flex-row gap-8"
+                >
+                    <img
+                        src={`/api/data/submissions/img?id=${submissionPiece.id}`}
+                        class="w-32 h-32"
+                        alt="waiting noik :3"
+                    />
+                    <div class="w-full flex flex-col gap-4">
+                        <h2 class="h2-txt-size">
+                            Submission: <span class="bg-white text-black px-1">
+                                {submissionPiece.name}
+                            </span>
+                        </h2>
+                        <p>
+                            Description: <em>"{submissionPiece.description}"</em
+                            >
+                        </p>
+                        <p>
+                            Full description: <em
+                                >{submissionPiece.full_desc}"</em
+                            >
+                        </p>
+                        <p class="text-right">
+                            <em
+                                >This submission is waiting for moderator
+                                approval. :o</em
+                            >
+                        </p>
+                    </div>
+                </section>
             {:else}
                 <p><em>you currently don't have any submissons!</em></p>
             {/each}
