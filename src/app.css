@@ -53,21 +53,15 @@ body {
 @layer components {
     input,
     textarea {
-        @apply bg-black text-white border-1 border-(--theme-color) placeholder:text-gray-500 placeholder:italic focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500;
+        @apply bg-black text-white border-1 border-(--theme-color) placeholder:text-gray-500 placeholder:italic focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 disabled:pointer-events-none disabled:brightness-70 disabled:bg-gray-900;
     }
 
     img {
         image-rendering: pixelated;
     }
 
-    input:disabled,
-    textarea:disabled,
-    select:disabled {
-        @apply bg-gray-800 pointer-events-none hover:bg-gray-800 hover:text-white;
-    }
-
     select {
-        @apply border-4 border-(--theme-color) bg-black hover:cursor-pointer hover:bg-(--theme-color) hover:text-black p-2 transition duration-200;
+        @apply border-4 border-(--theme-color) bg-black hover:cursor-pointer hover:bg-(--theme-color) hover:text-black p-2 transition duration-200 disabled:pointer-events-none disabled:brightness-70 disabled:bg-gray-900;
     }
 
     .h2-txt-size {
@@ -83,7 +77,7 @@ body {
     }
 
     .btn {
-        @apply no-underline border-4 fill-white text-white bg-black border-(--theme-color) px-2 py-1 transition duration-200 hover:bg-(--theme-color) hover:text-black hover:fill-black hover:cursor-pointer disabled:pointer-events-none disabled:brightness-50;
+        @apply no-underline border-4 fill-white text-white bg-black border-(--theme-color) px-2 py-1 transition duration-200 hover:bg-(--theme-color) hover:text-black hover:fill-black hover:cursor-pointer disabled:pointer-events-none disabled:brightness-70;
     }
 
     .btn.active {
