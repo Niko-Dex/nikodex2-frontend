@@ -334,16 +334,15 @@
                         </td>
                         <td class="px-3 py-2">
                             <span class="lg:hidden">Abilities:</span>
-                            <p>({noik.abilities.length} abilities)</p>
                             <button
-                                class="hover:cursor-pointer hover:text-white"
+                                class="btn min-w-20"
                                 onclick={() => {
                                     editAbilitiesRow = JSON.parse(
                                         JSON.stringify(noik),
                                     );
-                                }}>[Edit]</button
+                                }}>Edit</button
                             >
-                            <!-- <input type="text" disabled value="<to be implemented>"> -->
+                            <p>({noik.abilities.length} abilities)</p>
                         </td>
                         <td class="px-3 py-2">
                             <span class="lg:hidden">Non-pattable?</span>
@@ -403,24 +402,23 @@
             <div
                 class="w-full max-w-[1200px] flex flex-col gap-4 m-8 bg-slate-800 max-h-fit p-4 rounded-md"
             >
-                <div class="flex justify-between">
+                <div class="flex justify-between items-center">
                     <p>
                         Editing {editAbilitiesRow?.name ?? "[unknown]"}'s
                         Abitilies
                     </p>
                     <div>
                         <button
-                            class="hover:cursor-pointer hover:text-green-500"
+                            class="btn min-w-20"
                             onclick={async () => {
                                 await saveAbilitiesEdit();
-                            }}>[Save]</button
+                            }}>Save</button
                         >
-                        /
                         <button
-                            class="hover:cursor-pointer hover:text-red-500"
+                            class="btn min-w-20"
                             onclick={() => {
                                 editAbilitiesRow = null;
-                            }}>[Cancel]</button
+                            }}>Cancel</button
                         >
                     </div>
                 </div>
