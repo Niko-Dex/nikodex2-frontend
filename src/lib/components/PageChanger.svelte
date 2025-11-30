@@ -3,6 +3,7 @@
     let pageSelectAtBottom = $state(false);
     let pageSelectDetect = $state() as HTMLDivElement;
     let currentPage = $state(1);
+    let editPageNum = $state(false);
     onMount(async () => {
         const observer = new IntersectionObserver(
             (data) => {
@@ -49,31 +50,40 @@
         : 'p-4 w-fit mx-auto sticky bottom-4'}"
 >
     <button
-        class="transition duration-100 hover:bg-white hover:text-black hover:cursor-pointer border-2 border-white px-4 py-1 disabled:opacity-50 disabled:pointer-events-none"
+        class="btn border-2 border-white px-4 hover:bg-white"
         onclick={prevPage}
         disabled={currentPage <= 1 || disabled}>Prev</button
     >
-    <input
-        class="text-center border-2 border-white min-w-20"
-        type="number"
-        min={1}
-        max={maxPages}
-        bind:value={currentPage}
-        aria-label="Page number"
-        {disabled}
-        onchange={async () => {
-            if (
-                isNaN(Number(currentPage)) ||
-                currentPage < 1 ||
-                currentPage > maxPages
-            ) {
-                currentPage = 1;
-            }
-            await onupdate(currentPage);
-        }}
-    />
+    {#if editPageNum}
+        <input
+            class="text-center border-2 border-white w-20"
+            type="number"
+            min={1}
+            max={maxPages}
+            bind:value={currentPage}
+            aria-label="Page number"
+            {disabled}
+            onchange={async () => {
+                if (
+                    isNaN(Number(currentPage)) ||
+                    currentPage < 1 ||
+                    currentPage > maxPages
+                ) {
+                    currentPage = 1;
+                }
+                editPageNum = false;
+                await onupdate(currentPage);
+            }}
+        />
+    {:else}
+        <button
+            class="btn border-2 border-white px-4 hover:bg-white"
+            onclick={() => (editPageNum = true)}
+            >{currentPage}/{maxPages} ✐</button
+        >
+    {/if}
     <button
-        class="transition duration-100 hover:bg-white hover:text-black hover:cursor-pointer border-2 border-white px-4 py-1 disabled:opacity-50 disabled:pointer-events-none"
+        class="btn border-2 border-white px-4 hover:bg-white"
         onclick={nextPage}
         disabled={currentPage >= maxPages || disabled}>Next</button
     >
