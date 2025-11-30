@@ -79,7 +79,7 @@
         <button
             class="btn border-2 border-white px-4 hover:bg-white"
             onclick={() => (editPageNum = true)}
-            >{currentPage}/{maxPages} ✐</button
+            {disabled}>{currentPage}/{maxPages} ✐</button
         >
     {/if}
     <button
