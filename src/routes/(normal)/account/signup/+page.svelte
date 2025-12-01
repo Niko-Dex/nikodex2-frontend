@@ -30,7 +30,7 @@
 </script>
 
 <svelte:head>
-    <title>Nikodex Login!</title>
+    <title>Nikodex Signup!</title>
 </svelte:head>
 
 <div

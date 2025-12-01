@@ -140,7 +140,7 @@
                 <p><em>You must be logged in to make posts! :o</em></p>
             {/if}
         </div>
-        <div class="grid grid-cols-2 gap-2">
+        <div class="grid lg:grid-cols-2 grid-cols-1 gap-2">
             {#each apiData as post, idx (idx)}
                 <PostCard
                     id={post.id}
