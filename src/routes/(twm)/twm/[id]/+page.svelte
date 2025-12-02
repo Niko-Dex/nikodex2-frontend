@@ -6,6 +6,7 @@
     import Dialogue from "$lib/assets/images/page/twm/niko-background.png";
     import { onMount } from "svelte";
     import { beforePage } from "$lib/helper/noikHelper.js";
+    import Transition from "$lib/components/Transition.svelte";
     let { data } = $props();
 
     let ballon_w = $state(0);
@@ -41,7 +42,7 @@
 <svelte:head>
     <title>TWM View: {apiData.name}</title>
 </svelte:head>
-
+<Transition />
 <div
     style="background-image: url({Background});"
     class="w-screen h-screen flex justify-center items-center bg no-antialias"
