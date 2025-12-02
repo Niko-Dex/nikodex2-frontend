@@ -27,9 +27,9 @@ export const actions = {
       },
     });
     if (!res.ok) {
-      const text = await res.text();
-      console.log(`backend error! ${res.status}: ${text}`);
-      return fail(res.status, { msg: text, error: true });
+      const errData = await res.json();
+      console.log(`backend error! ${res.status}: ${errData["error"]}`);
+      return fail(res.status, { msg: errData["error"], error: true });
     } else {
       const formData = new FormData();
       formData.append("title", "New Post!");
