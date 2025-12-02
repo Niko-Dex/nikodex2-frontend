@@ -122,7 +122,7 @@
     </div>
 {/if}
 
-<section class="w-full relative flex justify-center">
+<section class="w-full relative flex justify-center p-4">
     <div
         class="absolute top-0 left-0 w-full h-full bg-no-repeat bg-cover bg-center no-antialias bg-fixed -z-1"
         style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url({Background}); "
@@ -130,7 +130,7 @@
     <div
         class="max-w-[1200px] w-[1200px] flex flex-col gap-4 min-h-screen pt-5"
     >
-        <div class="flex flex-row justify-between">
+        <div class="flex flex-row justify-between items-center">
             <h1 class="h1-txt-size">Community Posts!</h1>
             {#if data?.authenticated}
                 <button class="btn" onclick={() => openModal()}
