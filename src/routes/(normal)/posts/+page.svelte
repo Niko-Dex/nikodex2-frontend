@@ -15,6 +15,7 @@
     let newPostModal = $state(false);
     let postTitle = $state("");
     let postContent = $state("");
+    let dataLoaded = $state(false);
 
     if (form?.error) {
         toast.error(form.msg);
@@ -32,12 +33,14 @@
 
     async function getData() {
         if (currentPage < 1 || currentPage > maxPages) return;
+        dataLoaded = false;
         const req = fetch(`/api/posts/page?page=${currentPage}&count=10`).then(
             async (res) => {
                 if (!res.ok) {
                     dataErr = true;
                     throw new Error((await res.json())["error"]);
                 } else {
+                    dataLoaded = true;
                     apiData = await res.json();
                 }
             },
@@ -144,15 +147,21 @@
                 shitpost here :c</em
             >
         </p>
-        <div class="grid lg:grid-cols-2 grid-cols-1 gap-2">
-            {#each apiData as post, idx (idx)}
-                <PostCard
-                    id={post.id}
-                    title={post.title}
-                    username={post.user.username}
-                />
-            {/each}
-        </div>
+        {#if dataLoaded}
+            <div class="grid lg:grid-cols-2 grid-cols-1 gap-2">
+                {#each apiData as post, idx (idx)}
+                    <PostCard
+                        id={post.id}
+                        title={post.title}
+                        username={post.user.username}
+                    />
+                {/each}
+            </div>
+        {:else if dataErr}
+            <p class="text-center">woops! something has gone wrong :c</p>
+        {:else}
+            <p class="text-center">loading...</p>
+        {/if}
     </div>
 </section>
 <PageChanger
