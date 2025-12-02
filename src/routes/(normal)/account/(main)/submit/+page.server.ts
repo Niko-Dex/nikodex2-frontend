@@ -1,7 +1,8 @@
 import { env } from "$env/dynamic/private";
-import { redirect, fail } from "@sveltejs/kit";
+import { fail } from "@sveltejs/kit";
 import type { PageServerLoad, Actions } from "./$types";
 import { resolve } from "$app/paths";
+import { relogin } from "../helper";
 export const load = (async (event) => {
   try {
     const token = event.cookies.get("token") ?? "";
@@ -12,11 +13,11 @@ export const load = (async (event) => {
       },
     });
     if (!res.ok) {
-      redirect(307, resolve("/(normal)/account/login"));
+      relogin(resolve("/(normal)/account/(main)/submit"));
     }
     return await res.json();
   } catch {
-    redirect(307, resolve("/(normal)/account/login"));
+    relogin(resolve("/(normal)/account/(main)/submit"));
   }
 }) satisfies PageServerLoad;
 

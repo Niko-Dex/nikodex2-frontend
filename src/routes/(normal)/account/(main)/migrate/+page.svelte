@@ -1,6 +1,4 @@
 <script lang="ts">
-    import LogoutIcon from "$lib/assets/images/components/LogoutIcon.svelte";
-    import Background from "$lib/assets/images/page/user/world_machine.png";
     import NikoSmallCard from "$lib/components/NikoSmallCard.svelte";
     import type { Niko } from "$lib/types/nikosona.js";
     import toast from "svelte-french-toast";

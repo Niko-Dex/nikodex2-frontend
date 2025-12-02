@@ -1,12 +1,11 @@
 <script lang="ts">
     import LogoutIcon from "$lib/assets/images/components/LogoutIcon.svelte";
 
-    import type { PageProps } from "./$types";
     import Link from "$lib/components/Link.svelte";
     import Background from "$lib/assets/images/page/user/world_machine.png";
     import { resolve } from "$app/paths";
 
-    let { data, children }: PageProps = $props();
+    let { data, children } = $props();
 </script>
 
 <svelte:head>

@@ -1,6 +1,6 @@
 import { resolve } from "$app/paths";
 import { env } from "$env/dynamic/private";
-import { redirect } from "@sveltejs/kit";
+import { relogin } from "../helper.js";
 
 async function fetchDiscordUser(discord_token: string) {
   const disc = await fetch("https://discord.com/api/users/@me", {
@@ -25,11 +25,11 @@ async function fetchUser(token: string) {
       },
     });
     if (!res.ok) {
-      redirect(307, resolve("/(normal)/account/login"));
+      relogin(resolve("/account/migrate"));
     }
     return await res.json();
   } catch {
-    redirect(307, resolve("/(normal)/account/login"));
+    relogin(resolve("/account/migrate"));
   }
 }
 
