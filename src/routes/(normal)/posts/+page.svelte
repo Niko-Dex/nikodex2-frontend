@@ -46,7 +46,7 @@
             },
         );
 
-        toast.promise(req, {
+        await toast.promise(req, {
             loading: "Loading posts..",
             error: (e) => `Error! ${e}`,
             success: "Loaded posts!",

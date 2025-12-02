@@ -34,6 +34,7 @@
         <div class="flex flex-col sm:flex-row gap-2">
             <Link href={resolve("/(normal)/account/(main)")}>Home</Link>
             <Link href={resolve("/(normal)/account/(main)/noik")}>Nikos</Link>
+            <Link href={resolve("/(normal)/account/(main)/posts")}>Posts</Link>
             <Link href={resolve("/(normal)/account/(main)/submissions")}
                 >Submissions</Link
             >

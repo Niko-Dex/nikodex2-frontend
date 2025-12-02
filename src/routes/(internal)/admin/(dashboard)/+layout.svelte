@@ -48,6 +48,9 @@
             <Link custom_class="flex-1 xl:flex-none" href="/admin/users"
                 >Users</Link
             >
+            <Link custom_class="flex-1 xl:flex-none" href="/admin/posts"
+                >Posts</Link
+            >
             <Link custom_class="flex-1 xl:flex-none" href="/admin/noik"
                 >Noik</Link
             >

@@ -1,9 +1,8 @@
 import { env } from "$env/dynamic/private";
 import { errSrv } from "../../helper";
 
-export async function GET({ request, fetch, cookies }) {
+export async function GET({ fetch }) {
   try {
-    const url = new URL(request.url);
     const res = await fetch(`${env.API_SERVER_URL}/posts/count`);
     return res;
   } catch (e) {

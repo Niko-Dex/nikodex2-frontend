@@ -3,6 +3,7 @@
     import BanHammer from "$lib/assets/images/page/account/ban_hammer.png";
     import { onMount } from "svelte";
     import toast from "svelte-french-toast";
+    import type { User } from "$lib/types/user";
 
     let totalUsersCount = $state(0);
     let maxPages = $state(1);
@@ -97,7 +98,7 @@
                         <td class="px-3 py-2">
                             <span class="lg:hidden">ACTIONS:</span>
                             <button
-                                class="btn flex flex-row items-center gap-2"
+                                class="btn flex flex-row items-center"
                                 disabled={user.is_admin}
                                 onclick={async () => {
                                     if (
