@@ -165,7 +165,7 @@
                 {/each}
             </ul>
             {#if expanded}
-                <p>{description}</p>
+                <p class="whitespace-pre-line">{description}</p>
             {:else}
                 <p><em>[...]</em></p>
             {/if}

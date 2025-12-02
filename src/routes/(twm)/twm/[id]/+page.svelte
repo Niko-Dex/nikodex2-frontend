@@ -88,7 +88,8 @@
                 class="relative z-3 top-[42px] flex flex-row"
                 style="overflow: auto; width: calc({ballon_w}px - 22px); height: calc({ballon_h}px - 20px);"
             >
-                <text class="text-left w-[75%] shrink overflow-y-scroll!"
+                <text
+                    class="text-left w-[75%] shrink overflow-y-scroll! whitespace-pre-line"
                     >{apiData.description}.</text
                 >
                 <div
