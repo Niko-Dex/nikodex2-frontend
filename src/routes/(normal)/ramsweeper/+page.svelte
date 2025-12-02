@@ -541,6 +541,9 @@
     }
 
     function init() {
+        settings.w = Math.ceil(settings.w);
+        settings.h = Math.ceil(settings.h);
+        settings.b = Math.ceil(settings.b);
         if (!settings.w || settings.w <= 0) {
             alert("Invalid width!");
             return;
