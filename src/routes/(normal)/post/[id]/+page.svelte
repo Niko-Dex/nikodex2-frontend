@@ -40,7 +40,7 @@
         <p>{data.postData.content}</p>
 
         <div class="w-full flex flex-col items-center gap-4">
-            <div class="max-w-[70%] p-4 border-2 border-(--theme-color)">
+            <div class="lg:max-w-[70%] max-w-full p-4 border-2 border-(--theme-color)">
                 <img
                     class="non-pixelated"
                     alt={`Image of ${data.postData.title}`}
