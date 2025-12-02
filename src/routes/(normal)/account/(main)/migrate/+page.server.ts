@@ -1,3 +1,4 @@
+import { resolve } from "$app/paths";
 import { env } from "$env/dynamic/private";
 import { redirect } from "@sveltejs/kit";
 
@@ -24,11 +25,11 @@ async function fetchUser(token: string) {
       },
     });
     if (!res.ok) {
-      redirect(307, "/account/login");
+      redirect(307, resolve("/(normal)/account/login"));
     }
     return await res.json();
   } catch {
-    return redirect(307, "/account/login");
+    redirect(307, resolve("/(normal)/account/login"));
   }
 }
 

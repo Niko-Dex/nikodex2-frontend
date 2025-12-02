@@ -28,9 +28,9 @@
                 currentUsers = r;
             });
         await toast.promise(apiDataCurrent, {
-            loading: "loading pls wait...",
-            success: "loaded search data!",
-            error: (e) => `oops! ${e.message}`,
+            loading: "Loading pls wait...",
+            success: "Loaded search data!",
+            error: (e) => `Oops! ${e.message}`,
         });
     }
     onMount(async () => {

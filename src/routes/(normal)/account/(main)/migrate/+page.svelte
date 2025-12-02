@@ -86,11 +86,10 @@
         class="fixed w-screen h-screen top-0 left-0 z-5 bg-black/75 flex justify-center"
     >
         <div
-            class="border-4 border-(--theme-color) p-4 bg-black flex gap-4 mx-8 my-auto"
+            class="border-4 border-(--theme-color) p-4 bg-black flex gap-4 mx-8 my-auto max-h-full overflow-y-auto relative"
         >
             <div class="flex flex-col gap-2 md:min-w-3xl">
                 <h1>Add a Niko to your Request..</h1>
-
                 <div class="w-full flex flex-row gap-4">
                     <input
                         class="w-full border-4"
@@ -104,8 +103,8 @@
                         >Search..</button
                     >
                 </div>
-                <div>
-                    {#each searchList as niko (niko.id)}
+                <div class="flex flex-col gap-2">
+                    {#each searchList as niko}
                         <NikoSmallCard
                             name={niko.name}
                             id={niko.id}
@@ -115,7 +114,7 @@
                         />
                     {/each}
                 </div>
-                <div>
+                <div class="sticky bottom-0">
                     <button class="btn w-full" onclick={() => closeSearch()}
                         >Close</button
                     >
@@ -125,51 +124,45 @@
     </div>
 {/if}
 
-<section class="w-full relative flex justify-center p-4">
-    <div
-        class="absolute top-0 left-0 w-full h-full bg-no-repeat bg-cover bg-center no-antialias bg-fixed -z-1"
-        style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url({Background}); "
-    ></div>
-    <div
-        class="max-w-[1200px] w-[1200px] flex flex-col gap-4 min-h-screen pt-5"
-    >
-        <a class="btn w-fit" href="/account">Go Back</a>
-        <h1 class="h1-txt-size">Migration of Nikos</h1>
-        {#if !data.authenticated}
-            <p>You are currently not log in with Discord!</p>
-            <a class="btn w-fit" href="/dred">Log in with Discord</a>
-        {:else}
-            <div class="flex justify-between">
-                <h2 class="h2-txt-size">
-                    Logged in as {data.discord_username}!
-                </h2>
-                <a
-                    class="btn w-fit flex flex-row items-center gap-4"
-                    href="/api/discord_auth/logout"
-                >
-                    <LogoutIcon />
-                    Log Out
-                </a>
-            </div>
-            <p>
-                Here you can request the NikoDex Dev team to move your Nikos to
-                your NikoDex account!
-            </p>
-            <div class="flex flex-col gap-2">
-                {#each nikosList as niko (niko.id)}
-                    <NikoSmallCard
-                        name={niko.name}
-                        id={niko.id}
-                        author={niko.author}
-                        btn_title="Remove"
-                        onclick={() => removeNiko(niko)}
-                    />
-                {/each}
-            </div>
-            <button class="btn" onclick={() => openSearch()}>Add Niko</button>
-            <button class="btn" onclick={async () => await postRequest()}
-                >Submit</button
+<div class="flex flex-col gap-4">
+    {#if !data.authenticated}
+        <p>You are currently not log in with Discord!</p>
+        <a class="btn w-fit" href="/dred">Log in with Discord</a>
+    {:else}
+        <div class="flex justify-between items-center gap-4">
+            <h2 class="h2-txt-size">Migrate from Discord Form</h2>
+            <a
+                class="btn w-fit flex flex-row items-center gap-4"
+                href="/api/discord_auth/logout"
             >
-        {/if}
-    </div>
-</section>
+                Sign out of Discord
+            </a>
+        </div>
+        <p>
+            Logged in as <em>{data.discord_username}</em> on Discord
+        </p>
+        <p>
+            Make a request the NikoDex Dev team to move your Nikos to your
+            Nikodex account here!
+        </p>
+        <div class="flex flex-col gap-2">
+            {#each nikosList as niko}
+                <NikoSmallCard
+                    name={niko.name}
+                    id={niko.id}
+                    author={niko.author}
+                    btn_title="Remove"
+                    onclick={() => removeNiko(niko)}
+                />
+            {:else}
+                <p class="text-center"><em>No Nikosona selected yet :c</em></p>
+            {/each}
+        </div>
+        <div>
+            <button class="btn" onclick={() => openSearch()}>Add Niko</button>
+        </div>
+        <button class="btn" onclick={async () => await postRequest()}
+            >Submit!</button
+        >
+    {/if}
+</div>
