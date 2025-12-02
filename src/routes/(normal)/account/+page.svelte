@@ -229,7 +229,7 @@
                         </p>
                         <p>
                             Full description: <em
-                                >{submissionPiece.full_desc}"</em
+                                >"{submissionPiece.full_desc}"</em
                             >
                         </p>
                         <p class="text-right">
