@@ -138,7 +138,7 @@
                         if (editModal) {
                             editModal.setAbilities(abilities);
                         }
-                    }}>Edit..</button
+                    }}>Edit</button
                 >
             {/if}
         </div>

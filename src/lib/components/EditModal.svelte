@@ -125,7 +125,7 @@
             class="border-4 border-(--theme-color) p-4 bg-black flex gap-4 mx-8 my-auto md:w-max w-full"
         >
             <div class="flex flex-col gap-2 md:min-w-3xl w-full">
-                <h1>Editing {name}.. - {page}</h1>
+                <h1>Editing {name} - {page}</h1>
                 <div>
                     <button
                         class={page == "main"
