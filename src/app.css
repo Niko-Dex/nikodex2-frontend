@@ -37,6 +37,7 @@
 }
 
 body {
+    @apply bg-black text-white font-display text-[16px] sm:text-2xl;
     animation: rainbow 5s linear infinite forwards;
 }
 
@@ -69,7 +70,7 @@ body {
     }
 
     .h2-txt-size {
-        @apply text-xl md:text-3xl lg:text-4xl font-bold;
+        @apply text-2xl md:text-3xl lg:text-4xl font-bold;
     }
 
     .chckbox {
@@ -77,11 +78,11 @@ body {
     }
 
     .h1-txt-size {
-        @apply text-2xl md:text-3xl lg:text-5xl font-bold;
+        @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold;
     }
 
     .h0-txt-size {
-        @apply text-3xl md:text-6xl lg:text-7xl font-bold;
+        @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold;
     }
 
     .btn {
