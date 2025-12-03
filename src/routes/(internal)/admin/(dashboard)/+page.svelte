@@ -109,7 +109,7 @@
     <h1 class="h1-txt-size text-center">Welcome, {username}!</h1>
     <p class="text-center"><em>[{description}]</em></p>
     <p class="text-center">
-        Noik tab to edit the Nikosonas, and Blog tab to edit the blogs.
+        Noik tab to edit the Nikosonas, Users tab to manage current accounts, and Blog tab to edit the blogs. Check Submissions tab for new noiks.
     </p>
     <p class="text-center">and uhh... that is lol. happy editing, kbity :3</p>
 
