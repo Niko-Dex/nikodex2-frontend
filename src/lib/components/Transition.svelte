@@ -37,8 +37,16 @@
     });
 </script>
 
+<noscript>
+    <style>
+        .transition-kbity {
+            display: none;
+        }
+    </style>
+</noscript>
+
 <div
-    class="overlay bg-indigo-900 fixed top-0 left-0 w-screen h-screen z-10 {visible
+    class="transition-kbity overlay bg-indigo-900 fixed top-0 left-0 w-screen h-screen z-10 {visible
         ? 'slide-in'
         : 'slide-out'} flex justify-center items-center"
 >
