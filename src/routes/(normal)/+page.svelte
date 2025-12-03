@@ -12,16 +12,27 @@
     import { onMount } from "svelte";
     import Card from "$lib/components/Card.svelte";
     import { version } from "$app/environment";
-    import { parseISO, differenceInHours } from "date-fns";
+    import { differenceInHours } from "date-fns";
+
+    const { data } = $props();
 
     let bg1Y = $state(0);
     function bg1Scroll() {
         bg1Y = scrollY;
     }
 
-    onMount(() => {
+    let pingProxy = $state("0");
+    let pingBackend = $state("0");
+
+    onMount(async () => {
         addEventListener("scroll", bg1Scroll);
         bg1Scroll();
+
+        const begin = performance.now();
+        const res = await fetch("/api/ping");
+        const end = performance.now();
+        pingBackend = Number(await res.text()).toFixed(2);
+        pingProxy = (end - begin).toFixed(2);
     });
 
     function replace_img(
@@ -31,51 +42,9 @@
         elm.src = elm.getAttribute("data-secsrc") ?? elm.src;
     }
 
-    let data: { cnt: string | null } = $state({
-        cnt: null,
-    });
-
-    let notd = $state({
-        abilities: [] as { id: number; name: string; niko_id: number }[],
-        author: "",
-        description: "",
-        id: 0,
-        name: "",
-        short_desc: "",
-    });
-
-    let ping_proxy = $state("");
-    let ping_backend = $state("");
-
-    let refresh_at: string = $state("");
-    let whenRefresh = $derived(differenceInHours(refresh_at, new Date()));
-
-    onMount(async () => {
-        fetch(`/api/data/count`)
-            .then((v) => v.text())
-            .then((v) => (data.cnt = v));
-
-        fetch("/api/data/random_notd")
-            .then((v) => {
-                refresh_at = v.headers.get("x-refreshat") ?? "";
-                console.log(parseISO(refresh_at));
-                return v.json();
-            })
-            .then((d) => {
-                notd.name = d["name"];
-                notd.author = d["author_name"];
-                notd.description = d["full_desc"];
-                notd.short_desc = d["description"];
-                notd.abilities = d["abilities"];
-                notd.id = d["id"];
-            });
-
-        const begin = performance.now();
-        const res = await fetch("/api/ping");
-        const end = performance.now();
-        ping_backend = Number(await res.text()).toFixed(2);
-        ping_proxy = (end - begin).toFixed(2);
-    });
+    let whenRefresh = $derived(
+        differenceInHours(data.notdRefreshAt, new Date()),
+    );
 </script>
 
 <svelte:head>
@@ -180,12 +149,12 @@
         </p>
         <p>New NoTD will be picked after {whenRefresh} hours.</p>
         <Card
-            name={notd?.name}
-            id={notd?.id}
-            abilities={notd?.abilities}
-            author={notd?.author}
-            description={notd?.description}
-            short_desc={notd?.short_desc}
+            name={data.notd.name}
+            id={data.notd.id}
+            abilities={data.notd.abilities}
+            author={data.notd.author}
+            description={data.notd.full_desc}
+            short_desc={data.notd.description}
             full_expand
         />
     </div>
@@ -214,11 +183,11 @@
                 <p>Front-end version</p>
             </div>
             <div class="flex flex-col justify-center items-center">
-                <h1 class="h1-txt-size">{ping_backend}ms</h1>
+                <h1 class="h1-txt-size">{pingBackend}ms</h1>
                 <p>Internal server Ping</p>
             </div>
             <div class="flex flex-col justify-center items-center">
-                <h1 class="h1-txt-size">{ping_proxy}ms</h1>
+                <h1 class="h1-txt-size">{pingProxy}ms</h1>
                 <p>Ping</p>
             </div>
         </div>
