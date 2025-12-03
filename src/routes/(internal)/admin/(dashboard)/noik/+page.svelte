@@ -289,6 +289,7 @@
                                 disabled={!editMode[noik.id]}
                                 accept="image/*"
                                 bind:elm={editImage[noik.id]}
+                                min_width={200}
                             />
                             <a
                                 href="/api/image?id={noik.id}"
