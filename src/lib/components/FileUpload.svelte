@@ -5,6 +5,7 @@
         disabled?: boolean;
         name?: string;
         required?: boolean;
+        min_width?: number;
     }
 
     let {
@@ -13,13 +14,15 @@
         disabled,
         name,
         required,
+        min_width = 300,
     }: Props = $props();
     let files: FileList | null | undefined = $state();
 </script>
 
 <div class="flex gap-2 fill-(--theme-color)">
     <label
-        class="transition duration-200 border-4 border-(--theme-color) p-2 bg-black block w-full md:min-w-[300px] hover:bg-(--theme-color) hover:text-black hover:fill-black {disabled
+        style="--min-w: {min_width}px"
+        class="transition duration-200 border-4 border-(--theme-color) p-2 bg-black block w-full md:min-w-(--min-w) hover:bg-(--theme-color) hover:text-black hover:fill-black {disabled
             ? 'pointer-events-none cursor-default brightness-70 disabled:bg-gray-900'
             : 'hover:cursor-pointer'}"
     >
