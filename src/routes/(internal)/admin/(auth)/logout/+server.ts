@@ -1,7 +1,6 @@
-import { redirect } from "@sveltejs/kit";
+import { relogin } from "../../helper.js";
 
 export async function GET({ cookies }) {
   cookies.delete("token", { path: "/" });
-
-  return redirect(307, "/admin/login");
+  relogin();
 }

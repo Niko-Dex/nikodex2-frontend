@@ -1,37 +1,21 @@
 <script lang="ts">
-    import { goto } from "$app/navigation";
     import Logo from "$lib/assets/images/logo.png";
+    import { onMount } from "svelte";
     let validating = $state(false);
     import toast from "svelte-french-toast";
 
-    async function submit(ev: SubmitEvent) {
-        ev.preventDefault();
+    let { form } = $props();
+
+    async function submit() {
         validating = true;
-        ev.submitter?.setAttribute("disabled", "");
-        const formData = new FormData(ev.target as HTMLFormElement);
-        const { username, password } = Object.fromEntries(formData.entries());
-
-        const adminLogin = fetch(`/api/admin/auth`, {
-            method: "POST",
-            body: JSON.stringify({ username, password }),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }).then(async (v) => {
-            const jsonData = await v.json();
-            validating = false;
-            ev.submitter?.removeAttribute("disabled");
-            if (!v.ok) throw new Error(jsonData["error"]);
-
-            await goto("/admin");
-        });
-
-        await toast.promise(adminLogin, {
-            success: "Successfully logged in!",
-            loading: "Logging in",
-            error: (e) => `Error while logging in: ${e.message}`,
-        });
+        toast.loading("Logging in");
     }
+
+    onMount(async () => {
+        if (form?.error) {
+            toast.error(form.error);
+        }
+    });
 </script>
 
 <svelte:head>
@@ -58,7 +42,7 @@
                     class="block w-full"
                     autocomplete="username"
                     required
-                    disabled={validating}
+                    readonly={validating}
                 />
             </label>
             <label for="password">
@@ -70,7 +54,7 @@
                     class="block w-full"
                     autocomplete="current-password"
                     required
-                    disabled={validating}
+                    readonly={validating}
                 />
             </label>
         </div>
