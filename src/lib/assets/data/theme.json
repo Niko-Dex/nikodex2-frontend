@@ -43,11 +43,6 @@
         {
             "name": "White",
             "color": "white"
-        },
-        {
-            "name": "OrangeG",
-            "color": "linear-gradient(90deg,rgba(255, 128, 0, 1) 0%, rgba(255, 128, 64, 1) 50%, rgba(255, 128, 0, 1) 100%)"
-
         }
     ],
     "default": 0
