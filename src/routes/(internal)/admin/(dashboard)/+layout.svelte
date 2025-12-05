@@ -20,11 +20,11 @@
     style="--default: 100%; --md: 240px calc(100% - 240px);"
 >
     <nav
-        class="bg-black md:sticky transition duration-200 fixed top-0 left-0 w-[240px] h-screen border-(--theme-color) border-r-4 px-4 py-2 flex flex-col gap-2 z-3 {navBarOpen
+        class="bg-black md:sticky transition duration-200 fixed top-0 left-0 w-[240px] h-screen border-(--theme-color) border-r-4 p-4 flex flex-col gap-4 z-3 {navBarOpen
             ? 'translate-x-0'
             : 'translate-x-[-240px] md:translate-x-0'}"
     >
-        <h2 class="h2-txt-size hidden md:inline">Admin Dashboard</h2>
+        <h2 class="h2-txt-size md:inline">Admin Dashboard</h2>
         <div class="link gap-2 md:gap-4 w-full overflow-auto flex-col flex">
             <Link href="/admin">Home</Link>
             <Link href="/admin/users">Users</Link>
@@ -44,7 +44,7 @@
     </nav>
     <div>
         <div
-            class="md:hidden border-(--theme-color) border-b-4 flex flex-row justify-between p-4 sticky top-0 bg-black"
+            class="md:hidden border-(--theme-color) border-b-4 flex flex-row justify-between p-4 sticky top-0 bg-black z-1"
         >
             <h2 class="h2-txt-size">Admin Dashboard</h2>
             <button
