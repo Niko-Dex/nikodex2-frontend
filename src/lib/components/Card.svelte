@@ -23,6 +23,11 @@
 
     let img_link = $derived(`/api/image?id=${id}`);
     let patpat_link = $derived(`/api/patpat?id=${id}`);
+    let author_link = $derived.by(() =>
+        author === "nightmargin"
+            ? "https://bsky.app/profile/nightmargin.bsky.social"
+            : `/account/${author}`
+    );
 
     let timeout: ReturnType<typeof setTimeout> | null = null;
     let shortenedAbilities = $derived.by(() => {
@@ -153,7 +158,7 @@
             <p>
                 By: <a
                     class="bg-white text-black w-fit px-1"
-                    href="/account/{author}">{author}</a
+                    href={author_link}>{author}</a
                 >
             </p>
             <p class="bg-white text-black w-fit px-1">Abilities:</p>
