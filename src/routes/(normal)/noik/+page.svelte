@@ -73,9 +73,7 @@
                     author: d["author_name"],
                     full_desc: d["full_desc"],
                     description: d["description"],
-                    abilities: d["abilities"].map(
-                        (v: { name: string }) => v.name,
-                    ),
+                    abilities: d["abilities"],
                     id: d["id"],
                     author_id: d["author_id"],
                     is_blacklisted: d["is_blacklisted"],
