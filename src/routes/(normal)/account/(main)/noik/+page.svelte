@@ -1,7 +1,7 @@
 <script lang="ts">
     import Card from "$lib/components/Card.svelte";
     import CardContainer from "$lib/components/CardContainer.svelte";
-    import { fetchNikos } from "$lib/helper/noikHelper";
+    import { fetchNikos } from "$lib/helper/helper";
     import { onMount } from "svelte";
     import type { PageProps } from "./$types";
     import type { Niko } from "$lib/types/nikosona";

@@ -1,6 +1,6 @@
 import type { Niko } from "$lib/types/nikosona";
 import toast from "svelte-french-toast";
-import { writable } from "svelte/store";
+import { fromStore, writable, type Writable } from "svelte/store";
 
 // this function was carried over to here
 // to make it better and more re-usable for the public profile pages
@@ -28,4 +28,13 @@ export async function fetchNikos(id: number, apiData: Niko[]) {
     error: (e) => `Problem while loading data! ${e}`,
   });
 }
-export const beforePage = writable("/");
+// blacklists for pages that redirect back to their original page regardless of any cause
+export const origRedirects = ["img_viewer"]
+
+export const beforePage: Writable<Array<string>> = writable(new Array<string>());
+
+export function returnGoBackLink(link: string){
+  console.warn(link)
+  const currentStoreValue = fromStore(beforePage).current
+  return currentStoreValue.findLast((pred) => pred != link)
+}
