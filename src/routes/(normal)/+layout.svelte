@@ -15,6 +15,7 @@
     import DropdownMenu from "$lib/components/DropdownMenu.svelte";
     import { Toaster } from "svelte-french-toast";
     import DiscordLogo from "$lib/assets/images/components/DiscordLogo.svelte";
+    import { currentUser } from "$lib/helper/helper";
 
     let { children } = $props();
     let errorContactingAPI = $state(false);
@@ -146,7 +147,8 @@
             <Link custom_class="flex-1 lg:flex-none" href="/blog">Blog</Link>
             <Link custom_class="flex-1 lg:flex-none" href="/posts">Posts</Link>
             <DropdownMenu
-                title="Accounts"
+                show_title={true}
+                title={$currentUser?.username || "Accounts"}
                 btn_img={ProfilePictureIcon}
                 width={320}
             >

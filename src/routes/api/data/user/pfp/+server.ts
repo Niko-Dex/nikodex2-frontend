@@ -5,11 +5,18 @@ import type { RequestHandler } from "./$types";
 export const GET: RequestHandler = async ({ request, fetch }) => {
   try {
     const url = new URL(request.url);
-    const submissionReq = await fetch(
-      `${env.API_SERVER_URL}/submissions/image?id=${url.searchParams.get("id")}`
+    const fetchRequest = await fetch(
+      `${env.API_SERVER_URL}/users/profile_picture?id=${url.searchParams.get(
+        "id",
+      )}`,
+      {
+        headers: {
+          "Content-Type": "image/png",
+          "Cache-Control": "no-store",
+        },
+      },
     );
-
-    return submissionReq;
+    return fetchRequest;
   } catch (err) {
     return errSrv(err);
   }

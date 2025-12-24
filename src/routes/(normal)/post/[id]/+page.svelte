@@ -1,54 +1,144 @@
 <script lang="ts">
-  import type { PageProps } from "./$types";
-  import Background from "$lib/assets/images/page/user/world_machine.png";
-  let { data }: PageProps = $props();
-  import { format } from "date-fns";
-  import { beforePage, returnGoBackLink } from "$lib/helper/helper";
-  import { page } from "$app/state";
+    import type { PageProps } from "./$types";
+    import Background from "$lib/assets/images/page/user/world_machine.png";
+    let { data }: PageProps = $props();
+    import CategoryComponent from "$lib/components/CategoryComponent.svelte";
+    import { onMount } from "svelte";
+    import type { NikodexComment } from "$lib/types/comment";
+    import toast from "svelte-french-toast";
+    import CommentCard from "$lib/components/CommentCard.svelte";
+    import { currentUser, dateFormatter } from "$lib/helper/helper";
+
+    let commentData: NikodexComment[] = $state([]);
+    async function getComments() {
+        const comments = fetch(`/api/data/comments?post_id=${data.id}`)
+            .then((r) => {
+                return r.json();
+            })
+            .then((r) => (commentData = r));
+
+        toast.promise(comments, {
+            loading: "Loading comments...",
+            success: "Comments Loaded!",
+            error: (e) => `Error loading comment: ${e.message}`,
+        });
+    }
+
+    let inputValue = $state("");
+    onMount(async () => {
+        await getComments();
+    });
 </script>
 
 <svelte:head>
-  <title>NikoDex - {data.postData.title}</title>
+    <title>NikoDex - {data.postData.title}</title>
 </svelte:head>
 
 <section class="w-full relative flex justify-center p-4">
-  <div
-    class="absolute top-0 left-0 w-full h-full bg-no-repeat bg-cover bg-center no-antialias bg-fixed -z-1"
-    style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url({Background}); "
-  ></div>
-  <div class="max-w-[1200px] w-[1200px] flex flex-col gap-4 min-h-screen">
-    <a class="btn w-fit" href={returnGoBackLink(page.url.pathname)}>Go Back</a>
-    <div class="flex flex-col gap-0.5">
-      <h1 class="h1-txt-size">{data.postData.title}</h1>
-      <p>
-        By: <a
-          class="bg-white text-black w-fit px-1"
-          href="/account/{data.postData.user.username}"
-          >{data.postData.user.username}</a
-        >
-      </p>
-      <p>
-        Posted on {format(
-          Date.parse(data.postData.post_datetime),
-          "dd MMM yyyy - HH:mm:ss"
-        )}
-      </p>
-    </div>
-    <p>{data.postData.content}</p>
+    <div
+        class="absolute top-0 left-0 w-full h-full bg-no-repeat bg-cover bg-center no-antialias bg-fixed -z-1"
+        style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url({Background}); "
+    ></div>
+    <div class="max-w-[1200px] w-[1200px] flex flex-col gap-4 min-h-screen">
+        <a class="btn w-fit" href="/posts">Go Back</a>
+        <div class="flex flex-col gap-0.5">
+            <h1 class="h1-txt-size">{data.postData.title}</h1>
+            <div class="flex flex-row items-center gap-4">
+                By:
+                <a
+                    class="w-fit px-1 no-underline h2-txt-size h-fit mt-auto flex items-center gap-4 transition group hover:bg-white p-2"
+                    href="/account/{data.postData.user.username}"
+                >
+                    <img
+                        src="/api/data/user/pfp?id={data.postData.user.id}"
+                        class="w-16 h-16 group-hover:invert transition"
+                        alt="Profile picture of {data.postData.user.username}"
+                    />
+                    <h1 class="group-hover:invert transition">
+                        {data.postData.user.username}
+                    </h1>
+                </a>
+            </div>
+            <p>
+                Posted on {dateFormatter(data.postData.post_datetime)}
+            </p>
+        </div>
+        <p>{data.postData.content}</p>
 
-    <div class="w-full flex flex-col items-center gap-4">
-      <div
-        class="lg:max-w-[70%] max-w-full p-4 border-2 border-(--theme-color)"
-      >
-        <img
-          class="non-pixelated"
-          alt={`Image of ${data.postData.title}`}
-          src="/api/posts/image?id={data.postData.id}"
-        />
-      </div>
-      <a href="/post/img_viewer/{data.postData.id}" class="btn">Preview Image</a
-      >
+        <div class="w-full flex flex-col items-center gap-4">
+            <div
+                class="lg:max-w-[70%] max-w-full p-4 border-2 border-(--theme-color)"
+            >
+                <img
+                    class="non-pixelated"
+                    alt={`Image of ${data.postData.title}`}
+                    src="/api/posts/image?id={data.postData.id}"
+                />
+            </div>
+        </div>
+        <CategoryComponent categoryName="Comments">
+            {#if $currentUser}
+                <form
+                    class="w-full flex gap-2"
+                    method="POST"
+                    onsubmit={async (event) => {
+                        event.preventDefault();
+
+                        const form: HTMLFormElement = event.currentTarget;
+                        const formData = new FormData(form);
+                        formData.append("post_id", data.id);
+                        formData.append("username", $currentUser.username);
+
+                        const commentPostFetch = fetch(form.action, {
+                            method: form.method,
+                            body: formData,
+                        }).then(async (r) => {
+                            const response = await r.json();
+                            if (response.status != "200") throw response.status;
+                            inputValue = ""; // prevent mfs from spamming
+                            await getComments();
+                        });
+
+                        toast.promise(commentPostFetch, {
+                            loading: "Commenting...",
+                            success: "Commented!",
+                            error: (e) => `Couldn't comment!\nStatus: ${e}`,
+                        });
+                    }}
+                >
+                    <input
+                        type="text"
+                        class="border-4 w-full p-3"
+                        placeholder="Type your comment here..."
+                        name="comment"
+                        bind:value={inputValue}
+                        required
+                    />
+                    <button class="btn">Comment</button>
+                </form>
+            {:else}
+                <em class="mt-5 mb-5"
+                    >You must have an account to make comments :3</em
+                >
+            {/if}
+
+            <section class="max-h-[500px] overflow-auto flex flex-col gap-2">
+                {#each commentData as comment, idx (idx)}
+                    <CommentCard
+                        deletable={comment.author_id == $currentUser?.id}
+                        author_id={comment.author_id}
+                        username={comment.user.username}
+                        content={comment.content}
+                        id={comment.id}
+                        date={dateFormatter(comment.post_date)}
+                        original_poster={data.postData.user.id ==
+                            comment.author_id}
+                        on_comment_delete={async () => {
+                            await getComments();
+                        }}
+                    />{/each}
+            </section>
+        </CategoryComponent>
+        <br />
     </div>
-    <br />
-  </div>
 </section>

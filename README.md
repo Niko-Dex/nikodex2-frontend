@@ -9,17 +9,20 @@ The main part of the frontend for the Nikodex is structured as follows:
 - `/`: the homepage for the Nikodex, containing informations about the site (user space) (visible to everyone)
   - `/noik`: the Niko list, for showcasing the Nikosonas the community have created.
   - `/blog`: the Nikodex's blogs, for displaying informations or updates published by the site's Admin.
-  - `/posts`: the Nikodex's community posts page, for displaying posts made by the community.
+  - `/posts`: the Nikodex's community posts page, for displaying posts made by the community. Where it also contains comments made by other users.
   - `/account`: this is the account page for a user.
   - `/account/search`: this is the account search page, where users can search for accounts.
   - `/account/[id]`: this is the public profile page, it displays information about a user.
   - `/account/migrate`: this is where the originally discord-authenticated users can migrate their Nikosonas to the new account system.
+  - `/account/comments`: this is the account comments page, where users can view and manage their comments.
 - `/admin`: the homepage for the Admin of the Nikodex, containing the status for the website (admin space) (hidden to normal users, requires authentication)
   - `/admin/login`: the login page for Admin to authenticate themselves (this is also where unauthenticated users will be redirected to)
   - `/admin/noik`: the dashboard for the Niko list, where Admins can create, edit, or delete entries.
   - `/admin/blog`: the dashboard for the Nikodex's blogs, where Admins can create, edit, or delete blog entries.
   - `/admin/submissions`: the dashboard for the Nikodex's current submissions, where admins can approve or reject submissions.
   - `/admin/users`: the dashboard for the Nikodex's current users, where admins can take action on individual users.
+  - `/admin/posts`: the dashboard for the Nikodex's current posts, where admins can create, edit, or delete posts.
+  - `/admin/posts/comments/[id]`: the dashboard for the Nikodex's current posts comments, where admins can create, edit, or delete comments.
 
 As listed above, the Nikodex is split into two "spaces": the user space, where everyone can access, and the admin space, where only user with an Admin account can access. Informations on how to create or manage Admin accounts can be found in the README for the `nikodex2-backend`.
 

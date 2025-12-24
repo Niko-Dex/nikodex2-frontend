@@ -4,5 +4,6 @@ export type Post = {
   content: string;
   user: {
     username: string;
+    id: number;
   };
 };

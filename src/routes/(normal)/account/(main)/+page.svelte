@@ -4,6 +4,7 @@
     import { goto } from "$app/navigation";
     import toast from "svelte-french-toast";
     import { onMount } from "svelte";
+    import CategoryComponent from "$lib/components/CategoryComponent.svelte";
 
     let new_username = $state("");
     let new_description = $state("");
@@ -51,18 +52,15 @@
     {#if data.is_admin}
         <p>You are an admin!</p>
     {/if}
-    <div class="flex flex-col gap-2">
-        <h1 class="text-3xl">Bio/About Me</h1>
+    <CategoryComponent categoryName="Bio/About Me">
         <div class="min-w-full">
             <textarea class="w-full" bind:value={new_description}></textarea>
         </div>
         <button class="btn" onclick={async () => await updateUser(false)}
             >Update Info</button
-        >
-    </div>
-    <div class="flex flex-col gap-2">
-        <h1 class="text-3xl">Login info</h1>
-
+        ></CategoryComponent
+    >
+    <CategoryComponent categoryName="Login Info:">
         <div class="min-w-full">
             <p>New Username:</p>
             <input class="w-full" type="text" bind:value={new_username} />
@@ -81,5 +79,5 @@
         <button class="btn" onclick={async () => await updateUser(true)}
             >Update Info</button
         >
-    </div>
+    </CategoryComponent>
 </div>

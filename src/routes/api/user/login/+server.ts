@@ -31,7 +31,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
       httpOnly: true,
       secure: true,
       path: "/",
-      maxAge: 86400,
+      maxAge: 2629743,
     });
     return json({ success: true });
   } catch (err) {

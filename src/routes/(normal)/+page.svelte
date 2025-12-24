@@ -48,7 +48,7 @@
 </script>
 
 <svelte:head>
-    <title>Home</title>
+    <title>NikoDex</title>
 </svelte:head>
 
 <section

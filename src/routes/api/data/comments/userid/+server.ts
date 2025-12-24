@@ -2,14 +2,13 @@ import { env } from "$env/dynamic/private";
 import { errSrv } from "../../../helper";
 import type { RequestHandler } from "./$types";
 
-export const GET: RequestHandler = async ({ request, fetch }) => {
+export const GET: RequestHandler = async ({ request }) => {
   try {
     const url = new URL(request.url);
-    const submissionReq = await fetch(
-      `${env.API_SERVER_URL}/submissions/image?id=${url.searchParams.get("id")}`
+    const fetchMessage = await fetch(
+      `${env.API_SERVER_URL}/comments/user_id?user_id=${url.searchParams.get("user_id")}`,
     );
-
-    return submissionReq;
+    return fetchMessage;
   } catch (err) {
     return errSrv(err);
   }

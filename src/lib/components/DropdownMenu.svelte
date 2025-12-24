@@ -9,19 +9,23 @@
         title,
         width,
         height = -1,
+        custom_class,
+        show_title = false,
     }: {
         btn_img?: string;
         title: string;
         width: number;
         height?: number;
+        custom_class?: string;
+        show_title: boolean;
     } = $props();
-
+    let trianglePoints = $derived(isShown ? "0,0 0,16 16,8" : "0,0 16,0 8,16");
     onNavigate(() => {
         isShown = false;
     });
 </script>
 
-<div class="flex flex-row-reverse relative">
+<div class="flex flex-row-reverse relative {custom_class}">
     <button
         onclick={() => (isShown = true)}
         class="btn w-full flex flex-row gap-2 items-center sm:p-1 group"
@@ -32,10 +36,17 @@
                 width="32"
                 height="32"
                 alt={title}
-                class="group-hover:invert"
+                class="group-hover:invert transition"
             />
-            <span class="sm:hidden">{title}</span>
+            <span class={!show_title ? "sm:hidden" : ""}>{title}</span>
         {:else}
+            <svg
+                width="16"
+                height="16"
+                class="group-hover:invert fill-white transition"
+            >
+                <polygon points={trianglePoints}></polygon>
+            </svg>
             <span>{title}</span>
         {/if}
     </button>

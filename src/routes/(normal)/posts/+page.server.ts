@@ -1,20 +1,5 @@
 import { env } from "$env/dynamic/private";
 import { fail, type Actions } from "@sveltejs/kit";
-import type { PageServerLoad } from "./$types";
-
-export const load = (async ({ fetch }) => {
-  const fetchMessage = await fetch(`/api/user/me`);
-  if (!fetchMessage.ok) {
-    return {
-      authenticated: false,
-    };
-  }
-
-  return {
-    authenticated: true,
-    user: await fetchMessage.json(),
-  };
-}) satisfies PageServerLoad;
 
 export const actions = {
   default: async ({ fetch, cookies, request }) => {

@@ -51,6 +51,7 @@
     <div class="max-w-[1200px] w-[1200px] flex flex-col gap-4 min-h-screen">
         <h1 class="h1-txt-size">The User Listo!</h1>
         <p>Look through all the cool listings, woah!</p>
+        <em>Click on a user to see them :3</em>
         <div class="w-full flex flex-row gap-4">
             <input
                 bind:value={usernameToSearchFor}
@@ -63,12 +64,24 @@
             <button class="btn">Search..</button>
         </div>
         {#each currentUsers as _userPart (_userPart.id)}
-            <section
-                class="bg-black border-4 p-4 border-(--theme-color) flex flex-row items-center"
+            <a
+                class="flex flex-row items-center gap-4 no-underline btn group p-3"
+                href="/account/{_userPart.username}"
             >
-                <h1 class="w-full">{_userPart.username}</h1>
-                <a class="btn" href="/account/{_userPart.username}">View</a>
-            </section>
+                <img
+                    src={`/api/data/user/pfp?id=${_userPart.id}`}
+                    alt="Loading"
+                    class="w-16 h-16 group-hover:invert transition"
+                    draggable="false"
+                    fetchpriority="low"
+                />
+                <h1 class="w-fit">
+                    {_userPart.username}
+                    <p class="italic text-sm">
+                        {_userPart.description}
+                    </p>
+                </h1>
+            </a>
         {/each}
     </div>
 </section>

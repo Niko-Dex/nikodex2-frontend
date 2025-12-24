@@ -5,7 +5,7 @@
   import Static3 from "$lib/assets/images/page/twm/static-3.png";
   import Dialogue from "$lib/assets/images/page/twm/niko-background.png";
   import { onMount } from "svelte";
-  import { beforePage, returnGoBackLink } from "$lib/helper/helper.js";
+  import { beforePage } from "$lib/helper/helper.js";
   import Transition from "$lib/components/Transition.svelte";
   import { page } from "$app/state";
   let { data } = $props();
@@ -113,7 +113,7 @@
     </div>
   </div>
   <div class="fixed top-2 left-2">
-    <a class="btn" href={returnGoBackLink(page.url.pathname)}>Go Back</a>
+    <a class="btn" href="/noik">Go Back</a>
   </div>
 </div>
 
