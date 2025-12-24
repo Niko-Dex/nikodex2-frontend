@@ -17,7 +17,7 @@
         width: number;
         height?: number;
         custom_class?: string;
-        show_title: boolean;
+        show_title?: boolean;
     } = $props();
     let trianglePoints = $derived(isShown ? "0,0 0,16 16,8" : "0,0 16,0 8,16");
     onNavigate(() => {
