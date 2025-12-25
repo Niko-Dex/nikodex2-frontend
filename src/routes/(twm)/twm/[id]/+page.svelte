@@ -5,9 +5,9 @@
   import Static3 from "$lib/assets/images/page/twm/static-3.png";
   import Dialogue from "$lib/assets/images/page/twm/niko-background.png";
   import { onMount } from "svelte";
-  import { beforePage } from "$lib/helper/helper.js";
   import Transition from "$lib/components/Transition.svelte";
   import { page } from "$app/state";
+  import GoBackButton from "$lib/components/GoBackButton.svelte";
   let { data } = $props();
 
   let ballon_w = $state(0);
@@ -113,7 +113,7 @@
     </div>
   </div>
   <div class="fixed top-2 left-2">
-    <a class="btn" href="/noik">Go Back</a>
+    <GoBackButton _class="w-fit">Go Back</GoBackButton>
   </div>
 </div>
 
