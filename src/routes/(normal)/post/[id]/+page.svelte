@@ -98,8 +98,9 @@
         >
           <input
             type="text"
+            maxlength="300"
             class="border-4 w-full p-3"
-            placeholder="Type your comment here..."
+            placeholder="Type your comment here... Max: 300"
             name="comment"
             bind:value={inputValue}
             required
