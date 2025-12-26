@@ -78,6 +78,6 @@
         </ul>
       </span>
     </div>
-    <p class="h-full bg-gray-500/10 p-4">{data.noikData.description}</p>
+    <p class="h-full bg-gray-500/10 p-4">{data.noikData.full_desc}</p>
   </div>
 </section>
