@@ -32,6 +32,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
         "Content-Type": "application/json",
       },
     });
+
     return postReq;
   } catch (err) {
     return errSrv(err);

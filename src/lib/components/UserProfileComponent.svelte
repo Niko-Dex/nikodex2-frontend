@@ -1,4 +1,5 @@
 <script lang="ts">
+  import UnmigratedWarningIcon from "$lib/assets/images/page/account/unmigrated_warning_icon.png";
   let { username, id }: { username: string; id: number } = $props();
 </script>
 
@@ -16,13 +17,28 @@
           alt="Profile picture of {username}"
         />
       {/if}
-      <h1
-        class="group-hover:invert transition {id == undefined
-          ? 'bg-red-500'
-          : ''}"
-      >
-        {username}
-      </h1>
+
+      {#if id == undefined}
+        <div class="flex flex-col">
+          <h1 class="group-hover:invert transition">
+            {username}
+          </h1>
+          <em
+            class="text-xl bg-red-500 flex gap-4 items-center text-white group-hover:invert transition"
+          >
+            <img
+              src={UnmigratedWarningIcon}
+              class="w-8"
+              alt="Unmigrated Icon Warning"
+            />
+            Unmigrated Account!
+          </em>
+        </div>
+      {:else}
+        <h1 class="group-hover:invert transition">
+          {username}
+        </h1>
+      {/if}
     </a>
   </div>
 {:else}

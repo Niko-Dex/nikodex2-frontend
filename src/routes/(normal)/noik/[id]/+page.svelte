@@ -7,6 +7,20 @@
   import { page } from "$app/state";
   import UserProfileComponent from "$lib/components/UserProfileComponent.svelte";
   let { data }: PageProps = $props();
+
+  let isPatting = $state(false);
+  let timeout: ReturnType<typeof setTimeout> | null = null;
+
+  function patpat() {
+    isPatting = true;
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+    timeout = setTimeout(() => {
+      isPatting = false;
+      timeout = null;
+    }, 1000);
+  }
 </script>
 
 <svelte:head>
@@ -31,11 +45,20 @@
       >
     </div>
     <div class="flex flex-row flex-wrap h-full gap-4 overflow-auto">
-      <img
-        src={`/api/image?id=${data.noikData.id}`}
-        class="min-w-[40%] max-h-fit"
-        alt="Nikosona by {data.noikData.author}"
-      />
+      <button class="w-[40%] h-fit cursor-grab" onclick={patpat}>
+        <img
+          src={`/api/image?id=${data.noikData.id}`}
+          class="w-full max-h-fit {isPatting ? 'hidden' : ''}"
+          alt="Nikosona by {data.noikData.author}"
+          draggable="false"
+        />
+        <img
+          src={`/api/patpat?id=${data.noikData.id}`}
+          class="w-full max-h-fit {!isPatting ? 'hidden' : ''}"
+          alt="Nikosona by {data.noikData.author}"
+          draggable="false"
+        />
+      </button>
       <span class="flex flex-col gap-4 h-fit overflow-auto">
         <h1 class="h1-txt-size">{data.noikData.name}</h1>
         <em>"{data.noikData.description}"</em>

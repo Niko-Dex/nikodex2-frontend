@@ -84,15 +84,15 @@
               body: formData,
             }).then(async (r) => {
               const response = await r.json();
-              if (response.status != "200") throw response.status;
-              inputValue = ""; // prevent mfs from spamming
+              const responseJson = JSON.parse(response.data);
+              if (response.status != "200") throw responseJson;
               await getComments();
             });
 
             toast.promise(commentPostFetch, {
               loading: "Commenting...",
               success: "Commented!",
-              error: (e) => `Couldn't comment!\nStatus: ${e}`,
+              error: (e) => `${e}`,
             });
           }}
         >

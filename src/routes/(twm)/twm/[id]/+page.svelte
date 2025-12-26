@@ -30,7 +30,7 @@
       .then((d) => {
         apiData.name = d["name"];
         apiData.description = d["full_desc"];
-        apiData.author = d["author"];
+        apiData.author = d["author_name"];
         apiData.img_link = `/api/image?id=${data.id}`;
       });
   }

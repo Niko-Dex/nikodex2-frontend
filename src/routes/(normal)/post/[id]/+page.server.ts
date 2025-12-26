@@ -21,8 +21,10 @@ export const actions = {
         username: data.get("username"),
       }),
     });
+    const response = await fetchReq.json();
     if (!fetchReq.ok)
-      return fail(fetchReq.status, { error: await fetchReq.text() });
-    else return { is_ok: fetchReq.ok };
+      return fail(fetchReq.status, response["error"]);
+    else 
+      return JSON.stringify(response);
   },
 } satisfies Actions;
