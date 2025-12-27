@@ -92,7 +92,7 @@
             </a>
         </div>
 
-        <div class="flex flex-col xl:flex-row gap-2">
+        <div class="flex flex-col lg:flex-row gap-2">
             <Link href={resolve("/(normal)/account/(main)")}>Home</Link>
             <DropdownMenu
                 width={300}
