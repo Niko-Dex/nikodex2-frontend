@@ -60,7 +60,7 @@
             >Update Info</button
         ></CategoryComponent
     >
-    <CategoryComponent categoryName="Login Info:">
+    <CategoryComponent categoryName="Login Info">
         <div class="min-w-full">
             <p>New Username:</p>
             <input class="w-full" type="text" bind:value={new_username} />
