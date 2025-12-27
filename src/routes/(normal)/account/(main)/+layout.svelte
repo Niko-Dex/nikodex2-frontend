@@ -33,8 +33,11 @@
                     accept="image/*"
                     onchange={async (event_trg) => {
                         if (event_trg.target) {
-                            const file: File = event_trg.target.files[0];
-                            if (!file) return;
+                            const inputElm =
+                                event_trg.target as HTMLInputElement;
+                            const files = inputElm.files;
+                            if (!files) return;
+                            const file = files[0];
                             const formData = new FormData();
                             formData.append("file", file);
 
