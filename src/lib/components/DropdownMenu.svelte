@@ -1,6 +1,6 @@
 <script lang="ts">
     //? i'll say, this implementation of dropdown is actually brilliant.
-    import { onNavigate } from "$app/navigation";
+    import { beforeNavigate, onNavigate } from "$app/navigation";
 
     let isShown = $state(false);
 
@@ -20,6 +20,9 @@
         show_title?: boolean;
     } = $props();
     let trianglePoints = $derived(!isShown ? "0,0 0,16 16,8" : "0,0 16,0 8,16");
+    beforeNavigate(() => {
+        isShown = false;
+    });
     onNavigate(() => {
         isShown = false;
     });
