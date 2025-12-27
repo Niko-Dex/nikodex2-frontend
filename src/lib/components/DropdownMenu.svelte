@@ -28,7 +28,7 @@
 <div class="flex flex-row-reverse relative {custom_class}">
     <button
         onclick={() => (isShown = true)}
-        class="btn w-full flex flex-row gap-2 items-center sm:p-1 group"
+        class="btn w-full flex flex-row gap-2 items-center group"
     >
         {#if btn_img != ""}
             <img
