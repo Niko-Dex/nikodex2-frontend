@@ -23,9 +23,7 @@
             {categoryName}
         </h1>
     </button>
-    <hr />
     {#if !categoryIsHidden}
         {@render children?.()}
     {/if}
-    <hr />
 </div>
