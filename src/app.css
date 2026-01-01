@@ -69,6 +69,10 @@ body {
         @apply border-4 border-(--theme-color) bg-black hover:cursor-pointer hover:bg-(--theme-color) hover:text-black p-2 transition duration-200 disabled:cursor-not-allowed disabled:brightness-70 disabled:bg-gray-900;
     }
 
+    .small-txt-size {
+        @apply md:text-lg text-sm;
+    }
+
     .h2-txt-size {
         @apply text-2xl md:text-3xl lg:text-4xl font-bold;
     }
