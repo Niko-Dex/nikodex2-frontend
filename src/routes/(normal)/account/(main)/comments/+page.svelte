@@ -30,19 +30,22 @@
     });
 </script>
 
-{#if !isLoading}
-    {#each apiData as comment, idx (idx)}
-        <CommentCard
-            id={comment.id}
-            username={comment.user.username}
-            date={dateFormatter(comment.post_date)}
-            author_id={comment.author_id}
-            content={comment.content}
-            original_poster={true}
-            deletable={true}
-            on_comment_delete={async () => await getData()}
-        ></CommentCard>
-    {/each}
-{:else}
-    <p>Loading...</p>
-{/if}
+<div class="flex flex-col gap-4">
+    <h2 class="h2-txt-size">Your comment on Posts</h2>
+    {#if !isLoading}
+        {#each apiData as comment, idx (idx)}
+            <CommentCard
+                id={comment.id}
+                username={comment.user.username}
+                date={dateFormatter(comment.post_date)}
+                author_id={comment.author_id}
+                content={comment.content}
+                original_poster={true}
+                deletable={true}
+                on_comment_delete={async () => await getData()}
+            ></CommentCard>
+        {/each}
+    {:else}
+        <p>Loading...</p>
+    {/if}
+</div>
