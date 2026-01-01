@@ -1,12 +1,12 @@
 <script lang="ts">
-    import type { PageData, PageProps } from "./$types";
+    import type { PageProps } from "./$types";
     import Background from "$lib/assets/images/page/noik/bg1.png";
-    import type { Niko } from "$lib/types/nikosona";
     import GoBackButton from "$lib/components/GoBackButton.svelte";
     import toast from "svelte-french-toast";
     import { page } from "$app/state";
     import UserProfileComponent from "$lib/components/UserProfileComponent.svelte";
     import Copy from "$lib/assets/images/page/noik/Copy.svelte";
+    import NikoImage from "$lib/components/NikoImage.svelte";
     let { data }: PageProps = $props();
 </script>
 
@@ -36,13 +36,12 @@
         <div
             class="flex flex-col md:flex-row flex-wrap h-full gap-4 overflow-auto"
         >
-            <button class="w-[256px] h-fit">
-                <img
-                    src={`/api/image?id=${data.noikData.id}`}
-                    class="w-full max-h-fit"
-                    alt="Nikosona by {data.noikData.author}"
-                />
-            </button>
+            <NikoImage
+                author={data.noikData.author}
+                id={data.noikData.id}
+                is_blacklisted={data.noikData.is_blacklisted}
+                name={data.noikData.name}
+            ></NikoImage>
             <span class="flex flex-col gap-2 h-fit overflow-auto">
                 <h1 class="h1-txt-size">{data.noikData.name}</h1>
                 <em>"{data.noikData.description}"</em>
