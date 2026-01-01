@@ -41,7 +41,7 @@
                 alt={title}
                 class="group-hover:invert transition"
             />
-            <span class={!show_title ? "sm:hidden" : ""}>{title}</span>
+            <span class={!show_title ? "lg:hidden" : ""}>{title}</span>
         {:else}
             <svg
                 width="16"
@@ -56,7 +56,7 @@
     <div
         class="absolute {isShown
             ? 'scale-100'
-            : 'scale-0'} transition-all duration-200 origin-top-right grid gap-2 h-fit bg-black p-3 border-4 border-(--theme-color) z-50 max-w-full sm:max-w-none"
+            : 'scale-0'} transition-all duration-200 origin-top-right grid gap-2 h-fit bg-black p-3 border-4 border-(--theme-color) z-50 max-w-full lg:max-w-none"
         style="width: {width}px; {height > 0 ? `height: ${height}px` : ''}"
     >
         <button class="btn w-fit float-left" onclick={() => (isShown = false)}

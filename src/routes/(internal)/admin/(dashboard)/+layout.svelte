@@ -25,7 +25,7 @@
             : 'translate-x-[-240px] md:translate-x-0'}"
     >
         <h2 class="h2-txt-size md:inline">Admin Dashboard</h2>
-        <div class="link gap-2 md:gap-4 w-full overflow-auto flex-col flex">
+        <div class="link gap-2 lg:gap-4 w-full overflow-auto flex-col flex">
             <Link href="/admin">Home</Link>
             <Link href="/admin/users">Users</Link>
             <Link href="/admin/posts">Posts</Link>

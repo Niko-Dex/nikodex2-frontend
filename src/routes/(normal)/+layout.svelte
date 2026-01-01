@@ -2,7 +2,7 @@
     import "../../app.css";
     import favicon from "$lib/assets/favicon.png";
     import Link from "$lib/components/Link.svelte";
-    import logo from "$lib/assets/images/logo.png";
+    import logo from "$lib/assets/images/logo2.png";
     import Transition from "$lib/components/Transition.svelte";
     import { onMount } from "svelte";
     import { afterNavigate } from "$app/navigation";
@@ -105,9 +105,11 @@
     <Transition />
     <Toaster />
     <nav
-        class="bg-black sticky top-0 w-full border-b-4 border-(--theme-color) px-4 py-2 justify-between items-center flex flex-col gap-2 lg:flex-row z-3"
+        class="bg-black lg:sticky transition duration-200 fixed top-0 left-0 w-[320px] max-w-full h-screen border-(--theme-color) border-r-4 p-6 flex flex-col gap-6 z-3 lg:w-full lg:h-auto lg:justify-between lg:flex-row lg:px-4 lg:py-2 lg:border-b-4 lg:border-r-0 {navBarOpen
+            ? 'translate-x-0'
+            : 'translate-x-[-100%] lg:translate-x-0'}"
     >
-        <div class="logo flex items-center w-full lg:w-max justify-between">
+        <div class="logo flex items-center w-full justify-between lg:w-max">
             <a href="/">
                 <img
                     src={logo}
@@ -116,29 +118,10 @@
                     class="max-h-12 hover:drop-shadow-(--shadow) transition duration-100 non-pixelated"
                 />
             </a>
-            <button
-                aria-label="Menu"
-                class="hover:cursor-pointer"
-                onclick={() => (navBarOpen = !navBarOpen)}
-            >
-                <svg
-                    class="lg:hidden"
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="32px"
-                    viewBox="0 -960 960 960"
-                    width="32px"
-                    fill="#e3e3e3"
-                    ><path
-                        d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
-                    /></svg
-                >
-            </button>
         </div>
 
         <div
-            class="link gap-2 md:gap-4 px-4 sm:px-0 flex-shrink w-full lg:w-auto flex-col sm:flex-row flex-wrap lg:flex-nowrap justify-end {navBarOpen
-                ? 'flex'
-                : 'hidden lg:flex'}"
+            class="link gap-2 lg:gap-4 flex-shrink w-full flex-col lg:flex-row lg:justify-end flex overflow-auto lg:overflow-visible"
         >
             <Link
                 custom_class="flex-1 lg:flex-none border-(--theme-color)"
@@ -146,33 +129,13 @@
             >
             <Link custom_class="flex-1 lg:flex-none" href="/blog">Blog</Link>
             <Link custom_class="flex-1 lg:flex-none" href="/posts">Posts</Link>
-            <DropdownMenu
-                show_title={true}
-                title={$currentUser?.username || "Accounts"}
-                btn_img={ProfilePictureIcon}
-                width={320}
-            >
-                <h1 class="h2-txt-size text-white items-center">Accounts</h1>
-                <a
-                    class="btn text-white w-full items-center flex flex-row"
-                    href="/account"
-                >
-                    <p class="text-center w-full">My account!</p>
-                </a>
-                <a
-                    class="btn text-white w-full items-center flex flex-row"
-                    href="/account/search"
-                >
-                    <p class="text-center w-full">Search for accounts</p>
-                </a>
-            </DropdownMenu>
             <Link
                 custom_class="sm:p-1 gap-2"
                 href="/discord"
                 hasMinSize={false}
             >
                 <DiscordLogo />
-                <span class="sm:hidden">Nikodex's Discord Server</span>
+                <span class="lg:hidden">Discord</span>
             </Link>
             <DropdownMenu
                 title="Change Theme"
@@ -202,8 +165,58 @@
                     {/each}
                 </div>
             </DropdownMenu>
+            <DropdownMenu
+                title={$currentUser?.username || "Accounts"}
+                btn_img={ProfilePictureIcon}
+                width={320}
+            >
+                <h1 class="h2-txt-size text-white items-center">Accounts</h1>
+                <a
+                    class="btn text-white w-full items-center flex flex-row"
+                    href="/account"
+                >
+                    <p class="text-center w-full">My account!</p>
+                </a>
+                <a
+                    class="btn text-white w-full items-center flex flex-row"
+                    href="/account/search"
+                >
+                    <p class="text-center w-full">Search for accounts</p>
+                </a>
+            </DropdownMenu>
         </div>
     </nav>
+    <div
+        class="lg:hidden border-(--theme-color) border-b-4 flex flex-row justify-between p-4 sticky top-0 bg-black z-1 gap-4"
+    >
+        <div class="logo flex items-center w-[240px] justify-between">
+            <a href="/">
+                <img
+                    src={logo}
+                    alt="Logo"
+                    style="--shadow: 2px 2px red"
+                    class="max-h-12 hover:drop-shadow-(--shadow) transition duration-100 non-pixelated"
+                />
+            </a>
+        </div>
+        <button
+            aria-label="Menu"
+            class="hover:cursor-pointer"
+            onclick={() => (navBarOpen = !navBarOpen)}
+        >
+            <svg
+                class="lg:hidden"
+                xmlns="http://www.w3.org/2000/svg"
+                height="32px"
+                viewBox="0 -960 960 960"
+                width="32px"
+                fill="#e3e3e3"
+                ><path
+                    d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
+                /></svg
+            >
+        </button>
+    </div>
     {@render children?.()}
 
     <footer

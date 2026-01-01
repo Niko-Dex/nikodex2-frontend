@@ -29,6 +29,7 @@
                     author_id={data.author_id}
                     is_blacklisted={data.is_blacklisted}
                     edit_allow={true}
+                    full_expand={true}
                 />
             {/each}
         </CardContainer>
