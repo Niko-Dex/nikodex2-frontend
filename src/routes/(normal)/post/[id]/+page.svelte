@@ -49,6 +49,7 @@
         <UserProfileComponent
             username={data.postData.user.username}
             id={data.postData.user.id}
+            subtext={dateFormatter(data.postData.post_datetime)}
         ></UserProfileComponent>
         <p>{data.postData.content}</p>
 
