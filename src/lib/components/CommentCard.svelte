@@ -1,5 +1,6 @@
 <script lang="ts">
     import toast from "svelte-french-toast";
+    import UserProfileComponent from "./UserProfileComponent.svelte";
 
     let {
         id,
@@ -41,15 +42,8 @@
     class="bg-black border-4 border-(--theme-color) p-2 flex flex-col gap-4 relative"
 >
     <div class="flex flex-row items-center gap-4 overflow-auto">
-        <img
-            src={`/api/data/user/pfp?id=${author_id}`}
-            class="w-16 h-16"
-            alt={`Profile picture of ${username}`}
-        />
-        <div class="flex flex-col">
-            <a href={`/account/${username}`}>{username}</a>
-            <span class="small-txt-size">{date}</span>
-        </div>
+        <UserProfileComponent id={author_id} {username} subtext={date}
+        ></UserProfileComponent>
         {#if deletable}
             <button class="ml-auto btn" onclick={async () => deleteComment()}
                 >Delete</button
