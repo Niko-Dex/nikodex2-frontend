@@ -1,6 +1,10 @@
 <script lang="ts">
     import UnmigratedWarningIcon from "$lib/assets/images/page/account/unmigrated_warning_icon.png";
-    let { username, id }: { username: string; id: number } = $props();
+    let {
+        username,
+        id,
+        subtext,
+    }: { username: string; id: number; subtext?: string } = $props();
 </script>
 
 {#if username}
@@ -29,9 +33,10 @@
                         <em>(Unmigrated account)</em>
                     </span>
                 {/if}
+                <span class="small-txt-size">{subtext}</span>
             </div>
         </a>
     </div>
 {:else}
-    <em>Invalid Profile Link</em>
+    <em>Invalid Profile</em>
 {/if}
