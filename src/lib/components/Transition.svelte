@@ -1,92 +1,86 @@
 <script lang="ts">
-    let firstLoad = $state(true);
-    let visible = $state(false);
+    import { beforeNavigate, afterNavigate } from "$app/navigation";
+    let progress = $state(0);
+    let opacity = $state(1);
+
     let lastTimestamp = $state(0);
     let nowTimestamp = $state(0);
+    let initProgress = 0.1;
+    let maxProgress = 0.98;
+    let updateInterval = 0.5;
+    let passedInterval = 0;
+    let delta = $derived.by(() => nowTimestamp - lastTimestamp);
 
     let animFrameNum = 0;
 
-    import { beforeNavigate, afterNavigate, goto } from "$app/navigation";
-
     function timerRun(now: number) {
+        if (passedInterval > updateInterval) {
+            progress = Math.max(
+                Math.min(
+                    progFunc(initProgress, 0.12, delta / 1000),
+                    maxProgress,
+                ),
+                initProgress,
+            );
+            passedInterval = 0;
+        }
+        passedInterval += (now - nowTimestamp) / 1000;
         nowTimestamp = now;
-        requestAnimationFrame(timerRun);
+        animFrameNum = requestAnimationFrame(timerRun);
     }
 
-    beforeNavigate((nav) => {
-        if (nav.willUnload) return;
-        if (nav.to?.url.searchParams.has("go")) {
-            nav.to?.url.searchParams.delete("go");
-            return;
-        }
-        visible = true;
+    function progFunc(y0: number, k: number, x: number) {
+        // modified Sigmoid curve
+        return y0 + (1 - y0) * (1 - Math.exp(-k * x));
+    }
+
+    beforeNavigate(() => {
+        progress = initProgress;
+        opacity = 1;
         animFrameNum = requestAnimationFrame(timerRun);
         lastTimestamp = performance.now();
-        nav.cancel();
-
-        setTimeout(async () => {
-            nav.to?.url.searchParams.append("go", "");
-            await goto(nav.to?.url ?? "");
-        }, 200);
     });
 
     afterNavigate(() => {
-        visible = false;
-        firstLoad = false;
+        progress = 1;
+        setTimeout(() => {
+            opacity = 0;
+        }, 100);
         cancelAnimationFrame(animFrameNum);
+        setTimeout(() => {
+            progress = 0;
+        }, 200);
+        console.log("done");
     });
 </script>
 
-<noscript>
-    <style>
-        .transition-kbity {
-            display: none;
-        }
-    </style>
-</noscript>
-
 <div
-    class="transition-kbity overlay bg-indigo-900 fixed top-0 left-0 w-screen h-screen z-10 {visible
-        ? 'slide-in'
-        : 'slide-out'} flex justify-center items-center"
->
-    {#if firstLoad}
-        <h1><em>loading... :3</em></h1>
-    {:else}
-        <h1>
-            <em
-                >loading ({((nowTimestamp - lastTimestamp) / 1000).toFixed(
-                    1,
-                )}s)... :3</em
-            >
-        </h1>
-    {/if}
-</div>
+    class="h-[3px] fixed top-0 z-100 transition-[clip-path, opacity] duration-200 ease-out loading-bar pointer-events-none"
+    style="width: 100%; opacity: {opacity}; clip-path: polygon(0 0, {progress *
+        100}% 0, {progress * 100}% 100%, 0% 100%);"
+></div>
 
 <style>
-    @keyframes slidein {
+    @keyframes slide {
         from {
-            transform: translateX(-100%);
+            background-position: 0 0;
         }
         to {
-            transform: translateX(0%);
+            background-position: -100% 0;
         }
     }
 
-    @keyframes slideout {
-        from {
-            transform: translateX(0%);
-        }
-        to {
-            transform: translateX(100%);
-        }
-    }
+    .loading-bar {
+        animation: slide 1s linear infinite;
+        background: linear-gradient(
+            90deg,
+            rgba(247, 45, 45, 1) 0%,
+            rgba(61, 230, 46, 1) 25%,
+            rgba(247, 45, 45, 1) 50%,
+            rgba(61, 230, 46, 1) 75%,
+            rgba(247, 45, 45, 1) 100%
+        );
 
-    .slide-in {
-        animation: slidein 0.2s forwards;
-    }
-
-    .slide-out {
-        animation: slideout 0.2s forwards;
+        background-size: 200% 100%;
     }
 </style>
