@@ -147,7 +147,7 @@
                 <div class="flex flex-wrap gap-4 justify-center overflow-auto">
                     {#each Theme.colors as color (color.name)}
                         <button
-                            class="btn p-2 min-[360px]:max-w-[120px] w-full flex justify-center items-center flex-col"
+                            class="btn p-2 lg:max-w-[120px] w-full flex justify-center items-center flex-col"
                             onclick={() => {
                                 document.body.style.setProperty(
                                     "--theme-color",
@@ -157,7 +157,7 @@
                             }}
                         >
                             <div
-                                class="w-16 h-16 no-antialias"
+                                class="w-8 h-8 lg:w-16 lg:h-16 no-antialias"
                                 style="mask: url({ThemeBtn}) no-repeat center; -webkit-mask: url({ThemeBtn}) no-repeat center; -webkit-mask-size: contain; mask-size: contain; background-color: {color.color}"
                             ></div>
                             <p>{color.name}</p>
