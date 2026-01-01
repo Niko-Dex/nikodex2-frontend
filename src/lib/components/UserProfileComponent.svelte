@@ -7,7 +7,7 @@
     <div class="flex flex-row items-center gap-4">
         <a
             class="w-fit no-underline px-1 h-fit mt-auto flex items-center gap-4 transition group"
-            href="/account/{username}"
+            href={id != undefined ? "/account/" + username : "#"}
         >
             {#if id >= 0}
                 <img
