@@ -105,7 +105,7 @@
     <Transition />
     <Toaster />
     <nav
-        class="bg-black lg:sticky transition duration-200 fixed top-0 left-0 w-[320px] max-w-full h-screen border-(--theme-color) border-r-4 p-6 flex flex-col gap-6 z-3 lg:w-full lg:h-auto lg:justify-between lg:flex-row lg:px-4 lg:py-2 lg:border-b-4 lg:border-r-0 {navBarOpen
+        class="bg-black lg:sticky transition duration-200 overflow-auto lg:overflow-visible fixed top-0 left-0 w-[320px] max-w-full h-screen border-(--theme-color) border-r-4 p-6 flex flex-col gap-6 z-3 lg:w-full lg:h-auto lg:justify-between lg:flex-row lg:px-4 lg:py-2 lg:border-b-4 lg:border-r-0 {navBarOpen
             ? 'translate-x-0'
             : 'translate-x-[-100%] lg:translate-x-0'}"
     >
@@ -121,7 +121,7 @@
         </div>
 
         <div
-            class="link gap-2 lg:gap-4 flex-shrink w-full flex-col lg:flex-row lg:justify-end flex overflow-auto lg:overflow-visible"
+            class="link gap-2 lg:gap-4 flex-shrink w-full flex-col lg:flex-row lg:justify-end flex lg:overflow-visible"
         >
             <Link
                 custom_class="flex-1 lg:flex-none border-(--theme-color)"
