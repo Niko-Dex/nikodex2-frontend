@@ -41,7 +41,7 @@
         class="absolute top-0 left-0 w-full h-full bg-no-repeat bg-cover bg-center no-antialias bg-fixed -z-1"
         style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url({Background}); "
     ></div>
-    <div class="max-w-[640px] w-[6400px] flex flex-col gap-4 min-h-screen">
+    <div class="max-w-[640px] w-[640px] flex flex-col gap-4 min-h-screen">
         <GoBackButton _class="w-fit">Go Back</GoBackButton>
         <div class="flex flex-col gap-0.5">
             <h1 class="h1-txt-size">{data.postData.title}</h1>
