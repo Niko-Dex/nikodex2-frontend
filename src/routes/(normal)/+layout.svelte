@@ -7,7 +7,8 @@
     import { onMount } from "svelte";
     import { afterNavigate, beforeNavigate } from "$app/navigation";
     import ProfilePictureIcon from "$lib/assets/images/page/account/oneshotprofilepicture.png";
-
+    import LogoutIcon from "$lib/assets/images/components/LogoutIcon.svelte";
+    import { resolve } from "$app/paths";
     import Baa from "$lib/assets/images/baaaaaa.png";
 
     import ThemeBtn from "$lib/assets/images/components/theme.png";
@@ -157,12 +158,15 @@
             >
             <Link custom_class="flex-1 lg:flex-none" href="/blog">Blog</Link>
             <Link custom_class="flex-1 lg:flex-none" href="/posts">Posts</Link>
+            <hr class="lg:hidden" />
             <Link
                 custom_class="sm:p-1 gap-2"
                 href="/discord"
                 hasMinSize={false}
             >
-                <DiscordLogo />
+                <div class="w-4 h-4 sm:w-8 sm:h-8">
+                    <DiscordLogo />
+                </div>
                 <span class="lg:hidden">Discord</span>
             </Link>
             <DropdownMenu
@@ -193,23 +197,60 @@
                     {/each}
                 </div>
             </DropdownMenu>
+
+            <hr class="lg:hidden" />
             <DropdownMenu
+                custom_class="justify-between"
                 title={$currentUser?.username || "Accounts"}
                 btn_img={ProfilePictureIcon}
                 width={320}
             >
-                <h1 class="h2-txt-size text-white items-center">Accounts</h1>
-                <a
-                    class="btn text-white w-full items-center flex flex-row"
-                    href="/account"
-                >
-                    <p class="text-center w-full">My account!</p>
-                </a>
-                <a
-                    class="btn text-white w-full items-center flex flex-row"
-                    href="/account/search"
-                >
-                    <p class="text-center w-full">Search for accounts</p>
+                <div class="flex flex-row items-center gap-2 md:gap-4">
+                    {#if $currentUser}
+                        <img
+                            src="/api/data/user/pfp?id={$currentUser.id}"
+                            alt="User profile for {$currentUser.username}"
+                            class="w-8 h-8"
+                        />
+                    {:else}
+                        <img
+                            src={ProfilePictureIcon}
+                            alt="Default user profile"
+                            class="w-8 h-8"
+                        />
+                    {/if}
+                    <h1 class="h2-txt-size text-white items-center break-all">
+                        {$currentUser?.username || "User"}
+                    </h1>
+                </div>
+                {#if $currentUser}
+                    <a
+                        class="btn text-white w-full"
+                        href="/account/{$currentUser.username}"
+                    >
+                        <p class="w-full">Profile</p>
+                    </a>
+                    <a class="btn text-white w-full" href="/account/">
+                        <p class="w-full">Manage Account</p>
+                    </a>
+                    <Link
+                        href={resolve("/api/user/logout")}
+                        custom_class="gap-4"
+                    >
+                        <LogoutIcon />
+                        Log Out
+                    </Link>
+                {:else}
+                    <a class="btn text-white w-full" href="/account/login">
+                        <p class="w-full">Login</p>
+                    </a>
+                    <a class="btn text-white w-full" href="/account/signup">
+                        <p class="w-full">Signup</p>
+                    </a>
+                {/if}
+                <hr />
+                <a class="btn text-white w-full" href="/account/search">
+                    <p class="w-full">Search for accounts</p>
                 </a>
             </DropdownMenu>
         </div>

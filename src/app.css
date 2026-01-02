@@ -49,6 +49,10 @@ body {
     a {
         @apply underline;
     }
+
+    hr {
+        @apply border-b-0 border-gray-500;
+    }
 }
 
 @layer components {

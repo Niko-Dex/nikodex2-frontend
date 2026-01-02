@@ -1,6 +1,4 @@
 <script lang="ts">
-    import LogoutIcon from "$lib/assets/images/components/LogoutIcon.svelte";
-
     import Link from "$lib/components/Link.svelte";
     import Background from "$lib/assets/images/page/user/world_machine.png";
     import { resolve } from "$app/paths";
@@ -102,11 +100,6 @@
             <Link href={resolve("/(normal)/account/(main)/migrate")}
                 >Migrate Nikos</Link
             >
-
-            <Link href={resolve("/api/user/logout")} custom_class="gap-4">
-                <LogoutIcon />
-                Log Out
-            </Link>
         </div>
         <div class="lg:px-4">
             {@render children?.()}

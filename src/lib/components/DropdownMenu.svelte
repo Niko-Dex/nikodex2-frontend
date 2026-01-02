@@ -1,6 +1,7 @@
 <script lang="ts">
     //? i'll say, this implementation of dropdown is actually brilliant.
     import { beforeNavigate, onNavigate } from "$app/navigation";
+    import CloseIcon from "$lib/assets/images/components/close.png";
 
     let isShown = $state(false);
 
@@ -30,16 +31,14 @@
 
 <div class="flex flex-row-reverse relative {custom_class}">
     <button
-        onclick={() => (isShown = true)}
+        onclick={() => (isShown = !isShown)}
         class="btn w-full flex flex-row gap-2 items-center group"
     >
         {#if btn_img != ""}
             <img
-                src={btn_img}
-                width="32"
-                height="32"
+                src={isShown ? CloseIcon : btn_img}
                 alt={title}
-                class="group-hover:invert transition"
+                class="w-4 h-4 sm:w-8 sm:h-8 group-hover:invert transition"
             />
             <span class={!show_title ? "lg:hidden" : ""}>{title}</span>
         {:else}
@@ -57,11 +56,10 @@
         class="absolute {isShown
             ? 'scale-100'
             : 'scale-0'} transition-all duration-200 origin-top-right grid gap-2 h-fit bg-black p-3 border-4 border-(--theme-color) z-50 max-w-full lg:max-w-none"
-        style="width: {width}px; {height > 0 ? `height: ${height}px` : ''}"
+        style="width: {width}px; {height > 0
+            ? `height: ${height}px`
+            : ''}; top: calc(100% + 4px)"
     >
-        <button class="btn w-fit float-left" onclick={() => (isShown = false)}
-            >Close</button
-        >
         <slot />
     </div>
 </div>

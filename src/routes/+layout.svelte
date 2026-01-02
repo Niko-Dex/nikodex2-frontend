@@ -13,6 +13,8 @@
         if (authorizationMessage.ok) {
             const userInfo: User = await authorizationMessage.json();
             $currentUser = userInfo;
+        } else {
+            $currentUser = undefined;
         }
     });
 </script>
