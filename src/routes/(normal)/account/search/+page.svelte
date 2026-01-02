@@ -71,11 +71,11 @@
                 <img
                     src={`/api/data/user/pfp?id=${_userPart.id}`}
                     alt="Loading"
-                    class="w-16 h-16 group-hover:invert transition"
+                    class="w-16 h-16 group-hover:outline-2 group-hover:outline-white"
                     draggable="false"
                     fetchpriority="low"
                 />
-                <h1 class="w-fit">
+                <h1 class="w-fit break-all">
                     {_userPart.username}
                     <p class="italic text-sm">
                         {_userPart.description}
