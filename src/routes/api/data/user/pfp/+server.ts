@@ -12,7 +12,6 @@ export const GET: RequestHandler = async ({ request, fetch }) => {
       {
         headers: {
           "Content-Type": "image/png",
-          "Cache-Control": "no-store",
         },
       },
     );
