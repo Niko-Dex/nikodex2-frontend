@@ -87,7 +87,7 @@
         <p>
             <em>
                 TL;dr: You will not make an account that has offensive contents
-                line username or description. You will not make or edit a
+                like username or description. You will not make or edit
                 submissions (Nikosonas, Posts, etc.), with or to have, any
                 offensive contents. We will terminate your accounts if we found
                 out you break the rules. Use common sense.
