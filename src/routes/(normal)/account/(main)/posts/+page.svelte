@@ -4,31 +4,33 @@
     import toast from "svelte-french-toast";
     import type { Post } from "$lib/types/post";
     import PostCard from "$lib/components/PostCard.svelte";
+    import { api, performAction } from "$lib/helper/helper";
     let { data }: PageProps = $props();
     let apiData: Post[] = $state([]);
     let isLoading = $state(true);
 
-    async function deletePost(id: number) {
-        const deleteFetch = fetch(`/api/posts/delete?id=${id}`, {
-            method: "DELETE",
-        });
-        await toast.promise(deleteFetch, {
-            loading: "Deleting post...",
-            success: "Deleted post!",
-            error: (e) => `Encountered an error... ${e.message}`,
-        });
-    }
     async function getData() {
-        const userPostData = fetch(`/api/posts/user?user_id=${data.id}`)
-            .then((r) => r.json())
-            .then((r) => {
-                apiData = r;
-                isLoading = false;
-            });
-        await toast.promise(userPostData, {
-            loading: "Loading posts...",
-            success: "Loaded posts!",
-            error: (e) => `Whoops! Got an error: ${e.message}`,
+        isLoading = true;
+        try {
+            apiData = await api(`/api/posts/user?user_id=${data.id}`);
+        } catch (e) {
+            toast.error((e as Error).message);
+        } finally {
+            isLoading = false;
+        }
+    }
+
+    async function deletePost(id: number) {
+        if (!confirm("Are you sure you want to delete this post?")) return;
+
+        const promise = api(`/api/posts/delete?id=${id}`, "DELETE").then(() => {
+            apiData = apiData.filter((p) => p.id !== id);
+        });
+
+        await performAction(promise, {
+            loading: "Deleting post...",
+            success: "Deleted!",
+            error: "Error while deleting post",
         });
     }
     onMount(async () => {
@@ -49,8 +51,11 @@
                     await deletePost(post.id);
                     await getData();
                 }}
-            ></PostCard>{/each}
+            ></PostCard>
+        {:else}
+            <p><em>no posts yet...</em></p>
+        {/each}
     {:else}
-        <p>Loading...</p>
+        <p><em>loading...</em></p>
     {/if}
 </div>

@@ -7,7 +7,7 @@
     import type { NikodexComment } from "$lib/types/comment";
     import toast from "svelte-french-toast";
     import CommentCard from "$lib/components/CommentCard.svelte";
-    import { dateFormatter } from "$lib/helper/helper";
+    import { api, dateFormatter } from "$lib/helper/helper";
     import GoBackButton from "$lib/components/GoBackButton.svelte";
     import UserProfileComponent from "$lib/components/UserProfileComponent.svelte";
 
@@ -15,19 +15,12 @@
     const currentUser = $derived(page.data.currentUser);
     let commentData: NikodexComment[] = $state([]);
     async function getComments() {
-        const comments = fetch(`/api/data/comments?post_id=${data.id}`)
-            .then((r) => {
-                return r.json();
-            })
-            .then((r) => (commentData = r));
-
-        toast.promise(comments, {
-            loading: "Loading comments...",
-            success: "Comments Loaded!",
-            error: (e) => `Error loading comment: ${e.message}`,
-        });
+        try {
+            commentData = await api(`/api/data/comments?post_id=${data.id}`);
+        } catch (e) {
+            toast.error((e as Error).message);
+        }
     }
-
     let inputValue = $state("");
     onMount(async () => {
         await getComments();
@@ -125,7 +118,10 @@
                         on_comment_delete={async () => {
                             await getComments();
                         }}
-                    />{/each}
+                    />
+                {:else}
+                    <p><em>it's quite barrens here...</em></p>
+                {/each}
             </section>
         </CategoryComponent>
         <br />

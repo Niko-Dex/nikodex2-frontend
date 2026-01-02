@@ -1,10 +1,10 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import toast from "svelte-french-toast";
     import FileUpload from "$lib/components/FileUpload.svelte";
     import PageChanger from "$lib/components/PageChanger.svelte";
     import { SvelteSet } from "svelte/reactivity";
     import type { Niko } from "$lib/types/nikosona";
+    import { api, performAction } from "$lib/helper/helper";
 
     let apiData: Niko[] = $state([]);
     let maxPages = $state(0);
@@ -12,11 +12,11 @@
     let dataErr = $state(false);
     let totalCnt = $state(0);
 
-    let editMode: { [id: number]: boolean } = $state({});
-    let oldData: { [id: number]: (typeof apiData)[number] } = {};
+    let editMode: Record<number, boolean> = $state({});
+    let oldData: Record<number, Niko> = {};
 
     let editAbilitiesRow: Niko | null = $state(null);
-    let editImage: { [id: number]: HTMLInputElement } = $state({});
+    let editImage: Record<number, HTMLInputElement> = $state({});
     let markedDeletionAbilities: Set<number> = new SvelteSet<number>();
 
     function startEdit(row: (typeof apiData)[number]) {
@@ -25,46 +25,40 @@
     }
 
     async function saveEdit(row: (typeof apiData)[number]) {
-        console.log(row);
-        const fetchData = fetch(`/api/data?id=${row.id}`, {
-            method: "PUT",
-            body: JSON.stringify({
-                name: row.name,
-                description: row.description,
-                full_desc: row.full_desc,
-                author_id: row.author_id,
-                is_blacklisted: row.is_blacklisted,
-            } satisfies Omit<Niko, "id" | "author" | "abilities">),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }).then(async (out) => {
-            const jsonData = await out.json();
-            if (out.status == 401) location.reload();
-            if (!out.ok) throw new Error(jsonData["error"]);
-
-            if (!editImage[row.id]) return;
-            const imageList = editImage[row.id].files;
-            if (imageList && imageList.length > 0) {
-                const formData = new FormData();
-                formData.append("file", imageList[0]);
-                let image = await fetch(`/api/image?id=${row.id}`, {
-                    method: "POST",
-                    body: formData,
-                });
-
-                if (image.status == 401) location.reload();
-                if (!image.ok) throw new Error((await image.json())["error"]);
-            }
-
+        const { author_id, description, full_desc, id, is_blacklisted, name } =
+            row;
+        const promise = api(`/api/data?id=${id}`, "PUT", {
+            name,
+            description,
+            full_desc,
+            author_id,
+            is_blacklisted,
+        }).then(() => {
             delete oldData[row.id];
             editMode[row.id] = false;
         });
 
-        await toast.promise(fetchData, {
-            success: "Updated Noik!",
-            loading: "Updating Noik",
-            error: (e) => `Error while updating Noik: ${e.message}`,
+        if (!editImage[row.id]) return;
+        const imageList = editImage[row.id].files;
+        if (imageList && imageList.length > 0) {
+            const formData = new FormData();
+            formData.append("file", imageList[0]);
+            const promiseImage = api(
+                `/api/image?id=${row.id}`,
+                "POST",
+                formData,
+            );
+            await performAction(promiseImage, {
+                loading: "Updating Nikosona's image...",
+                success: "Updated!",
+                error: "Error while updating Nikosona's image",
+            });
+        }
+
+        await performAction(promise, {
+            loading: "Updating Nikosona...",
+            success: "Updated!",
+            error: "Error while updating Nikosona",
         });
     }
 
@@ -81,89 +75,6 @@
         delete oldData[row.id];
     }
 
-    async function saveAbilitiesEdit() {
-        try {
-            for (let ability of editAbilitiesRow?.abilities ?? []) {
-                let out = null;
-                if (isNaN(ability.id)) {
-                    out = await fetch(`/api/data/abilities`, {
-                        method: "POST",
-                        body: JSON.stringify({
-                            name: ability.name,
-                            niko_id: ability.niko_id,
-                        }),
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    });
-                } else {
-                    out = await fetch(`/api/data/abilities?id=${ability.id}`, {
-                        method: "PUT",
-                        body: JSON.stringify({
-                            name: ability.name,
-                            niko_id: ability.niko_id,
-                        }),
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    });
-                }
-
-                if (out == null) continue;
-                if (out.status == 401) location.reload();
-                if (out.status != 200) throw new Error(await out.text());
-            }
-
-            for (let deleteAbility of markedDeletionAbilities) {
-                if (isNaN(deleteAbility)) continue;
-                let out = await fetch(
-                    `/api/data/abilities?id=${deleteAbility}`,
-                    {
-                        method: "DELETE",
-                    },
-                );
-                if (out.status == 401) location.reload();
-                if (out.status != 200) throw new Error(await out.text());
-            }
-            toast.success(
-                `Successfully saved ${editAbilitiesRow?.author}'s Abilities!`,
-            );
-            editAbilitiesRow = null;
-            await getData();
-        } catch (e) {
-            toast.error(
-                `Something has gone wrong while trying to update abilities! ${e}`,
-            );
-        }
-    }
-
-    async function getData() {
-        const fetchData = fetch(
-            `/api/data/page?page=${currentPage}&sort_by=oldest_added`,
-        ).then(async (out) => {
-            const jsonData = await out.json();
-            if (!out.ok) throw new Error(jsonData["error"]);
-            apiData = [];
-            for (let d of jsonData) {
-                apiData.push({
-                    id: d["id"],
-                    name: d["name"],
-                    author: d["author_name"],
-                    full_desc: d["full_desc"],
-                    description: d["description"],
-                    abilities: d["abilities"],
-                    author_id: d["author_id"],
-                    is_blacklisted: d["is_blacklisted"],
-                });
-            }
-        });
-        await toast.promise(fetchData, {
-            success: "Fetched Noiks data!",
-            loading: "Fetching Noiks",
-            error: (e) => `Error while fetching Noiks: ${e.message}`,
-        });
-    }
-
     async function getMaxPages() {
         try {
             dataErr = false;
@@ -177,32 +88,88 @@
         }
     }
 
-    async function deleteData(row: (typeof apiData)[number]) {
-        if (!confirm(`Are you sure you want to delete "${row.name}" entries?`))
-            return;
-        const fetchData = fetch(`/api/data?id=${row.id}`, {
-            method: "DELETE",
-        }).then(async (out) => {
-            const jsonData = await out.json();
-            if (out.status == 401) location.reload();
-            if (!out.ok) throw new Error(jsonData["error"]);
-            delete oldData[row.id];
-            apiData = apiData.filter((v) => v.id != row.id);
-            editMode[row.id] = false;
-            return null;
-        });
-        await toast.promise(fetchData, {
-            success: "Deleted Noik data!",
-            loading: "Deleting Noik",
-            error: (e) => `Error while deleting Noik: ${e.message}`,
+    async function saveAbilitiesEdit() {
+        if (!editAbilitiesRow) return;
+
+        const action = async () => {
+            const savePromises = (editAbilitiesRow?.abilities ?? []).map(
+                (ability) => {
+                    const isNew = isNaN(ability.id);
+                    const url = isNew
+                        ? `/api/data/abilities`
+                        : `/api/data/abilities?id=${ability.id}`;
+                    const method = isNew ? "POST" : "PUT";
+
+                    return api(url, method, {
+                        name: ability.name,
+                        niko_id: ability.niko_id,
+                    });
+                },
+            );
+
+            const deletePromises = [...markedDeletionAbilities]
+                .filter((id) => !isNaN(id))
+                .map((id) => api(`/api/data/abilities?id=${id}`, "DELETE"));
+
+            // Execute all requests (you can use Promise.all for speed if the API supports it)
+            await Promise.all([...savePromises, ...deletePromises]);
+
+            editAbilitiesRow = null;
+            await getData();
+        };
+
+        await performAction(action(), {
+            loading: "Saving Nikosona's abilities...",
+            success: `Saved!`,
+            error: "Error while saving Nikosona's abilities",
         });
     }
 
-    async function createData(
-        ev: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement },
-    ) {
-        const btn = ev.target as HTMLButtonElement;
+    async function getData() {
+        const url = `/api/data/page?page=${currentPage}&sort_by=oldest_added`;
+
+        const promise = api(url).then((data) => {
+            apiData = data.map(
+                (d: Omit<Niko, "author"> & { author_name: string }) => ({
+                    id: d.id,
+                    name: d.name,
+                    author: d.author_name,
+                    full_desc: d.full_desc,
+                    description: d.description,
+                    abilities: d.abilities,
+                    author_id: d.author_id,
+                    is_blacklisted: d.is_blacklisted,
+                }),
+            );
+        });
+
+        await performAction(promise, {
+            loading: "Loading Nikosonas...",
+            success: "Loaded!",
+            error: "Error while loading Nikosonas",
+        });
+    }
+
+    async function deleteData(row: Niko) {
+        if (!confirm(`Are you sure you want to delete "${row.name}"?`)) return;
+
+        const promise = api(`/api/data?id=${row.id}`, "DELETE").then(() => {
+            apiData = apiData.filter((v) => v.id !== row.id);
+            delete oldData[row.id];
+            editMode[row.id] = false;
+        });
+
+        await performAction(promise, {
+            loading: "Deleting Nikosona...",
+            success: "Deleted!",
+            error: "Error while deleting Nikosona",
+        });
+    }
+
+    async function createData(ev: MouseEvent) {
+        const btn = ev.currentTarget as HTMLButtonElement;
         btn.disabled = true;
+
         const data = {
             name: "placeholder",
             full_desc: "placeholder",
@@ -211,31 +178,17 @@
             is_blacklisted: false,
         };
 
-        const fetchData = fetch(
-            `/api/data?page=${currentPage}&sort_by=oldest_added`,
-            {
-                method: "POST",
-                body: JSON.stringify(data),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            },
-        ).then(async (out) => {
-            if (out.status == 401) location.reload();
-            if (!out.ok) throw new Error(await out.text());
-            await getData();
-            return null;
-        });
+        const url = `/api/data?page=${currentPage}&sort_by=oldest_added`;
+        const promise = api(url, "POST", data).then(getData);
 
-        await toast.promise(fetchData, {
-            success: "Created Noik!",
-            loading: "Creating Noik",
-            error: (e) => `Error while creating Noik: ${e.message}`,
+        await performAction(promise, {
+            loading: "Creating Nikosona...",
+            success: "Created!",
+            error: "Error while creating Nikosona",
         });
 
         btn.disabled = false;
     }
-
     onMount(async () => {
         await getMaxPages();
         await getData();

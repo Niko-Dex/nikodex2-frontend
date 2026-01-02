@@ -9,7 +9,7 @@
     let apiData: Niko[] = $state([]);
     let { data }: PageProps = $props();
     onMount(async () => {
-        await fetchNikos(data.id, apiData);
+        apiData = await fetchNikos(data.id);
         loaded = true;
     });
 </script>
@@ -34,6 +34,6 @@
             {/each}
         </CardContainer>
     {:else}
-        <p>Loading..</p>
+        <p><em>loading...</em></p>
     {/if}
 </div>

@@ -4,30 +4,63 @@ import toast from "svelte-french-toast";
 
 // this function was carried over to here
 // to make it better and more re-usable for the public profile pages
-export async function fetchNikos(id: number, apiData: Niko[]) {
-  const fetchNoiks = fetch(`/api/user/nikos?id=${id}`)
-    .then((res) => res.json())
-    .then((res) => {
-      for (const noik of res) {
-        apiData.push({
-          name: noik["name"],
-          author: noik["author_name"],
-          full_desc: noik["full_desc"],
-          description: noik["description"],
-          abilities: noik["abilities"],
-          id: noik["id"],
-          author_id: noik["author_id"],
-          is_blacklisted: noik["is_blacklisted"],
-        });
-      }
-    });
+export async function fetchNikos(id: number) {
+  try {
+    const data = await api(`/api/user/nikos?id=${id}`);
 
-  await toast.promise(fetchNoiks, {
-    success: "Data loaded!",
-    loading: "Loading",
-    error: (e) => `Problem while loading data! ${e}`,
+    return data.map((noik: Omit<Niko, "author"> & { author_name: string }) => ({
+      name: noik.name,
+      author: noik.author_name,
+      full_desc: noik.full_desc,
+      description: noik.description,
+      abilities: noik.abilities,
+      id: noik.id,
+      author_id: noik.author_id,
+      is_blacklisted: noik.is_blacklisted,
+    }));
+  } catch (e) {
+    toast.error((e as Error).message);
+  }
+}
+
+export async function api(url: string, method = "GET", body?: unknown) {
+  const isFormData = body instanceof FormData;
+  const options: RequestInit = {
+    method,
+    headers: isFormData
+      ? {}
+      : {
+          "Content-Type": "application/json",
+        },
+    body: isFormData ? body : body ? JSON.stringify(body) : undefined,
+  };
+
+  const res = await fetch(url, options);
+
+  if (res.status === 401) location.reload();
+  const raw = await res.text();
+  let data = undefined;
+  try {
+    data = JSON.parse(raw);
+  } catch (e) {
+    if (res.ok) return raw;
+    data = { error: (e as Error).message };
+  }
+  if (!res.ok) throw new Error(data.error || "Request failed");
+  return data;
+}
+
+export async function performAction(
+  promise: Promise<unknown>,
+  msg: { loading: string; success: string; error: string },
+) {
+  return toast.promise(promise, {
+    loading: msg.loading,
+    success: msg.success,
+    error: (e) => `${msg.error}: ${e.message}`,
   });
 }
+
 export function dateFormatter(stringToBeFormatted: string) {
   return format(Date.parse(stringToBeFormatted), "dd MMM yyyy - HH:mm:ss");
 }

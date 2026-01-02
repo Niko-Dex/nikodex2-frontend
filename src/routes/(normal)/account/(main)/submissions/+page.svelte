@@ -3,35 +3,19 @@
     let { data }: PageProps = $props();
     import type { PageProps } from "./$types";
     import { onMount } from "svelte";
-    let currentSubmissions: {
-        id: number;
-        name: string;
-        description: string;
-        full_desc: string;
-        image: string;
-        user_id: number;
-    }[] = $state([]);
+    import type { Submission } from "$lib/types/submission";
+    import { api } from "$lib/helper/helper";
+    let currentSubmissions: Submission[] = $state([]);
 
     async function getPendingSubmissions() {
-        const fetchPendingSubmissions = fetch(
-            `/api/data/submissions/userid?userid=${data.id}`,
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            },
-        )
-            .then((r) => r.json())
-            .then((r) => {
-                currentSubmissions = r;
-                console.log(r);
-            });
-
-        await toast.promise(fetchPendingSubmissions, {
-            loading: "Getting submissions...",
-            success: "Fetched submissions data!",
-            error: (e) => `buh i got an error: ${e.message}`,
-        });
+        try {
+            const loadedData = await api(
+                `/api/data/submissions/userid?userid=${data.id}`,
+            );
+            currentSubmissions = loadedData;
+        } catch (e) {
+            toast.error((e as Error).message);
+        }
     }
 
     onMount(async () => {

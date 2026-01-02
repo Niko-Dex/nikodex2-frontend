@@ -2,6 +2,8 @@
     import BlogCard from "$lib/components/BlogCard.svelte";
     import Background from "$lib/assets/images/page/blog/tower.png";
     import { onMount } from "svelte";
+    import { api } from "$lib/helper/helper";
+    import toast from "svelte-french-toast";
 
     let apiData: {
         id: number;
@@ -14,25 +16,14 @@
     let dataLoaded = $state(false);
     let dataErr = $state(false);
 
-    onMount(() => {
-        fetch("/api/data/blogs")
-            .then((res) => res.json())
-            .then((data) => {
-                for (let d of data) {
-                    apiData.push({
-                        id: d["id"],
-                        title: d["title"],
-                        author: d["author"],
-                        content: d["content"],
-                        post_datetime: d["post_datetime"],
-                    });
-                }
-                dataLoaded = true;
-            })
-            .catch((err) => {
-                console.log(err);
-                dataErr = true;
-            });
+    onMount(async () => {
+        try {
+            apiData = await api("/api/data/blogs");
+            dataLoaded = true;
+        } catch (err) {
+            toast.error((err as Error).message);
+            dataErr = true;
+        }
     });
 </script>
 

@@ -1,145 +1,92 @@
 <script lang="ts">
+    import { api, performAction } from "$lib/helper/helper";
+    import type { Blog } from "$lib/types/blog";
     import { onMount } from "svelte";
-    import toast from "svelte-french-toast";
 
-    let editMode: { [id: number]: boolean } = $state({});
-    let oldData: { [id: number]: (typeof apiData)[number] } = {};
-    let apiData: {
-        id: number;
-        title: string;
-        author: string;
-        content: string;
-        post_datetime: string;
-    }[] = $state([]);
+    let editMode: Record<number, boolean> = $state({});
+    let oldData: Record<number, Blog> = {};
+    let apiData = $state<Blog[]>([]);
 
     async function getData() {
-        apiData = [];
-        const fetchBlogs = fetch("/api/data/blogs").then(async (v) => {
-            const jsonData = await v.json();
-            if (!v.ok) throw new Error(jsonData["error"]);
-            for (let d of jsonData) {
-                apiData.push({
-                    id: d["id"],
-                    title: d["title"],
-                    author: d["author"],
-                    content: d["content"],
-                    post_datetime: d["post_datetime"],
-                });
-            }
-        });
-
-        await toast.promise(fetchBlogs, {
-            success: "Fetched blogs data!",
-            loading: "Fetching blogs",
-            error: (e) => `Error while fetching blogs: ${e.message}`,
+        const promise = api("/api/data/blogs").then((data) => (apiData = data));
+        await performAction(promise, {
+            loading: "Loading blog data...",
+            success: "Loaded!",
+            error: "Error while loading blog data",
         });
     }
 
-    async function createData(
-        ev: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement },
-    ) {
-        const btn = ev.target as HTMLButtonElement;
+    async function createData(ev: MouseEvent) {
+        const btn = ev.currentTarget as HTMLButtonElement;
         btn.disabled = true;
+
         const data = {
             title: "placeholder",
             author: "placeholder",
             content: "placeholder",
         };
+        const promise = api("/api/data/blogs", "POST", data).then(getData);
 
-        const fetchBlogs = fetch("/api/data/blogs", {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }).then(async (v) => {
-            if (v.status == 401) location.reload();
-            const jsonData = await v.json();
-            if (!v.ok) throw new Error(jsonData["error"]);
-            await getData();
-            return null;
-        });
-
-        await toast.promise(fetchBlogs, {
-            success: "New entry created!",
-            loading: "Creating blog entry",
-            error: (e) => `Error while creating entry: ${e.message}`,
+        await performAction(promise, {
+            loading: "Creating blog entry...",
+            success: "Created!",
+            error: "Error while creating blog entry",
         });
 
         btn.disabled = false;
     }
 
-    function startEdit(row: (typeof apiData)[number]) {
+    function startEdit(row: Blog) {
         editMode[row.id] = true;
         oldData[row.id] = { ...row };
     }
 
-    async function saveEdit(row: (typeof apiData)[number]) {
-        const fetchBlogs = fetch(`/api/data/blogs?id=${row.id}`, {
-            method: "PUT",
-            body: JSON.stringify({
-                title: row.title,
-                author: row.author,
-                content: row.content,
-            }),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }).then(async (v) => {
-            if (v.status == 401) location.reload();
-            const jsonData = await v.json();
-            if (!v.ok) throw new Error(jsonData["error"]);
-            delete oldData[row.id];
-            editMode[row.id] = false;
-            return null;
+    async function saveEdit(row: Blog) {
+        const { id, title, author, content } = row;
+        const promise = api(`/api/data/blogs?id=${id}`, "PUT", {
+            title,
+            author,
+            content,
+        }).then(() => {
+            delete oldData[id];
+            editMode[id] = false;
         });
 
-        await toast.promise(fetchBlogs, {
-            success: "Blog updated!",
-            loading: "Updating blog",
-            error: (e) => `Error while updating blog: ${e.message}`,
+        await performAction(promise, {
+            loading: "Updating blog entry...",
+            success: "Updated!",
+            error: "Error while updating blog entry",
         });
     }
 
-    function cancelEdit(row: (typeof apiData)[number]) {
-        editMode[row.id] = false;
-        const old = oldData[row.id];
-        if (old) {
-            for (let key in row) {
-                //@ts-ignore
-                row[key] = oldData[row.id][key];
-            }
+    function cancelEdit(row: Blog) {
+        if (oldData[row.id]) {
+            const index = apiData.findIndex((b) => b.id === row.id);
+            if (index !== -1) apiData[index] = { ...oldData[row.id] };
+            delete oldData[row.id];
         }
-        delete oldData[row.id];
+        editMode[row.id] = false;
     }
 
-    async function deleteEntry(row: (typeof apiData)[number]) {
-        if (!confirm("Are you sure you wanna delete this blog?")) return;
-        const fetchBlogs = fetch(`/api/data/blogs?id=${row.id}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
+    async function deleteEntry(row: Blog) {
+        if (!confirm("Are you sure you want to delete this entry?")) return;
+
+        const promise = api(`/api/data/blogs?id=${row.id}`, "DELETE").then(
+            () => {
+                apiData = apiData.filter((b) => b.id !== row.id);
+                delete oldData[row.id];
+                editMode[row.id] = false;
             },
-        }).then(async (v) => {
-            if (v.status == 401) location.reload();
-            const jsonData = await v.json();
-            if (!v.ok) throw new Error(jsonData["error"]);
-            delete oldData[row.id];
-            apiData = apiData.filter((b) => b.id != row.id);
-            editMode[row.id] = false;
-            return null;
-        });
+        );
 
-        await toast.promise(fetchBlogs, {
-            success: "Blog deleted!",
-            loading: "Deleting blog",
-            error: (e) => `Error while deleting blog: ${e.message}`,
+        await performAction(promise, {
+            loading: "Deleting blog entry...",
+            success: "Deleted!",
+            error: "Error while deleting blog entry",
         });
     }
 
-    onMount(async () => {
-        await getData();
-    });
+    onMount(getData);
 </script>
 
 <div class="xl:px-8 p-4 flex flex-col gap-4">

@@ -4,26 +4,20 @@
     import type { PageProps } from "./$types";
     import { onMount } from "svelte";
     import CommentCard from "$lib/components/CommentCard.svelte";
-    import { dateFormatter } from "$lib/helper/helper";
+    import { api, dateFormatter } from "$lib/helper/helper";
     let { data }: PageProps = $props();
 
     let isLoading = $state(false);
     let apiData: NikodexComment[] = $state([]);
     async function getData() {
-        isLoading = false;
-        const userPostData = fetch(
-            `/api/data/comments/userid?user_id=${data.id}`,
-        )
-            .then((r) => r.json())
-            .then((r) => {
-                isLoading = false;
-                apiData = r;
-            });
-        await toast.promise(userPostData, {
-            loading: "Loading comments...",
-            success: "Loaded comments!",
-            error: (e) => `Whoops! Got an error: ${e.message}`,
-        });
+        isLoading = true;
+        try {
+            apiData = await api(`/api/data/comments/userid?user_id=${data.id}`);
+        } catch (e) {
+            toast.error((e as Error).message);
+        } finally {
+            isLoading = false;
+        }
     }
     onMount(async () => {
         await getData();
@@ -44,6 +38,8 @@
                 deletable={true}
                 on_comment_delete={async () => await getData()}
             ></CommentCard>
+        {:else}
+            <p><em>no comments yet...</em></p>
         {/each}
     {:else}
         <p>Loading...</p>

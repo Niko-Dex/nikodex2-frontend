@@ -1,61 +1,56 @@
 <script lang="ts">
+    import { api, performAction } from "$lib/helper/helper";
     import type { Submission } from "$lib/types/submission";
     import { onMount } from "svelte";
-    import toast from "svelte-french-toast";
-    let currentSubmissions: Submission[] = $state([]);
+    let currentSubmissions = $state<Submission[]>([]);
 
     async function getAllPendingSubmissions() {
-        const fetchData = fetch("/api/data/submissions", {
-            method: "GET",
-        }).then(async (r) => {
-            const jsonData = await r.json();
-            currentSubmissions = jsonData;
-        });
-        await toast.promise(fetchData, {
+        const promise = api("/api/data/submissions").then(
+            (data) => (currentSubmissions = data),
+        );
+
+        await performAction(promise, {
             loading: "Loading Submissions...",
-            success: "Loaded Submissions!",
+            success: "Loaded!",
             error: "Failed to load Submissions!",
         });
     }
 
     async function removeSubmission(id: number) {
-        const removalRequest = fetch(`/api/data/submissions?id=${id}`, {
-            method: "DELETE",
-        }).then(async () => await getAllPendingSubmissions());
-        await toast.promise(removalRequest, {
-            loading: "Please wait... Deleting Submission...",
-            success: `Successfully deleted id: ${id}`,
-            error: (e) => `buh i got an error: ${e.message}`,
+        const promise = api(`/api/data/submissions?id=${id}`, "DELETE").then(
+            getAllPendingSubmissions,
+        );
+
+        await performAction(promise, {
+            loading: "Deleting Submission...",
+            success: `Deleted!`,
+            error: "Error while deleting submission",
         });
     }
 
     async function acceptSubmission(submission: Submission) {
-        const createFetch = fetch(
-            `/api/data/user/userid?id=${submission.user_id}`,
-        )
-            .then(async (r) => {
-                const jsonData = await r.json();
-                if (!r.ok) throw new Error(jsonData["error"]);
-                await fetch("/api/data/submissions/accept", {
-                    method: "POST",
-                    body: JSON.stringify({
-                        submission_id: submission.id,
-                        name: submission.name,
-                        description: submission.description,
-                        author: jsonData["username"],
-                        full_desc: submission.full_desc,
-                        author_id: submission.user_id,
-                        is_blacklisted: submission.is_blacklisted,
-                    }),
-                }).then(async (r) => {
-                    if (!r.ok) throw new Error((await r.json())["error"]);
-                });
-            })
-            .then(async () => await getAllPendingSubmissions());
-        await toast.promise(createFetch, {
+        const action = async () => {
+            const userData = await api(
+                `/api/data/user/userid?id=${submission.user_id}`,
+            );
+
+            await api("/api/data/submissions/accept", "POST", {
+                submission_id: submission.id,
+                name: submission.name,
+                description: submission.description,
+                author: userData.username,
+                full_desc: submission.full_desc,
+                author_id: submission.user_id,
+                is_blacklisted: submission.is_blacklisted,
+            });
+
+            await getAllPendingSubmissions();
+        };
+
+        await performAction(action(), {
             loading: "Accepting submission...",
             success: "Accepted!",
-            error: (e) => `${e.message}`,
+            error: "Failed to accept submission",
         });
     }
     onMount(() => {

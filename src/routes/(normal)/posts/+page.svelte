@@ -9,6 +9,7 @@
     import type { Post } from "$lib/types/post.js";
 
     import { page } from "$app/state";
+    import { api } from "$lib/helper/helper.js";
     const currentUser = $derived(page.data.currentUser);
     let dataErr = $state(false);
     let maxPages = $state(1);
@@ -34,35 +35,30 @@
     }
 
     async function getData() {
-        if (currentPage < 1 || currentPage > maxPages) return;
-        dataLoaded = false;
-        const req = fetch(`/api/posts/page?page=${currentPage}&count=10`).then(
-            async (res) => {
-                if (!res.ok) {
-                    dataErr = true;
-                    throw new Error((await res.json())["error"]);
-                } else {
-                    dataLoaded = true;
-                    apiData = await res.json();
-                }
-            },
-        );
+        if (currentPage < 1 || (maxPages > 0 && currentPage > maxPages)) return;
 
-        await toast.promise(req, {
-            loading: "Loading posts..",
-            error: (e) => `Error! ${e}`,
-            success: "Loaded posts!",
-        });
+        dataLoaded = false;
+        dataErr = false;
+
+        try {
+            apiData = await api(`/api/posts/page?page=${currentPage}&count=10`);
+            dataLoaded = true;
+        } catch (err) {
+            toast.error((err as Error).message);
+            dataErr = true;
+        }
     }
 
     async function getMaxPages() {
+        dataErr = false;
         try {
-            dataErr = false;
             const res = await fetch(`/api/posts/count`);
-            const data = await res.text();
-            maxPages = Math.ceil(Number.parseFloat(data) / 10.0);
+            if (!res.ok) throw new Error("Failed to fetch count");
+
+            const text = await res.text();
+            maxPages = Math.ceil(Number.parseFloat(text) / 10.0);
         } catch (err) {
-            console.log(err);
+            toast.error((err as Error).message);
             dataErr = true;
         }
     }

@@ -4,6 +4,7 @@
     import { onMount } from "svelte";
     import toast from "svelte-french-toast";
     import type { User } from "$lib/types/user";
+    import { api, performAction } from "$lib/helper/helper";
 
     let totalUsersCount = $state(0);
     let maxPages = $state(1);
@@ -24,28 +25,48 @@
     }
 
     async function getUsers() {
-        const apiDataCurrent = fetch(
+        // api() handles the search params and JSON parsing
+        const promise = api(
             `/api/data/user/search?username=${usernameSearch}&page=${currentPage}`,
-        )
-            .then((r) => r.json())
-            .then((r) => {
-                currentUsers = r;
-            });
-        await toast.promise(apiDataCurrent, {
-            loading: "Loading Users..",
-            success: "Loaded users!",
-            error: (e) => `${e.message}`,
+        ).then((data) => (currentUsers = data));
+
+        await performAction(promise, {
+            loading: "Loading list of Users...",
+            success: "Loaded!",
+            error: "Error while loading list of Users",
         });
     }
 
     async function deleteUser(id: number) {
-        const deleteFetch = fetch(`/api/user/delete?id=${id}`, {
-            method: "DELETE",
-        });
-        await toast.promise(deleteFetch, {
-            success: "Deleted User Successfully!",
+        if (!confirm("Are you sure you want to delete this user?")) return;
+
+        const promise = api(`/api/user/delete?id=${id}`, "DELETE").then(
+            getUsers,
+        );
+
+        await performAction(promise, {
             loading: "Deleting User...",
-            error: (e) => `Error when deleting user: ${e.message}`,
+            success: "Deleted!",
+            error: "Error while deleting user",
+        });
+    }
+
+    async function deletePfp(userId: number) {
+        if (
+            !confirm(
+                "Are you sure you want to delete this user's profile picture?",
+            )
+        )
+            return;
+
+        const promise = api(`/api/user/delete/pfp?id=${userId}`, "DELETE").then(
+            getUsers,
+        );
+
+        await performAction(promise, {
+            loading: "Deleting profile picture...",
+            success: "Profile picture deleted!",
+            error: "Error while deleting profile picture",
         });
     }
 
@@ -97,19 +118,7 @@
                             />
                             <button
                                 class="btn flex flex-row w-max group"
-                                onclick={() => {
-                                    if (
-                                        confirm(
-                                            "Are you sure you want to delete this user's profile picture?",
-                                        )
-                                    )
-                                        fetch(
-                                            `/api/user/delete/pfp?id=${user.id}`,
-                                            {
-                                                method: "DELETE",
-                                            },
-                                        );
-                                }}
+                                onclick={async () => await deletePfp(user.id)}
                             >
                                 <img
                                     src={BanHammer}

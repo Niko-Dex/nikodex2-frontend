@@ -3,7 +3,7 @@
     import BanHammer from "$lib/assets/images/page/account/ban_hammer.png";
     import type { Post } from "$lib/types/post";
     import { onMount } from "svelte";
-    import toast from "svelte-french-toast";
+    import { api, performAction } from "$lib/helper/helper";
 
     let currentPage = $state(1);
     let dataErr = $state(false);
@@ -12,33 +12,40 @@
     let apiData: Post[] = $state([]);
 
     async function getData() {
-        if (currentPage < 1 || currentPage > maxPages) return;
-        const req = fetch(`/api/posts/page?page=${currentPage}&count=10`).then(
-            async (res) => {
-                if (!res.ok) {
-                    dataErr = true;
-                    throw new Error((await res.json())["error"]);
-                } else {
-                    apiData = await res.json();
-                }
-            },
-        );
+        if (currentPage < 1 || (maxPages > 0 && currentPage > maxPages)) return;
 
-        await toast.promise(req, {
-            loading: "Loading posts..",
-            error: (e) => `Error! ${e}`,
-            success: "Loaded posts!",
+        const promise = api(`/api/posts/page?page=${currentPage}&count=10`)
+            .then((jsonData) => {
+                apiData = jsonData;
+                dataErr = false;
+            })
+            .catch((e) => {
+                dataErr = true;
+                throw e;
+            });
+
+        await performAction(promise, {
+            loading: "Loading posts...",
+            success: "Loaded!",
+            error: "Error while loading posts",
         });
     }
 
     async function deletePost(id: number) {
-        const deletionFetch = fetch(`/api/posts/delete?id=${id}`, {
-            method: "DELETE",
+        if (!confirm("Are you sure you want to delete this post?")) return;
+
+        const promise = api(`/api/posts/delete?id=${id}`, "DELETE").then(() => {
+            apiData = apiData.filter((p) => p.id !== id);
+            if (apiData.length === 0 && currentPage > 1) {
+                currentPage--;
+            }
+            return getData();
         });
-        await toast.promise(deletionFetch, {
+
+        await performAction(promise, {
             loading: "Deleting post...",
-            success: "Deleted post!",
-            error: (e) => `Error while deleting post: ${e.message}`,
+            success: "Deleted!",
+            error: "Error while deleting post",
         });
     }
     async function getMaxPages() {
@@ -115,14 +122,7 @@
                             <button
                                 class="btn flex flex-row items-center group w-fit"
                                 onclick={async () => {
-                                    if (
-                                        confirm(
-                                            "Are you sure you want to delete this post?",
-                                        )
-                                    ) {
-                                        await deletePost(postPiece.id);
-                                        await getData();
-                                    }
+                                    await deletePost(postPiece.id);
                                 }}
                                 ><img
                                     src={BanHammer}
