@@ -7,8 +7,9 @@
     import PageChanger from "$lib/components/PageChanger.svelte";
     import PostCard from "$lib/components/PostCard.svelte";
     import type { Post } from "$lib/types/post.js";
-    import { currentUser } from "$lib/helper/helper.js";
 
+    import { page } from "$app/state";
+    const currentUser = $derived(page.data.currentUser);
     let dataErr = $state(false);
     let maxPages = $state(1);
     let currentPage = $state(1);
@@ -134,7 +135,7 @@
     <div class="max-w-[1200px] w-[1200px] flex flex-col gap-4 min-h-screen">
         <div class="flex flex-row justify-between items-center">
             <h1 class="h1-txt-size">Community Posts!</h1>
-            {#if $currentUser}
+            {#if currentUser}
                 <button class="btn" onclick={() => openModal()}
                     >Make a Post!</button
                 >

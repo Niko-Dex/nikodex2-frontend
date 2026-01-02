@@ -16,7 +16,8 @@
     import DropdownMenu from "$lib/components/DropdownMenu.svelte";
     import { Toaster } from "svelte-french-toast";
     import DiscordLogo from "$lib/assets/images/components/DiscordLogo.svelte";
-    import { currentUser } from "$lib/helper/helper";
+    import { page } from "$app/state";
+    const currentUser = $derived(page.data.currentUser);
 
     let { children } = $props();
     let errorContactingAPI = $state(false);
@@ -201,15 +202,15 @@
             <hr class="lg:hidden" />
             <DropdownMenu
                 custom_class="justify-between"
-                title={$currentUser?.username || "Accounts"}
+                title={currentUser?.username || "Accounts"}
                 btn_img={ProfilePictureIcon}
                 width={320}
             >
                 <div class="flex flex-row items-center gap-2 md:gap-4">
-                    {#if $currentUser}
+                    {#if currentUser}
                         <img
-                            src="/api/data/user/pfp?id={$currentUser.id}"
-                            alt="User profile for {$currentUser.username}"
+                            src="/api/data/user/pfp?id={currentUser.id}"
+                            alt="User profile for {currentUser.username}"
                             class="w-8 h-8"
                         />
                     {:else}
@@ -220,13 +221,13 @@
                         />
                     {/if}
                     <h1 class="h2-txt-size text-white items-center break-all">
-                        {$currentUser?.username || "User"}
+                        {currentUser?.username || "User"}
                     </h1>
                 </div>
-                {#if $currentUser}
+                {#if currentUser}
                     <a
                         class="btn text-white w-full"
-                        href="/account/{$currentUser.username}"
+                        href="/account/{currentUser.username}"
                     >
                         <p class="w-full">Profile</p>
                     </a>

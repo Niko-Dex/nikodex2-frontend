@@ -7,10 +7,12 @@
     import type { NikodexComment } from "$lib/types/comment";
     import toast from "svelte-french-toast";
     import CommentCard from "$lib/components/CommentCard.svelte";
-    import { currentUser, dateFormatter } from "$lib/helper/helper";
+    import { dateFormatter } from "$lib/helper/helper";
     import GoBackButton from "$lib/components/GoBackButton.svelte";
     import UserProfileComponent from "$lib/components/UserProfileComponent.svelte";
 
+    import { page } from "$app/state";
+    const currentUser = $derived(page.data.currentUser);
     let commentData: NikodexComment[] = $state([]);
     async function getComments() {
         const comments = fetch(`/api/data/comments?post_id=${data.id}`)
@@ -63,7 +65,7 @@
             </div>
         </div>
         <CategoryComponent categoryName="Comments">
-            {#if $currentUser}
+            {#if currentUser}
                 <form
                     class="w-full flex gap-2"
                     method="POST"
@@ -73,7 +75,7 @@
                         const form: HTMLFormElement = event.currentTarget;
                         const formData = new FormData(form);
                         formData.append("post_id", data.id);
-                        formData.append("username", $currentUser.username);
+                        formData.append("username", currentUser.username);
 
                         const commentPostFetch = fetch(form.action, {
                             method: form.method,
@@ -112,7 +114,7 @@
             <section class="flex flex-col gap-4">
                 {#each commentData as comment, idx (idx)}
                     <CommentCard
-                        deletable={comment.author_id == $currentUser?.id}
+                        deletable={comment.author_id == currentUser?.id}
                         author_id={comment.author_id}
                         username={comment.user.username}
                         content={comment.content}

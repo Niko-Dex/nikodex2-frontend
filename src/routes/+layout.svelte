@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { currentUser } from "$lib/helper/helper";
-    import type { User } from "$lib/types/user";
+    import { afterNavigate, invalidate } from "$app/navigation";
     let { children } = $props();
     import { onMount } from "svelte";
     onMount(async () => {
@@ -8,14 +7,9 @@
         if (color && color != "") {
             document.body.style.setProperty("--theme-color", color);
         }
-
-        const authorizationMessage = await fetch(`/api/user/me`);
-        if (authorizationMessage.ok) {
-            const userInfo: User = await authorizationMessage.json();
-            $currentUser = userInfo;
-        } else {
-            $currentUser = undefined;
-        }
+    });
+    afterNavigate(() => {
+        invalidate("app:auth");
     });
 </script>
 

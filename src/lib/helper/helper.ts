@@ -1,8 +1,6 @@
 import type { Niko } from "$lib/types/nikosona";
-import type { User } from "$lib/types/user";
 import { format } from "date-fns";
 import toast from "svelte-french-toast";
-import { writable, type Writable } from "svelte/store";
 
 // this function was carried over to here
 // to make it better and more re-usable for the public profile pages
@@ -33,8 +31,6 @@ export async function fetchNikos(id: number, apiData: Niko[]) {
 export function dateFormatter(stringToBeFormatted: string) {
   return format(Date.parse(stringToBeFormatted), "dd MMM yyyy - HH:mm:ss");
 }
-
-export const currentUser: Writable<User | undefined> = writable();
 
 export function mobileCheck() {
   const mobileVendor = navigator.userAgent || navigator.vendor;
