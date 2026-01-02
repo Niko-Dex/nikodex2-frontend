@@ -58,11 +58,11 @@
                                 });
 
                                 toast.promise(fetchReq, {
-                                    loading: "Setting profile picture...",
+                                    loading: "Updating profile picture...",
                                     success:
-                                        "Successfully set profile picture!\nIf it appears like it didn't change, please wait as the image is cached.",
+                                        "Profile picture updated!\n (Images may take a few moments to fully update)",
                                     error: (e) =>
-                                        `Failed to set profile picture: ${e.error}`,
+                                        `Failed to update profile picture: ${e.error}`,
                                 });
                             }
                         }}
