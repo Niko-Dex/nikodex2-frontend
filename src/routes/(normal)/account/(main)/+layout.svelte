@@ -19,7 +19,7 @@
         style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url({Background}); "
     ></div>
     <div
-        class="max-w-[1200px] p-4 gap-4 min-h-screen w-full relative grid lg:grid-cols-(--lg) grid-cols-(--default)"
+        class="max-w-[1200px] p-4 gap-4 min-h-screen w-full relative flex flex-col lg:grid lg:grid-cols-(--lg)"
         style="--default: 100%; --lg: 240px calc(100% - 240px);"
     >
         <div class="flex flex-col gap-2">
