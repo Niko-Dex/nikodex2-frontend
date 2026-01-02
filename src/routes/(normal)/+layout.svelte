@@ -5,7 +5,7 @@
     import logo from "$lib/assets/images/logo2.png";
     import Transition from "$lib/components/Transition.svelte";
     import { onMount } from "svelte";
-    import { afterNavigate } from "$app/navigation";
+    import { afterNavigate, beforeNavigate } from "$app/navigation";
     import ProfilePictureIcon from "$lib/assets/images/page/account/oneshotprofilepicture.png";
 
     import Baa from "$lib/assets/images/baaaaaa.png";
@@ -28,6 +28,9 @@
             errorContactingAPI = true;
         }
     }
+    beforeNavigate(() => {
+        navBarOpen = false;
+    });
 
     onMount(async () => {
         await checkAPI();
@@ -76,6 +79,39 @@
         content="https://github.com/Niko-Dex/nikodex2-frontend/blob/main/src/lib/assets/images/logo.png?raw=true"
     />
 </svelte:head>
+
+{#snippet nav(showTitle = true)}
+    <button
+        aria-label="Menu"
+        class="hover:cursor-pointer"
+        onclick={() => (navBarOpen = !navBarOpen)}
+    >
+        <svg
+            class="lg:hidden"
+            xmlns="http://www.w3.org/2000/svg"
+            height="32px"
+            viewBox="0 -960 960 960"
+            width="32px"
+            fill="#e3e3e3"
+            ><path
+                d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
+            /></svg
+        >
+    </button>
+    {#if showTitle}
+        <div class="logo flex items-center w-[240px] max-w-full">
+            <a href="/">
+                <img
+                    src={logo}
+                    alt="Logo"
+                    style="--shadow: 2px 2px red"
+                    class="max-w-full w-[240px] hover:drop-shadow-(--shadow) transition duration-100 non-pixelated"
+                />
+            </a>
+        </div>
+    {/if}
+{/snippet}
+
 {#if errorContactingAPI}
     <div
         class="fixed top-0 left-0 w-full h-full z-100 bg-red-800 flex justify-center items-center"
@@ -105,21 +141,13 @@
     <Transition />
     <Toaster />
     <nav
-        class="bg-black lg:sticky transition duration-200 overflow-auto lg:overflow-visible fixed top-0 left-0 w-[320px] max-w-full h-screen border-(--theme-color) border-r-4 p-6 flex flex-col gap-6 z-3 lg:w-full lg:h-auto lg:justify-between lg:flex-row lg:px-4 lg:py-2 lg:border-b-4 lg:border-r-0 {navBarOpen
+        class="bg-black lg:sticky transition duration-200 overflow-auto lg:overflow-visible fixed top-0 left-0 w-[320px] max-w-full h-screen border-(--theme-color) border-r-4 p-4 pr-6 flex flex-col gap-4 z-3 lg:w-full lg:h-auto lg:justify-between lg:flex-row lg:px-4 lg:py-2 lg:border-b-4 lg:border-r-0 {navBarOpen
             ? 'translate-x-0'
             : 'translate-x-[-100%] lg:translate-x-0'}"
     >
-        <div class="logo flex items-center w-full justify-between lg:w-max">
-            <a href="/">
-                <img
-                    src={logo}
-                    alt="Logo"
-                    style="--shadow: 2px 2px red"
-                    class="max-h-12 hover:drop-shadow-(--shadow) transition duration-100 non-pixelated"
-                />
-            </a>
+        <div class="flex flex-row gap-4">
+            {@render nav()}
         </div>
-
         <div
             class="link gap-2 lg:gap-4 flex-shrink w-full flex-col lg:flex-row lg:justify-end flex lg:overflow-visible"
         >
@@ -187,35 +215,9 @@
         </div>
     </nav>
     <div
-        class="lg:hidden border-(--theme-color) border-b-4 flex flex-row justify-between p-4 sticky top-0 bg-black z-1 gap-4"
+        class="lg:hidden border-(--theme-color) border-b-4 flex flex-row justify-left p-4 sticky top-0 bg-black z-1 gap-4"
     >
-        <div class="logo flex items-center w-[240px] justify-between">
-            <a href="/">
-                <img
-                    src={logo}
-                    alt="Logo"
-                    style="--shadow: 2px 2px red"
-                    class="max-h-12 hover:drop-shadow-(--shadow) transition duration-100 non-pixelated"
-                />
-            </a>
-        </div>
-        <button
-            aria-label="Menu"
-            class="hover:cursor-pointer"
-            onclick={() => (navBarOpen = !navBarOpen)}
-        >
-            <svg
-                class="lg:hidden"
-                xmlns="http://www.w3.org/2000/svg"
-                height="32px"
-                viewBox="0 -960 960 960"
-                width="32px"
-                fill="#e3e3e3"
-                ><path
-                    d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
-                /></svg
-            >
-        </button>
+        {@render nav()}
     </div>
     {@render children?.()}
 
