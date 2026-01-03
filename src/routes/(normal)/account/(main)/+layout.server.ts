@@ -4,5 +4,5 @@ import { relogin } from "./helper";
 export const load = (async (event) => {
   const data = await event.parent();
   const user = data.currentUser as User | undefined;
-  if (!user || !user?.is_admin) relogin(event.url.pathname);
+  if (!user) relogin(event.url.pathname);
 }) satisfies PageServerLoad;
