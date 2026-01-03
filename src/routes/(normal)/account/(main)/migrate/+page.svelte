@@ -2,22 +2,20 @@
     import NikoSmallCard from "$lib/components/NikoSmallCard.svelte";
     import type { Niko } from "$lib/types/nikosona.js";
     import toast from "svelte-french-toast";
+    import { SvelteSet } from "svelte/reactivity";
     let { data } = $props();
-    let nikosList: Niko[] = $state([]);
+    let nikosList = new SvelteSet<Niko>();
     let searchOpen = $state(false);
     let searchQuery: string = $state("");
     let searchList: Niko[] = $state([]);
 
     function addNiko(item: Niko) {
         searchOpen = false;
-        nikosList.push(item);
+        nikosList.add(item);
     }
 
     function removeNiko(item: Niko) {
-        const index = nikosList.indexOf(item, 0);
-        if (index > -1) {
-            nikosList.splice(index, 1);
-        }
+        nikosList.delete(item);
     }
 
     function openSearch() {
