@@ -57,6 +57,8 @@
             <Link href="/admin/noik">Noik</Link>
             <Link href="/admin/blog">Blog</Link>
             <Link href="/admin/submissions">Submissions</Link>
+            <hr />
+            <Link href="/">Site Homepage</Link>
             <Link
                 custom_class="items-center gap-2"
                 hasMinSize={false}
