@@ -42,14 +42,14 @@
     }
 
     onMount(() => {
-        new_username = data.username;
-        new_description = data.description;
+        new_username = data.currentUser?.username ?? "";
+        new_description = data.currentUser?.description ?? "";
     });
 </script>
 
 <div class="flex flex-col gap-2">
-    <p>Your user ID is: {data.id}</p>
-    {#if data.is_admin}
+    <p>Your user ID is: {data.currentUser?.id}</p>
+    {#if data.currentUser?.is_admin}
         <p>You are an admin!</p>
     {/if}
     <CategoryComponent categoryName="Bio/About Me">

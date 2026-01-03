@@ -58,8 +58,11 @@
 
     async function postRequest() {
         let formData = new FormData();
-        formData.append("user_id", data.user_id.toString());
-        formData.append("username", data.user_username);
+        formData.append(
+            "user_id",
+            data.currentUser?.id.toString() ?? "unknown",
+        );
+        formData.append("username", data.currentUser?.username ?? "unknown");
         formData.append("discord_id", data.discord_id);
         formData.append("discord_username", data.discord_username);
         formData.append("nikos", nikosList.map((n) => n.id).join("|"));
@@ -102,7 +105,7 @@
                     >
                 </div>
                 <div class="flex flex-col gap-2">
-                    {#each searchList as niko}
+                    {#each searchList as niko (niko.id)}
                         <NikoSmallCard
                             name={niko.name}
                             id={niko.id}
@@ -144,7 +147,7 @@
             Nikodex account here!
         </p>
         <div class="flex flex-col gap-2">
-            {#each nikosList as niko}
+            {#each nikosList as niko (niko.id)}
                 <NikoSmallCard
                     name={niko.name}
                     id={niko.id}

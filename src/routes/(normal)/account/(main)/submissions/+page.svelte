@@ -10,7 +10,7 @@
     async function getPendingSubmissions() {
         try {
             const loadedData = await api(
-                `/api/data/submissions/userid?userid=${data.id}`,
+                `/api/data/submissions/userid?userid=${data.currentUser?.id}`,
             );
             currentSubmissions = loadedData;
         } catch (e) {

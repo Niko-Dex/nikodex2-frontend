@@ -43,7 +43,7 @@
                                 formData.append("file", file);
 
                                 const fetchReq = fetch(
-                                    `/api/user/change_pfp?id=${data.id}`,
+                                    `/api/user/change_pfp?id=${data.currentUser?.id}`,
                                     {
                                         method: "PUT",
                                         body: formData,
@@ -68,7 +68,7 @@
                         }}
                     />
                     <img
-                        src={`/api/data/user/pfp?id=${data.id}`}
+                        src={`/api/data/user/pfp?id=${data.currentUser?.id}`}
                         alt="Profile"
                         class="lg:w-full lg:h-full w-20 h-20"
                     />
@@ -83,7 +83,7 @@
                 <h1
                     class="h2-txt-size flex flex-row gap-4 items-center break-all"
                 >
-                    {data.username}
+                    {data.currentUser?.username}
                 </h1>
             </div>
             <Link href={resolve("/(normal)/account/(main)")}>Personal Info</Link

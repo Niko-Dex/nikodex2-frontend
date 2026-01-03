@@ -1,25 +1,6 @@
 import { env } from "$env/dynamic/private";
 import { fail } from "@sveltejs/kit";
-import type { PageServerLoad, Actions } from "./$types";
-import { resolve } from "$app/paths";
-import { relogin } from "../helper";
-export const load = (async (event) => {
-  try {
-    const token = event.cookies.get("token") ?? "";
-    const res = await event.fetch(`${env.API_SERVER_URL}/users/me`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!res.ok) {
-      relogin(resolve("/(normal)/account/(main)/submit"));
-    }
-    return await res.json();
-  } catch {
-    relogin(resolve("/(normal)/account/(main)/submit"));
-  }
-}) satisfies PageServerLoad;
+import type { Actions } from "./$types";
 
 export const actions = {
   default: async ({ fetch, cookies, request }) => {

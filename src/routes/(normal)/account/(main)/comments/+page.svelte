@@ -12,7 +12,9 @@
     async function getData() {
         isLoading = true;
         try {
-            apiData = await api(`/api/data/comments/userid?user_id=${data.id}`);
+            apiData = await api(
+                `/api/data/comments/userid?user_id=${data.currentUser?.id}`,
+            );
         } catch (e) {
             toast.error((e as Error).message);
         } finally {

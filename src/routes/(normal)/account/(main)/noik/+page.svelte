@@ -9,7 +9,7 @@
     let apiData: Niko[] = $state([]);
     let { data }: PageProps = $props();
     onMount(async () => {
-        apiData = await fetchNikos(data.id);
+        apiData = await fetchNikos(data.currentUser?.id ?? -1);
         loaded = true;
     });
 </script>
