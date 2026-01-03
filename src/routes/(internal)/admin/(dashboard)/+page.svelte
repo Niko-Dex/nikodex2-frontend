@@ -3,6 +3,8 @@
     import toast from "svelte-french-toast";
     let username = $state("");
     let description = $state("");
+    import { page } from "$app/state";
+    const currentUser = $derived(page.data.currentUser);
 
     let { data, form } = $props();
 
@@ -32,8 +34,8 @@
         if (form?.error) {
             toast.error("Error! " + form.error);
         }
-        username = data.user?.username ?? "";
-        description = data.user?.description ?? "";
+        username = currentUser?.username ?? "";
+        description = currentUser?.description ?? "";
     });
 </script>
 
