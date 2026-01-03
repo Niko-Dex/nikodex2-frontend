@@ -40,13 +40,14 @@
 <div
     class="xl:px-8 p-4 w-full flex flex-col gap-2 lg:gap-4 max-w-[1200px] m-auto"
 >
-    <h1 class="h1-txt-size text-center">Welcome, {username}!</h1>
-    <p class="text-center"><em>[{description}]</em></p>
-    <p class="text-center">
+    <h1 class="h1-txt-size">Welcome, {username}!</h1>
+    <p><em>[{description}]</em></p>
+    <p>
         Noik tab to edit the Nikosonas, Users tab to manage current accounts,
-        and Blog tab to edit the blogs. Check Submissions tab for new noiks.
+        and Blog tab to edit the blogs. Check Submissions tab for new Nikosonas
+        to accept.
     </p>
-    <p class="text-center">and uhh... that is lol. happy editing, kbity :3</p>
+    <p>And uhh... that is lol. Happy editing, kbity :3</p>
 
     <div class="flex flex-col gap-2">
         <h2 class="h2-txt-size bg-white text-black">Current Status</h2>
