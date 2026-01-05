@@ -13,7 +13,7 @@
             class="w-fit no-underline px-1 h-fit mt-auto flex items-center gap-4 transition group"
             href={id != undefined ? "/account/" + username : "#"}
         >
-            {#if id >= 0}
+            {#if id != undefined}
                 <img
                     src="/api/data/user/pfp?id={id}"
                     class="w-16 h-16"
