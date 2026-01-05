@@ -1,5 +1,6 @@
 <script lang="ts">
     import UnmigratedWarningIcon from "$lib/assets/images/page/account/unmigrated_warning_icon.png";
+    import DefaultUserImage from "$lib/assets/images/components/default_pfp.png";
     let {
         username,
         id,
@@ -18,6 +19,12 @@
                     src="/api/data/user/pfp?id={id}"
                     class="w-16 h-16"
                     alt="Profile picture of {username}"
+                />
+            {:else}
+                <img
+                    src={DefaultUserImage}
+                    class="w-16 h-16"
+                    alt="Non-existant user profile"
                 />
             {/if}
             <div class="flex flex-col">
