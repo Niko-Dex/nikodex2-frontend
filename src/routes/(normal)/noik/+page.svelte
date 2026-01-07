@@ -24,7 +24,7 @@
             description: d.description,
             abilities: d.abilities,
             id: d.id,
-            author_id: d.author_id ?? 0,
+            author_id: d.author_id,
             is_blacklisted: d.is_blacklisted,
         };
     }
