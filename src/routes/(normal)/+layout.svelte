@@ -16,15 +16,27 @@
     import { Toaster } from "svelte-french-toast";
     import DiscordLogo from "$lib/assets/images/components/DiscordLogo.svelte";
     import { page } from "$app/state";
+    import type { LayoutProps } from "./$types";
     const currentUser = $derived(page.data.currentUser);
+    import type { Banner } from "$lib/types/banner";
+    import CloseIcon from "$lib/assets/images/components/close.png";
+    import { onMount } from "svelte";
 
-    let { children } = $props();
+    let { children, data }: LayoutProps = $props();
+    //@ts-expect-errors banner does exists!!!
+    let banner: Banner = data.banner;
 
     beforeNavigate(() => {
         navBarOpen = false;
     });
 
     let navBarOpen = $state(false);
+    let bannerOpen = $state(false);
+    let dismissedBanner: string | null = $state(null);
+
+    onMount(() => {
+        dismissedBanner = localStorage.getItem("seen_banner");
+    });
 </script>
 
 <svelte:head>
@@ -98,6 +110,53 @@
 
 <Transition />
 <Toaster />
+{#if banner.title != "" && dismissedBanner && banner.banner_identifier != dismissedBanner}
+    <div class="bg-red-800 px-4 py-1 flex sticky gap-4">
+        <div class="flex justify-center w-full">
+            <p class="text-center">
+                <b>{banner.title}</b>
+                <a href="#o" onclick={() => (bannerOpen = true)}
+                    ><b>[Learn more]</b></a
+                >
+            </p>
+        </div>
+        {#if banner.is_dismissable}
+            <a
+                href="#c"
+                class="flex justify-center items-center"
+                onclick={() => {
+                    localStorage.setItem(
+                        "seen_banner",
+                        banner.banner_identifier,
+                    );
+                    dismissedBanner = banner.banner_identifier;
+                }}><img src={CloseIcon} alt="close" class="w-4 h-4" /></a
+            >
+        {/if}
+    </div>
+{/if}
+{#if bannerOpen}
+    <div
+        class="transition duration-200 bg-black/75 fixed w-screen h-screen top-0 left-0 z-5 flex justify-center"
+    >
+        <div
+            class="border-4 border-(--theme-color) bg-black flex flex-col p-4 gap-4 w-3xl my-auto overflow-auto max-h-screen"
+        >
+            <div class="main-info flex flex-col">
+                <h2 class="h2-txt-size w-fit">{banner.title}</h2>
+            </div>
+            <div>
+                <p class="whitespace-pre-line">{banner.content}</p>
+            </div>
+            <div>
+                <button
+                    class="btn border-(--theme-color)"
+                    onclick={() => (bannerOpen = !bannerOpen)}>Close</button
+                >
+            </div>
+        </div>
+    </div>
+{/if}
 <nav
     class="bg-black lg:sticky transition duration-200 overflow-auto lg:overflow-visible fixed top-0 left-0 w-[320px] max-w-full h-screen border-(--theme-color) border-r-4 p-4 pr-6 flex flex-col gap-4 z-3 lg:w-full lg:h-auto lg:justify-between lg:flex-row lg:px-4 lg:py-2 lg:border-b-4 lg:border-r-0 {navBarOpen
         ? 'translate-x-0'

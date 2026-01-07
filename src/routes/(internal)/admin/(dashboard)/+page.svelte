@@ -54,26 +54,75 @@
     <div class="flex flex-col gap-2">
         <h2 class="h2-txt-size bg-white text-black">Current Status</h2>
         <p>
-            Frontend running on NodeJS v{data.frontend_nodejs_ver} (module version
-            {data.frontend_nodejs_module})
+            Frontend running on NodeJS v{data.server_info.frontend_nodejs_ver} (module
+            version
+            {data.server_info.frontend_nodejs_module})
         </p>
         <p>Uptime:</p>
         <ul class="list-disc pl-8">
             <li>
                 Frontend process: {displayTime(
-                    data.frontend_running_for * 1000,
+                    data.server_info.frontend_running_for * 1000,
                 )}
             </li>
-            <li>Server: {displayTime(data.server_uptime * 1000)}</li>
+            <li>
+                Server: {displayTime(data.server_info.server_uptime * 1000)}
+            </li>
         </ul>
         <p>Memory usage:</p>
         <ul class="list-disc pl-8">
-            <li>Frontend: {data.frontend_mem_usage} MB</li>
+            <li>Frontend: {data.server_info.frontend_mem_usage} MB</li>
             <li>
-                Server: {data.server_mem_usage} MB/{data.server_mem_total} MB
+                Server: {data.server_info.server_mem_usage} MB/{data.server_info
+                    .server_mem_total} MB
             </li>
         </ul>
     </div>
+
+    <form method="POST" class="flex flex-col gap-2">
+        <h2 class="h2-txt-size bg-white text-black">Manage Banner</h2>
+        <p>
+            Make changes to the banner, which will appear on the top of the
+            navbar.
+        </p>
+        <p><i>Leave Title field blank to remove banner.</i></p>
+        <label>
+            Title (max 120 chars):
+            <input
+                name="title"
+                type="text"
+                class="w-full"
+                placeholder="Title here..."
+                maxlength="120"
+                value={data.banner.title}
+            /></label
+        >
+        <label>
+            <p>Details (max 500 chars) <i>(optional)</i>:</p>
+            <p><i>This will show up when user clicks on [Learn More]</i></p>
+            <textarea
+                class="w-full"
+                maxlength="500"
+                name="content"
+                value={data.banner.content}
+            ></textarea>
+        </label>
+        <label class="flex flex-row items-center gap-4">
+            <input
+                type="checkbox"
+                name="is_dismissable"
+                class="checkbox"
+                value="yes"
+                checked={data.banner.is_dismissable}
+            />
+            <p>Dismissable <i>(allow user to dismiss banner)</i></p>
+        </label>
+        <div class="flex flex-row gap-4">
+            <button class="btn" type="submit" formaction="?/update_banner"
+                >Save Changes</button
+            >
+        </div>
+    </form>
 
     <form class="flex flex-col gap-2" action="?/change_info" method="POST">
         <h2 class="h2-txt-size bg-white text-black">Change Info</h2>
@@ -88,11 +137,21 @@
         </p>
         <label>
             New username:
-            <input type="text" class="w-full" name="new_username" />
+            <input
+                type="text"
+                class="w-full"
+                name="new_username"
+                value={data.me.username}
+            />
         </label>
         <label>
             New description:
-            <input type="text" class="w-full" name="new_description" />
+            <input
+                type="text"
+                class="w-full"
+                name="new_description"
+                value={data.me.description}
+            />
         </label>
         <label>
             New password:
