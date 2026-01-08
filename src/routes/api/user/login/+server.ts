@@ -20,7 +20,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
     }
 
     const { username, password } = await request.json();
-    const res = await fetch(`${env.API_SERVER_URL}/token/user`, {
+    const res = await fetch(`${env.API_SERVER_URL}/token`, {
       method: "POST",
       body: new URLSearchParams({ username, password }),
     });
