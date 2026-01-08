@@ -33,9 +33,11 @@
     let navBarOpen = $state(false);
     let bannerOpen = $state(false);
     let dismissedBanner: string | null = $state(null);
+    let shouldLoadBanner = $state(false);
 
     onMount(() => {
         dismissedBanner = localStorage.getItem("seen_banner");
+        shouldLoadBanner = true;
     });
 </script>
 
@@ -110,7 +112,7 @@
 
 <Transition />
 <Toaster />
-{#if banner.title != "" && dismissedBanner && banner.banner_identifier != dismissedBanner}
+{#if shouldLoadBanner && banner.title != "" && banner.banner_identifier != dismissedBanner}
     <div class="bg-red-800 px-4 py-1 flex sticky gap-4">
         <div class="flex justify-center w-full">
             <p class="text-center">

@@ -15,7 +15,7 @@
         abilities = [] as { id: number; name: string; niko_id: number }[],
         id = 0,
         is_blacklisted = false,
-        author_id,
+        author_id = undefined,
         full_expand = false,
         edit_allow = false,
     } = $props();
