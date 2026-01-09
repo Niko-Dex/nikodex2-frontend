@@ -179,7 +179,7 @@
         };
 
         const url = `/api/data?page=${currentPage}&sort_by=oldest_added`;
-        const promise = api(url, "POST", data).then(getData);
+        const promise = api(url, "POST", data).then(getMaxPages).then(getData);
 
         await performAction(promise, {
             loading: "Creating Nikosona...",
