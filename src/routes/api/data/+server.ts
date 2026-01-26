@@ -4,22 +4,14 @@ import { errSrv } from "../helper";
 
 async function auditNiko(jsonObj: Niko, title: string) {
   const formData = new FormData();
+  if (jsonObj.id) formData.append("noikId", jsonObj.id.toString());
   formData.append("title", title);
   formData.append("msg", title);
-  if (jsonObj.id) {
-    formData.append("fields[n]", "5");
-    formData.append("fields[0]", `ID;${jsonObj.id}`);
-    formData.append("fields[1]", `Name;${jsonObj.name}`);
-    formData.append("fields[2]", `Desc;${jsonObj.description}`);
-    formData.append("fields[3]", `Full desc;${jsonObj.full_desc}`);
-    formData.append("fields[4]", `Is Pattable;${!jsonObj.is_blacklisted}`);
-  } else {
-    formData.append("fields[n]", "4");
-    formData.append("fields[0]", `Name;${jsonObj.name}`);
-    formData.append("fields[1]", `Desc;${jsonObj.description}`);
-    formData.append("fields[2]", `Full desc;${jsonObj.full_desc}`);
-    formData.append("fields[3]", `Is Pattable;${!jsonObj.is_blacklisted}`);
-  }
+  formData.append("fields[n]", "4");
+  formData.append("fields[0]", `Name;${jsonObj.name}`);
+  formData.append("fields[1]", `Desc;${jsonObj.description}`);
+  formData.append("fields[2]", `Full desc;${jsonObj.full_desc}`);
+  formData.append("fields[3]", `Is Pattable;${!jsonObj.is_blacklisted}`);
 
   const b_res = await fetch(`${env.BOT_SERVER_URL}/audit`, {
     method: "POST",

@@ -1,6 +1,7 @@
 <script lang="ts">
   import toast from "svelte-french-toast";
   import AllowPatsComponent from "./AllowPatsComponent.svelte";
+  import FileUpload from "./FileUpload.svelte";
   let {
     open = $bindable(false),
     id = 0,
@@ -30,13 +31,47 @@
   }
 
   export function setAbilities(
-    arr: { id: number; name: string; niko_id: number }[]
+    arr: { id: number; name: string; niko_id: number }[],
   ) {
     at = arr;
   }
 
   function close() {
     open = false;
+  }
+
+  let blobUrl = $state(`/api/image?id=${id}`);
+  let editElement: HTMLInputElement | undefined = $state();
+
+  function getFileFromInput() {
+    if (!(editElement && editElement.files)) return;
+
+    const files = editElement.files;
+    let firstFile = files.item(0);
+
+    return firstFile;
+  }
+
+  async function changeSpriteEdit() {
+    const firstFile = getFileFromInput();
+    if (!firstFile) return;
+
+    let formData = new FormData();
+    formData.append("file", firstFile);
+
+    const req = fetch(`/api/image?id=${id}`, {
+      method: "PUT",
+      body: formData,
+    }).then(async (r) => {
+      if (!r.ok) throw await r.json();
+    });
+
+    await toast.promise(req, {
+      loading: "Changing sprite...",
+      success:
+        "Set sprite successfully!\nIt will update once you refresh the webpage.",
+      error: (e) => `${e.error}`,
+    });
   }
 
   async function submitAbilityEdit() {
@@ -84,13 +119,14 @@
       console.log("Successfully saved abilities!");
     } catch (e) {
       toast.error(
-        `Something has gone wrong while trying to update abilities! ${e}`
+        `Something has gone wrong while trying to update abilities! ${e}`,
       );
     }
   }
 
   async function submitEdit() {
     const reqBody = JSON.stringify({
+      id: id,
       name: name,
       description: description,
       author: author,
@@ -108,7 +144,7 @@
 
     await toast.promise(req, {
       loading: "Submitting..",
-      error: (e) => `Error submitting! ${e}`,
+      error: (e) => `Error submitting! ${e.error}`,
       success: "Successful edit!",
     });
   }
@@ -134,6 +170,23 @@
           >
         </div>
         {#if page == "main"}
+          <label>
+            <div class="flex flex-row items-center gap-4 mb-2">
+              <img
+                class="max-w-32 max-h-32"
+                src={blobUrl}
+                alt="Nikosona Preview"
+              />
+              <p>Sprite</p>
+            </div>
+            <FileUpload
+              bind:elm={editElement}
+              onChange={() => {
+                const response = getFileFromInput();
+                if (response) blobUrl = URL.createObjectURL(response);
+              }}
+            ></FileUpload>
+          </label>
           <label>
             <p>Name</p>
             <input class="w-full" type="text" bind:value={name} />
@@ -166,6 +219,7 @@
         <button
           class="btn"
           onclick={async () => {
+            await changeSpriteEdit();
             await submitEdit();
             await submitAbilityEdit();
           }}>Submit</button
