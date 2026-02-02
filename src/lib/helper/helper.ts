@@ -7,19 +7,10 @@ import toast from "svelte-french-toast";
 export async function fetchNikos(id: number) {
   try {
     const data = await api(`/api/user/nikos?id=${id}`);
-
-    return data.map((noik: Omit<Niko, "author"> & { author_name: string }) => ({
-      name: noik.name,
-      author: noik.author_name,
-      full_desc: noik.full_desc,
-      description: noik.description,
-      abilities: noik.abilities,
-      id: noik.id,
-      author_id: noik.author_id,
-      is_blacklisted: noik.is_blacklisted,
-    }));
+    return data as Niko[];
   } catch (e) {
     toast.error((e as Error).message);
+    return [];
   }
 }
 

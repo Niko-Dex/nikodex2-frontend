@@ -10,6 +10,7 @@
 
     import { page } from "$app/state";
     import { api } from "$lib/helper/helper.js";
+    import MetaTags from "$lib/components/MetaTags.svelte";
     const currentUser = $derived(page.data.currentUser);
     let dataErr = $state(false);
     let maxPages = $state(1);
@@ -69,9 +70,13 @@
     });
 </script>
 
-<svelte:head>
-    <title>Posts!</title>
-</svelte:head>
+<MetaTags
+    description="The posts of the community of the Nikodex!"
+    title="The Nikodex // Posts"
+    image="https://github.com/Niko-Dex/nikodex2-frontend/blob/main/src/lib/assets/images/logo.png?raw=true"
+    type="website"
+    url="https://nikodex.net/posts"
+/>
 
 {#if newPostModal}
     <div

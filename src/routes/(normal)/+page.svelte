@@ -13,6 +13,7 @@
     import Card from "$lib/components/Card.svelte";
     import { version } from "$app/environment";
     import { differenceInHours } from "date-fns";
+    import MetaTags from "$lib/components/MetaTags.svelte";
 
     const { data } = $props();
 
@@ -47,9 +48,13 @@
     );
 </script>
 
-<svelte:head>
-    <title>NikoDex</title>
-</svelte:head>
+<MetaTags
+    description="Nikodex is a fan-made project aims to document all the Nikosonas that users in the OneShot Discord Server have created!"
+    title="The Nikodex"
+    image="https://github.com/Niko-Dex/nikodex2-frontend/blob/main/src/lib/assets/images/logo.png?raw=true"
+    type="website"
+    url="https://nikodex.net/"
+/>
 
 <section
     class="w-full h-screen relative flex flex-col justify-center items-center gap-4"
@@ -152,7 +157,7 @@
             name={data.notd.name}
             id={data.notd.id}
             abilities={data.notd.abilities}
-            author={data.notd.author}
+            author={data.notd.author_name}
             description={data.notd.full_desc}
             short_desc={data.notd.description}
             full_expand

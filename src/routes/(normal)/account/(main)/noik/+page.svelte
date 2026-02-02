@@ -21,7 +21,7 @@
             {#each apiData as data (data.id)}
                 <Card
                     abilities={data.abilities}
-                    author={data.author}
+                    author={data.author_name}
                     description={data.full_desc}
                     name={data.name}
                     short_desc={data.description}

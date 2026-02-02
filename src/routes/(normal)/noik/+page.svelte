@@ -2,6 +2,7 @@
     import Background from "$lib/assets/images/page/noik/bg1.png";
     import Card from "$lib/components/Card.svelte";
     import CardContainer from "$lib/components/CardContainer.svelte";
+    import MetaTags from "$lib/components/MetaTags.svelte";
     import PageChanger from "$lib/components/PageChanger.svelte";
     import { api } from "$lib/helper/helper";
     import type { Niko } from "$lib/types/nikosona";
@@ -19,7 +20,7 @@
     function mapping(d: Omit<Niko, "author"> & { author_name: string }): Niko {
         return {
             name: d.name,
-            author: d.author_name,
+            author_name: d.author_name,
             full_desc: d.full_desc,
             description: d.description,
             abilities: d.abilities,
@@ -85,9 +86,13 @@
     });
 </script>
 
-<svelte:head>
-    <title>Noik List!</title>
-</svelte:head>
+<MetaTags
+    description="It's exactly what the title stated lol."
+    title="The Nikodex // The Niko List!"
+    image="https://github.com/Niko-Dex/nikodex2-frontend/blob/main/src/lib/assets/images/logo.png?raw=true"
+    type="website"
+    url="https://nikodex.net/noik"
+/>
 
 <section class="w-full relative flex justify-center p-4">
     <div
@@ -128,7 +133,7 @@
                 {#each apiData as data (data.id)}
                     <Card
                         abilities={data.abilities}
-                        author={data.author}
+                        author={data.author_name}
                         description={data.full_desc}
                         name={data.name}
                         short_desc={data.description}

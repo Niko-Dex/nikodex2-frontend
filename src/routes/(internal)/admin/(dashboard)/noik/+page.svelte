@@ -62,14 +62,15 @@
         });
     }
 
-    function cancelEdit(row: (typeof apiData)[number]) {
+    function cancelEdit(row: Niko) {
         editMode[row.id] = false;
 
         const old = oldData[row.id];
         if (old) {
             for (let i in row) {
-                //@ts-expect-error THERE WON'T BE ANY ERROR, ZED!
-                row[i] = oldData[row.id][i];
+                const k = i as keyof Niko;
+                //@ts-expect-errors SHUT UP
+                row[k] = oldData[row.id][k];
             }
         }
         delete oldData[row.id];
@@ -255,7 +256,7 @@
                             <input
                                 type="text"
                                 disabled={true}
-                                bind:value={noik.author}
+                                bind:value={noik.author_name}
                                 class="w-full min-w-[100px]"
                             />
                         </td>

@@ -23,7 +23,6 @@
     import { onMount } from "svelte";
 
     let { children, data }: LayoutProps = $props();
-    //@ts-expect-errors banner does exists!!!
     let banner: Banner = data.banner;
 
     beforeNavigate(() => {
@@ -43,39 +42,6 @@
 
 <svelte:head>
     <link rel="icon" href={favicon} />
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="The Nikodex Version 2!" />
-    <meta
-        name="description"
-        content="Nikodex is a fan-made project aims to document all the Nikosonas that users in the OneShot Discord Server have created!"
-    />
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="The Nikodex Version 2!" />
-    <meta
-        property="og:description"
-        content="Nikodex is a fan-made project aims to document all the Nikosonas that users in the OneShot Discord Server have created!"
-    />
-    <meta
-        property="og:image"
-        content="https://github.com/Niko-Dex/nikodex2-frontend/blob/main/src/lib/assets/images/logo.png?raw=true"
-    />
-    <meta property="og:image:alt" content="Nikodex V2's logo" />
-    <meta property="theme-color" content="#e17100" />
-
-    <!-- X (Twitter) -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://nikodex.net/" />
-    <meta property="twitter:title" content="The Nikodex Version 2!" />
-    <meta
-        property="twitter:description"
-        content="Nikodex is a fan-made project aims to document all the Nikosonas that users in the OneShot Discord Server have created!"
-    />
-    <meta
-        property="twitter:image"
-        content="https://github.com/Niko-Dex/nikodex2-frontend/blob/main/src/lib/assets/images/logo.png?raw=true"
-    />
 </svelte:head>
 
 {#snippet nav(showTitle = true)}

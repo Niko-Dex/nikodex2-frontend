@@ -7,12 +7,22 @@
     import UserProfileComponent from "$lib/components/UserProfileComponent.svelte";
     import Copy from "$lib/assets/images/page/noik/Copy.svelte";
     import NikoImage from "$lib/components/NikoImage.svelte";
+    import { resolve } from "$app/paths";
+    import MetaTags from "$lib/components/MetaTags.svelte";
     let { data }: PageProps = $props();
+
+    function absolute(path: string) {
+        return `${data.origin}${path.startsWith("/") ? path : "/" + path}`;
+    }
 </script>
 
-<svelte:head>
-    <title>Noik - {data.noikData.name}</title>
-</svelte:head>
+<MetaTags
+    description="A creation of {data.noikData.author_name}!"
+    title="The Nikodex // {data.noikData.name}"
+    image={absolute(resolve(`/api/embed/nikosonas/${data.noikData.id}`))}
+    type="website"
+    url="https://nikodex.net/noik/{data.noikData.id}"
+/>
 <section class="w-full relative flex flex-col items-center p-4">
     <div
         style="background-image: url({Background})"
@@ -37,7 +47,7 @@
             class="flex flex-col md:flex-row flex-wrap h-full gap-4 overflow-auto"
         >
             <NikoImage
-                author={data.noikData.author}
+                author={data.noikData.author_name}
                 id={data.noikData.id}
                 is_blacklisted={data.noikData.is_blacklisted}
                 name={data.noikData.name}

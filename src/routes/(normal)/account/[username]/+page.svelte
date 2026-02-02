@@ -84,7 +84,7 @@
                         {#each userNoiks as _apiData (_apiData.id)}
                             <Card
                                 id={_apiData.id}
-                                author={_apiData.author}
+                                author={_apiData.author_name}
                                 name={_apiData.name}
                                 description={_apiData.full_desc}
                                 abilities={_apiData.abilities}

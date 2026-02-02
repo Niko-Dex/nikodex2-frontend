@@ -38,7 +38,7 @@
             for (let d of data) {
                 searchList.push({
                     name: d["name"],
-                    author: d["author_name"],
+                    author_name: d["author_name"],
                     full_desc: d["full_desc"],
                     description: d["description"],
                     abilities: d["abilities"].map(
@@ -107,7 +107,7 @@
                         <NikoSmallCard
                             name={niko.name}
                             id={niko.id}
-                            author={niko.author}
+                            author={niko.author_name}
                             btn_title="Add"
                             onclick={() => addNiko(niko)}
                         />
@@ -149,7 +149,7 @@
                 <NikoSmallCard
                     name={niko.name}
                     id={niko.id}
-                    author={niko.author}
+                    author={niko.author_name}
                     btn_title="Remove"
                     onclick={() => removeNiko(niko)}
                 />

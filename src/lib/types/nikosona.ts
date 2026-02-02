@@ -1,7 +1,7 @@
 export type Niko = {
   id: number;
   name: string;
-  author: string;
+  author_name: string;
   full_desc: string;
   description: string;
   abilities: {

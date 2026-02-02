@@ -4,6 +4,7 @@
     import { onMount } from "svelte";
     import { api } from "$lib/helper/helper";
     import toast from "svelte-french-toast";
+    import MetaTags from "$lib/components/MetaTags.svelte";
 
     let apiData: {
         id: number;
@@ -27,9 +28,13 @@
     });
 </script>
 
-<svelte:head>
-    <title>Blog</title>
-</svelte:head>
+<MetaTags
+    description="Does anyone even read this -.-"
+    title="The Nikodex // Blogs"
+    image="https://github.com/Niko-Dex/nikodex2-frontend/blob/main/src/lib/assets/images/logo.png?raw=true"
+    type="website"
+    url="https://nikodex.net/blog"
+/>
 
 <section class="w-full relative flex justify-center p-4">
     <div

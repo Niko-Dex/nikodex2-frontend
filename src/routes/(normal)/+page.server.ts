@@ -12,7 +12,7 @@ export const load = async ({ fetch }) => {
   const notdJSON = await notdRes.json();
   const notd: Niko = {
     name: notdJSON["name"],
-    author: notdJSON["author_name"],
+    author_name: notdJSON["author_name"],
     full_desc: notdJSON["full_desc"],
     description: notdJSON["description"],
     abilities: notdJSON["abilities"],
