@@ -1,55 +1,51 @@
 <script lang="ts">
-    import UnmigratedWarningIcon from "$lib/assets/images/page/account/unmigrated_warning_icon.png";
-    import DefaultUserImage from "$lib/assets/images/components/default_pfp.png";
-    let {
-        username = "",
-        id,
-        subtext,
-    }: {
-        username: string;
-        id?: number;
-        subtext?: string;
-    } = $props();
+  import UnmigratedWarningIcon from "$lib/assets/images/page/account/unmigrated_warning_icon.png";
+  import DefaultUserImage from "$lib/assets/images/components/default_pfp.png";
+  let {
+    username = "",
+    id,
+    subtext,
+  }: {
+    username: string;
+    id?: number;
+    subtext?: string;
+  } = $props();
 </script>
 
 <div class="flex flex-row items-center gap-4">
-    <a
-        class="w-fit no-underline px-1 h-fit mt-auto flex items-center gap-4 transition group"
-        href={username != "" && id != undefined ? `/account/${username}` : "#"}
-    >
-        {#if id != undefined}
-            <img
-                src="/api/data/user/pfp?id={id}"
-                class="w-16 h-16"
-                alt="Profile picture of {username}"
-            />
-        {:else}
-            <img
-                src={DefaultUserImage}
-                class="w-16 h-16"
-                alt="Non-existant user profile"
-            />
-        {/if}
-        <div class="flex flex-col">
-            {#if username != ""}
-                <span class="underline break-all">{username}</span>
+  <a
+    class="w-fit no-underline px-1 h-fit mt-auto flex items-center gap-4 transition group"
+    href={username != "" && id != undefined ? `/account/${username}` : "#"}
+  >
+    {#if id != undefined}
+      <img
+        src="/api/data/user/pfp?id={id}"
+        class="w-16 h-16 non-pixelated"
+        alt="Profile picture of {username}"
+      />
+    {:else}
+      <img
+        src={DefaultUserImage}
+        class="w-16 h-16"
+        alt="Non-existant user profile"
+      />
+    {/if}
+    <div class="flex flex-col">
+      {#if username != ""}
+        <span class="underline break-all">{username}</span>
 
-                {#if id == undefined}
-                    <span
-                        class="flex flex-row items-center gap-2 small-txt-size text-red-400"
-                    >
-                        <img
-                            src={UnmigratedWarningIcon}
-                            alt="a"
-                            class="w-4 h-4"
-                        />
-                        <em>(Unmigrated account)</em>
-                    </span>
-                {/if}
-                <span class="small-txt-size">{subtext}</span>
-            {:else}
-                <span>Profile Not Found</span>
-            {/if}
-        </div>
-    </a>
+        {#if id == undefined}
+          <span
+            class="flex flex-row items-center gap-2 small-txt-size text-red-400"
+          >
+            <img src={UnmigratedWarningIcon} alt="a" class="w-4 h-4" />
+            <em>(Unmigrated account)</em>
+          </span>
+        {/if}
+        <span class="small-txt-size">{subtext}</span>
+      {:else}
+        <span>Profile Not Found</span>
+      {/if}
+    </div>
+  </a>
 </div>

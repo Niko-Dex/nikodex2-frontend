@@ -58,7 +58,7 @@
       <img
         src={`/api/data/user/pfp?id=${data.requestedInformation.id}`}
         alt="Profile picture of {data.requestedInformation.username}"
-        class="w-25 h-25"
+        class="w-25 h-25 border-2 non-pixelated"
         fetchpriority="high"
       />
       {data.requestedInformation.username}
