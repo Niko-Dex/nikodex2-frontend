@@ -63,7 +63,7 @@
         formData.append("username", data.currentUser?.username ?? "unknown");
         formData.append("discord_id", data.discord_id);
         formData.append("discord_username", data.discord_username);
-        formData.append("nikos", nikosList.map((n) => n.id).join("|"));
+        formData.append("nikos", [...nikosList].map((v) => v.id).join("|"));
 
         const req = fetch(`/api/migrate`, {
             method: "POST",

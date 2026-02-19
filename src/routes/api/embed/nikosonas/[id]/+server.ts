@@ -162,10 +162,31 @@ export async function GET({ fetch, params }) {
       metadata.location.id[1],
     );
 
+    let d_description = json.description.trim();
+    let d_creator = `Creator: ${json.author_name}`;
+    const d_abilities = `# of abilities: ${json.abilities.length}`;
+    const d_issuer = `Issuer: TWM`;
+
+    let maxLineDescription = 4;
+    const maxLineCreator = 2;
+
+    if (d_creator.length > metadata.maxlen * maxLineCreator - 2) {
+      // - 2 for ellipsis
+      d_creator =
+        d_creator.slice(0, metadata.maxlen * maxLineCreator - 2 - 3) + "...";
+      maxLineDescription = 3;
+    }
+
+    if (d_description.length > metadata.maxlen * maxLineDescription) {
+      d_description =
+        d_description.slice(0, metadata.maxlen * maxLineDescription - 3) +
+        "...";
+    }
+
     printText(
       ctx,
       inputImg,
-      `"${json.description.trim()}"\n\nCreator: ${json.author_name}\n# of abilities: ${json.abilities.length}\nIssuer: TWM`,
+      `[${d_description}]\n\n${d_creator}\n${d_abilities}\n${d_issuer}`,
       metadata.location.by_text[0],
       metadata.location.by_text[1],
     );

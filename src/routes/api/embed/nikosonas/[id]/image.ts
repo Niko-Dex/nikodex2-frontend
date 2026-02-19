@@ -1,6 +1,5 @@
 export const baseImage =
-  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUAAAAEACAMAAAD1Fl/0AAAAAXNSR0IArs4c6QAAAN5QTFRFBgYI////OxclcxcttCAq3z4j+moK+aMb/9VB//xA1vJknNtDWcE1FKAuGno+JFI7EiAgFDRkKFzEJJ/eINbHpvzb/////vPA+ta49aCX6GpzvEqbeTqAQDNTJCI0IhwaMisocUE7u3VH26Rj9NKc2uDqs7nRi5OvbXWNSlRiMzlBQiQzWzE4jlJSunVq6bWj4+b/ub/7hJvkWI2+R32FI2dOMoRkXa+Nkty6zffi5NKqx7CLoIZieWdVWk5EQjk033Em/8I02Ihkd3WbUU90Hx4nHBsnISAwJiQ4AAAATATL4wAAAEp0Uk5TAP////////////////////////////////////////////////////////////////////////////////////////////////94qDulAAAJbklEQVR4nO2bW5LjKBBFxdfsQF8ze3G7qyK8/xVNyDYS+QCBSJEI5anotkaSeRwuyLhrpunLf0YRE0a7QVfDBFZiAith5b2MLIhEE1iGCazEBFYCBIbyfo0sgEQT+OFV8mMC6zCBiKL0cQm8s7yjeIk3F1icPZLCmws8jgmsSR9OoHZXLsqdBVam7/tzY4HVvA3eVKBM+pIJ/FcYHVGnsRq8nUC57FkCj4EM3kqgdPp2EyjV8F4EVsMYvI3AM9JnCSwhYvAWAs9KnyUwl4TB4QWemT5LYA47BgcWeHb2UAJ/ENICcfmjYAIrMYGVmMBKTGAlJrASE1iJCazEBFZiAisxgZWYwEpMYCUmsBITWIkJrMQEVmICKzGBlZjASkxgJSawEhNYiQmsZOB/WAec9i/rFxDY5jcMdn6S/+d65wKrOdVs1wLVc7eTvvET2MButwLVc5eRvrET2MhwlwLVc5eZvnET2NBydwLVc5edvVET2Nh1VwLVk1eYvvESqOC7E4HquTuUvpESqOa8A4HquTucvlESqOpdWaB67n5r0jdCAtXdKwpU7/tvXfaun0B1+796CVTv969E+q6cQHX7fgSaC1Tv9db3myZQ3T0cgaYC1XsN+37DBKq7pyPQTKB6r2nfb5ZAdfe8//sk8CSukUB1+/ERuEcCT6T3BKrnbm8Exk/gyfScQPXc5YzA2AlsQK8J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";
-
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUAAAAEACAMAAAD1Fl/0AAAAAXNSR0IArs4c6QAAAN5QTFRFBgYI////OxclcxcttCAq3z4j+moK+aMb/9VB//xA1vJknNtDWcE1FKAuGno+JFI7EiAgFDRkKFzEJJ/eINbHpvzb/////vPA+ta49aCX6GpzvEqbeTqAQDNTJCI0IhwaMisocUE7u3VH26Rj9NKc2uDqs7nRi5OvbXWNSlRiMzlBQiQzWzE4jlJSunVq6bWj4+b/ub/7hJvkWI2+R32FI2dOMoRkXa+Nkty6zffi5NKqx7CLoIZieWdVWk5EQjk033Em/8I02Ihkd3WbUU90Hx4nHBsnISAwJiQ4AAAATATL4wAAAEp0Uk5TAP////////////////////////////////////////////////////////////////////////////////////////////////94qDulAAAJaUlEQVR4nO2ba5KkKBRG5dfswF8ze8nOrorI/a9owsxE7wsEQS7iPRXd6fhAOHxgYtdM05f/jCwminaFroYJLMQEFiLKexlJMIkmMA8TWIgJLAQJhPJ+jSSQRBP44ZXzYwLLMIGErPRJCbyzvKN4iTcXmJ09lsKbCzyOCSxJH02gdlMuyp0FFqbv+3NjgcW8Dd5UYJ30RRP4b2V0RJ3GavB2AutlzxJ4DGLwVgJrp283gbUq3ovAYgSDtxF4RvosgTkEDN5C4FnpswSmEjE4vMAz02cJTGHH4MACz84eSeAPobZAWv4omMBCTGAhJrAQE1iICSzEBBZiAgsxgYWYwEJMYCEmsBATWIgJLMQEFmICCzGBhZjAQkxgISawEBNYiAksxAQWYgILGfgf1hGn/cv6BQS2+Q2DnZ/o/7neucBiTjXbtUD13O2kb/wENrDbrUD13CWkb+wENjLcpUD13CWmb9wENrTcnUD13CVnb9QENnbdlUD15GWmb7wEKvjuRKB67g6lb6QEqjnvQKB67g6nb5QEqnpXFqieu9+S9I2QQHX3igLV2/5blr3rJ1Dd/q9eAtXb/VsjfVdOoLp93wPNBaq3emv7TROo7h73QFOB6q3Gbb9hAtXd8x5oJlC91bztN0ugunvZ/30SeBLXSKC6/XAP3COBJ9J7AtVzt9cD4yfwZHpOoHruUnpg7AQ2oNcE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";
 export const metadata = {
   w: 320,
   h: 256,
@@ -24,11 +23,101 @@ export const metadata = {
   maxlen: 22,
 };
 
+/*
+mapping generated using this python script. yes i'm putting it here for future reference
+
+import json
+from sys import stdout
+
+alphabet = [
+    " !\"#$%&'()*+,-./PQRSTUVWXYZ[\\]^_",
+    "0123456789:;<=>?`abcdefghijklmno",
+    "@ABCDEFGHIJKLMNOpqrstuvwxyz{|}~",
+]
+
+start = (1, 193)
+delta = (9, 17)
+
+out = {}
+
+for x, row in enumerate(alphabet):
+    for y, c in enumerate(row):
+        out[c] = [start[0] + delta[0] * y, start[1] + delta[1] * x]
+
+print(out)
+*/
+
 export const font = {
   char_spacing: 1,
   character_size: [8, 16],
   line_spacing: 10,
   c: {
+    " ": [1, 193],
+    "!": [10, 193],
+    '"': [19, 193],
+    "“": [19, 193], // special case
+    "#": [28, 193],
+    $: [37, 193],
+    "%": [46, 193],
+    "&": [55, 193],
+    "'": [64, 193],
+    "(": [73, 193],
+    ")": [82, 193],
+    "*": [91, 193],
+    "+": [100, 193],
+    ",": [109, 193],
+    "-": [118, 193],
+    ".": [127, 193],
+    "/": [136, 193],
+    P: [145, 193],
+    Q: [154, 193],
+    R: [163, 193],
+    S: [172, 193],
+    T: [181, 193],
+    U: [190, 193],
+    V: [199, 193],
+    W: [208, 193],
+    X: [217, 193],
+    Y: [226, 193],
+    Z: [235, 193],
+    "[": [244, 193],
+    "\\": [253, 193],
+    "]": [262, 193],
+    "^": [271, 193],
+    _: [280, 193],
+    "0": [1, 210],
+    "1": [10, 210],
+    "2": [19, 210],
+    "3": [28, 210],
+    "4": [37, 210],
+    "5": [46, 210],
+    "6": [55, 210],
+    "7": [64, 210],
+    "8": [73, 210],
+    "9": [82, 210],
+    ":": [91, 210],
+    ";": [100, 210],
+    "<": [109, 210],
+    "=": [118, 210],
+    ">": [127, 210],
+    "?": [136, 210],
+    "`": [145, 210],
+    a: [154, 210],
+    b: [163, 210],
+    c: [172, 210],
+    d: [181, 210],
+    e: [190, 210],
+    f: [199, 210],
+    g: [208, 210],
+    h: [217, 210],
+    i: [226, 210],
+    j: [235, 210],
+    k: [244, 210],
+    l: [253, 210],
+    m: [262, 210],
+    n: [271, 210],
+    o: [280, 210],
+    "@": [1, 227],
     A: [10, 227],
     B: [19, 227],
     C: [28, 227],
@@ -44,45 +133,21 @@ export const font = {
     M: [118, 227],
     N: [127, 227],
     O: [136, 227],
-    P: [145, 193],
-    Q: [154, 193],
-    R: [163, 193],
-    S: [172, 193],
-    T: [181, 193],
-    U: [190, 193],
-    V: [199, 193],
-    W: [208, 193],
-    X: [217, 193],
-    Y: [226, 193],
-    Z: [235, 193],
-    "0": [1, 210],
-    "1": [10, 210],
-    "2": [19, 210],
-    "3": [28, 210],
-    "4": [37, 210],
-    "5": [46, 210],
-    "6": [55, 210],
-    "7": [64, 210],
-    "8": [73, 210],
-    "9": [82, 210],
-    ":": [91, 210],
-    "!": [10, 193],
-    '"': [19, 193],
-    "#": [28, 193],
-    $: [37, 193],
-    "%": [46, 193],
-    "&": [55, 193],
-    "'": [64, 193],
-    "(": [73, 193],
-    ")": [82, 193],
-    "*": [91, 193],
-    "+": [100, 193],
-    ",": [109, 193],
-    "-": [118, 193],
-    ".": [127, 193],
-    "/": [136, 193],
-    "?": [136, 210],
-    " ": [1, 193],
+    p: [145, 227],
+    q: [154, 227],
+    r: [163, 227],
+    s: [172, 227],
+    t: [181, 227],
+    u: [190, 227],
+    v: [199, 227],
+    w: [208, 227],
+    x: [217, 227],
+    y: [226, 227],
+    z: [235, 227],
+    "{": [244, 227],
+    "|": [253, 227],
+    "}": [262, 227],
+    "~": [271, 227],
   },
   unknown: [136, 210],
 };
