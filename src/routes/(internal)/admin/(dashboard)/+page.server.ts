@@ -59,6 +59,7 @@ export const actions = {
         body: JSON.stringify({
           title: data.get("title") ?? "",
           content: data.get("content") ?? "",
+          banner_color: data.get("banner_color") ?? "#ffffff",
           is_dismissable: data.get("is_dismissable") ? true : false,
         }),
       });

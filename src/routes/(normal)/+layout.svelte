@@ -79,7 +79,10 @@
 <Transition />
 <Toaster />
 {#if shouldLoadBanner && banner.title != "" && banner.banner_identifier != dismissedBanner}
-    <div class="bg-red-800 px-4 py-1 flex sticky gap-4">
+    <div
+        class="px-4 py-1 flex sticky gap-4"
+        style="background-color: {banner.banner_color};"
+    >
         <div class="flex justify-center w-full">
             <p class="text-center">
                 <b>{banner.title}</b>
