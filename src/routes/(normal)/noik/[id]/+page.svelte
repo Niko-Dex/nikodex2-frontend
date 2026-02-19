@@ -82,7 +82,7 @@
     </div>
     <div class="md:w-80 w-50 h-fit ml-auto mt-auto relative">
       <img
-        class="w-full h-full"
+        class="h-full align-middle"
         draggable="false"
         src={imgPath}
         alt="ID of {data.noikData.name}"
@@ -90,8 +90,8 @@
       />
       <a
         class="btn absolute top-0 right-0 origin-top-right {imgLoading
-          ? 'scale-0'
-          : 'scale-100'}"
+          ? 'opacity-0'
+          : 'opacity-100'}"
         href={imgPath}
         download={`${data.noikData.name}'s id`}><DownloadIcon /></a
       >
