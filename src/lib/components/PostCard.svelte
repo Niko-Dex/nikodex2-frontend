@@ -1,5 +1,7 @@
 <script lang="ts">
   import TrashIcon from "$lib/assets/images/page/account/trash_icon.png";
+  import DeletionSplashes from "$lib/assets/data/deletionSplashes.json";
+  import { onMount } from "svelte";
 
   let {
     id = 0,
@@ -8,7 +10,15 @@
     isDeletable = false,
     deleteRequested = Promise<void>,
   } = $props();
+
+  function retrieveDeletionSplash() {
+    return DeletionSplashes[
+      Math.floor(Math.random() * DeletionSplashes.length)
+    ];
+  }
+
   let confirmDeletion = $state(false);
+  let currentPickedSplash = $derived(retrieveDeletionSplash());
 </script>
 
 {#if confirmDeletion}
@@ -17,7 +27,7 @@
       class="min-w-32 min-h-32 flex flex-col gap-4 bg-black p-4 border-4 m-auto border-(--theme-color)"
     >
       <p class="h1-txt-size text-center">Are you sure?</p>
-      <p class="text-center">There's no going back!</p>
+      <p class="text-center">{currentPickedSplash}</p>
       <div class="grid grid-cols-2 gap-4">
         <button
           class="btn"
@@ -40,7 +50,10 @@
   {#if isDeletable}
     <button
       class="btn absolute right-0 mr-2 group"
-      onclick={() => (confirmDeletion = true)}
+      onclick={() => {
+        currentPickedSplash = retrieveDeletionSplash();
+        confirmDeletion = true;
+      }}
       ><img
         src={TrashIcon}
         draggable="false"
