@@ -2,15 +2,15 @@
 // for information about these interfaces
 import type { User } from "$lib/types/user";
 declare global {
-  namespace App {
-    // interface Error {}
-    // interface Locals {}
-    interface PageData {
-      currentUser?: User | undefined;
+    namespace App {
+        // interface Error {}
+        // interface Locals {}
+        interface PageData {
+            currentUser?: User | undefined;
+        }
+        // interface PageState {}
+        // interface Platform {}
     }
-    // interface PageState {}
-    // interface Platform {}
-  }
 }
 
 export {};

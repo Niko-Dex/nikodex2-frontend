@@ -1,12 +1,11 @@
-import { env } from "$env/dynamic/private"
-import { errSrv } from '../../helper';
-export async function GET({ request, fetch, cookies }) {
+import { env } from "$env/dynamic/private";
+import { errSrv } from "../../helper";
+export async function GET({ fetch }) {
     try {
-        const res = await fetch(`${env.API_SERVER_URL}/nikos/count`)
+        const res = await fetch(`${env.API_SERVER_URL}/nikos/count`);
 
-        return res
+        return res;
     } catch (e) {
-        return errSrv(e)
+        return errSrv(e);
     }
-
 }

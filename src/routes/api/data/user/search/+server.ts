@@ -3,15 +3,15 @@ import { errSrv } from "../../../helper";
 import type { RequestHandler } from "./$types";
 
 export const GET: RequestHandler = async ({ request }) => {
-  try {
-    const url = new URL(request.url);
-    const fetchRequest = await fetch(
-      `${env.API_SERVER_URL}/users/usersearch?username=${url.searchParams.get(
-        "username"
-      )}&page=${url.searchParams.get("page")}`
-    );
-    return fetchRequest;
-  } catch (err) {
-    return errSrv(err);
-  }
+    try {
+        const url = new URL(request.url);
+        const fetchRequest = await fetch(
+            `${env.API_SERVER_URL}/users/usersearch?username=${url.searchParams.get(
+                "username"
+            )}&page=${url.searchParams.get("page")}`
+        );
+        return fetchRequest;
+    } catch (err) {
+        return errSrv(err);
+    }
 };

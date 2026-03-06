@@ -1,68 +1,64 @@
-import { env } from "$env/dynamic/private"
-import { errSrv } from '../../helper';
+import { env } from "$env/dynamic/private";
+import { errSrv } from "../../helper";
 
-export async function GET({ request, fetch, cookies }) {
+export async function GET({ fetch }) {
     try {
-        const res = await fetch(`${env.API_SERVER_URL}/blogs`)
-        return res
-    }
-    catch (e) {
-        return errSrv(e)
+        const res = await fetch(`${env.API_SERVER_URL}/blogs`);
+        return res;
+    } catch (e) {
+        return errSrv(e);
     }
 }
 
 export async function POST({ request, fetch, cookies }) {
     try {
         const res = await fetch(`${env.API_SERVER_URL}/blogs`, {
-            method: 'POST',
+            method: "POST",
             headers: {
-                "Authorization": `Bearer ${cookies.get('token')}`,
-                "Content-Type": "application/json"
+                Authorization: `Bearer ${cookies.get("token")}`,
+                "Content-Type": "application/json",
             },
-            body: await request.text()
-        })
+            body: await request.text(),
+        });
 
-        return res
-    }
-    catch (e) {
-        return errSrv(e)
+        return res;
+    } catch (e) {
+        return errSrv(e);
     }
 }
 
 export async function PUT({ request, fetch, cookies }) {
     try {
-        const url = new URL(request.url)
-        const res = await fetch(`${env.API_SERVER_URL}/blogs?id=${url.searchParams.get('id')}`, {
-            method: 'PUT',
+        const url = new URL(request.url);
+        const res = await fetch(`${env.API_SERVER_URL}/blogs?id=${url.searchParams.get("id")}`, {
+            method: "PUT",
             headers: {
-                'Authorization': `Bearer ${cookies.get('token')}`,
-                'Content-Type': 'application/json'
+                Authorization: `Bearer ${cookies.get("token")}`,
+                "Content-Type": "application/json",
             },
-            body: await request.text()
-        })
+            body: await request.text(),
+        });
 
-        return res
-    }
-    catch (e) {
-        return errSrv(e)
+        return res;
+    } catch (e) {
+        return errSrv(e);
     }
 }
 
 export async function DELETE({ request, fetch, cookies }) {
     try {
-        const url = new URL(request.url)
-        const res = await fetch(`${env.API_SERVER_URL}/blogs?id=${url.searchParams.get('id')}`, {
-            method: 'DELETE',
+        const url = new URL(request.url);
+        const res = await fetch(`${env.API_SERVER_URL}/blogs?id=${url.searchParams.get("id")}`, {
+            method: "DELETE",
             headers: {
-                'Authorization': `Bearer ${cookies.get('token')}`,
-                'Content-Type': 'application/json'
+                Authorization: `Bearer ${cookies.get("token")}`,
+                "Content-Type": "application/json",
             },
-            body: await request.text()
-        })
+            body: await request.text(),
+        });
 
-        return res
-    }
-    catch (e) {
-        return errSrv(e)
+        return res;
+    } catch (e) {
+        return errSrv(e);
     }
 }

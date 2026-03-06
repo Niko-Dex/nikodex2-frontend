@@ -1,34 +1,39 @@
-import { env } from "$env/dynamic/private"
+import { env } from "$env/dynamic/private";
 import type { Cookies } from "@sveltejs/kit";
-import { errSrv } from '../helper';
-export async function GET({ request, fetch, cookies }) {
+import { errSrv } from "../helper";
+export async function GET({ request, fetch }) {
     try {
-        const url = new URL(request.url)
-        const res = await fetch(`${env.API_SERVER_URL}/image?id=${url.searchParams.get("id")}`)
+        const url = new URL(request.url);
+        const res = await fetch(`${env.API_SERVER_URL}/image?id=${url.searchParams.get("id")}`);
 
-        return res
+        return res;
     } catch (e) {
-        return errSrv(e)
+        return errSrv(e);
     }
 }
 
-async function imageWrapper(method: string, fetch: {
-    (input: URL | RequestInfo, init?: RequestInit): Promise<Response>;
-    (input: string | URL | globalThis.Request, init?: RequestInit): Promise<Response>;
-}, request: Request, cookies: Cookies) {
+async function imageWrapper(
+    method: string,
+    fetch: {
+        (input: URL | RequestInfo, init?: RequestInit): Promise<Response>;
+        (input: string | URL | globalThis.Request, init?: RequestInit): Promise<Response>;
+    },
+    request: Request,
+    cookies: Cookies
+) {
     try {
-        const url = new URL(request.url)
+        const url = new URL(request.url);
         const res = await fetch(`${env.API_SERVER_URL}/image?id=${url.searchParams.get("id")}`, {
             method: method,
             headers: {
-                "Authorization": `Bearer ${cookies.get("token")}`,
+                Authorization: `Bearer ${cookies.get("token")}`,
             },
-            body: await request.formData()
-        })
+            body: await request.formData(),
+        });
 
-        return res
+        return res;
     } catch (e) {
-        return errSrv(e)
+        return errSrv(e);
     }
 }
 

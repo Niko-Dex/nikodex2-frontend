@@ -1,14 +1,14 @@
 import { env } from "$env/dynamic/private";
 import { errSrv } from "../../helper";
 
-export async function GET({ request, fetch, cookies }) {
-  try {
-    const url = new URL(request.url);
-    const res = await fetch(
-      `${env.API_SERVER_URL}/posts/page?page=${url.searchParams.get("page")}&count=${url.searchParams.get("count")}`,
-    );
-    return res;
-  } catch (e) {
-    return errSrv(e);
-  }
+export async function GET({ request, fetch }) {
+    try {
+        const url = new URL(request.url);
+        const res = await fetch(
+            `${env.API_SERVER_URL}/posts/page?page=${url.searchParams.get("page")}&count=${url.searchParams.get("count")}`
+        );
+        return res;
+    } catch (e) {
+        return errSrv(e);
+    }
 }

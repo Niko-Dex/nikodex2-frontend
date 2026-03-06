@@ -1,14 +1,13 @@
-import { env } from "$env/dynamic/private"
-import { errSrv } from '../../helper';
+import { env } from "$env/dynamic/private";
+import { errSrv } from "../../helper";
 
-export async function GET({ request, fetch, cookies }) {
+export async function GET({ request, fetch }) {
     try {
-        const url = new URL(request.url)
-        const res = await fetch(`${env.API_SERVER_URL}/nikos/?id=${url.searchParams.get('id')}`)
+        const url = new URL(request.url);
+        const res = await fetch(`${env.API_SERVER_URL}/nikos/?id=${url.searchParams.get("id")}`);
 
-        return res
-    }
-    catch (e) {
-        return errSrv(e)
+        return res;
+    } catch (e) {
+        return errSrv(e);
     }
 }

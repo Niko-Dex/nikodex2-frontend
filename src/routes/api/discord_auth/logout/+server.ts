@@ -1,10 +1,10 @@
-import { json, redirect } from '@sveltejs/kit';
-import { env } from "$env/dynamic/private"
-import { errSrv } from '../../helper.js';
+import { redirect } from "@sveltejs/kit";
+import { env } from "$env/dynamic/private";
+import { errSrv } from "../../helper.js";
 
-export async function GET({ fetch, cookies, url }) {
+export async function GET({ fetch, cookies }) {
     try {
-        const token = cookies.get('discord_token') ?? ""
+        const token = cookies.get("discord_token") ?? "";
 
         await fetch("https://discord.com/api/oauth2/token/revoke", {
             method: "POST",
@@ -14,19 +14,18 @@ export async function GET({ fetch, cookies, url }) {
                 token,
             }).toString(),
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            }
-        })
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+        });
 
-        cookies.delete('discord_token', {
+        cookies.delete("discord_token", {
             httpOnly: true,
             secure: true,
-            path: "/"
+            path: "/",
         });
-    }
-    catch(error) {
+    } catch (error) {
         console.error(error);
-        return errSrv(error)
+        return errSrv(error);
     }
-    throw redirect(307, "/account/migrate")
+    throw redirect(307, "/account/migrate");
 }

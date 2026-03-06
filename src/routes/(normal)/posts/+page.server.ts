@@ -2,40 +2,38 @@ import { env } from "$env/dynamic/private";
 import { fail, type Actions } from "@sveltejs/kit";
 
 export const actions = {
-  default: async ({ fetch, cookies, request }) => {
-    const data = await request.formData();
-    const res = await fetch(`/api/posts`, {
-      method: "POST",
-      body: data,
-      headers: {
-        Authorization: `Bearer ${cookies.get("token")}`,
-      },
-    });
-    if (!res.ok) {
-      const errData = await res.json();
-      console.log(`backend error! ${res.status}: ${errData["error"]}`);
-      return fail(res.status, { msg: errData["error"], error: true });
-    } else {
-      const formData = new FormData();
-      formData.append("title", "New Post!");
-      formData.append("msg", "A new Post was submitted!");
-      formData.append("fields[n]", "3");
-      formData.append("fields[0]", `Name;${data.get("title")}`);
-      formData.append("fields[1]", `Desc;${data.get("content")}`);
-      formData.append("fields[2]", `Full Desc;${data.get("full_desc")}`);
+    default: async ({ fetch, cookies, request }) => {
+        const data = await request.formData();
+        const res = await fetch(`/api/posts`, {
+            method: "POST",
+            body: data,
+            headers: {
+                Authorization: `Bearer ${cookies.get("token")}`,
+            },
+        });
+        if (!res.ok) {
+            const errData = await res.json();
+            console.log(`backend error! ${res.status}: ${errData["error"]}`);
+            return fail(res.status, { msg: errData["error"], error: true });
+        } else {
+            const formData = new FormData();
+            formData.append("title", "New Post!");
+            formData.append("msg", "A new Post was submitted!");
+            formData.append("fields[n]", "3");
+            formData.append("fields[0]", `Name;${data.get("title")}`);
+            formData.append("fields[1]", `Desc;${data.get("content")}`);
+            formData.append("fields[2]", `Full Desc;${data.get("full_desc")}`);
 
-      const b_res = await fetch(`${env.BOT_SERVER_URL}/audit`, {
-        method: "POST",
-        body: formData,
-      });
+            const b_res = await fetch(`${env.BOT_SERVER_URL}/audit`, {
+                method: "POST",
+                body: formData,
+            });
 
-      if (!b_res.ok) {
-        console.log(
-          `Error while trying to audit the action.. ${await b_res.text()}`,
-        );
-      }
-    }
+            if (!b_res.ok) {
+                console.log(`Error while trying to audit the action.. ${await b_res.text()}`);
+            }
+        }
 
-    return { success: true };
-  },
+        return { success: true };
+    },
 } satisfies Actions;

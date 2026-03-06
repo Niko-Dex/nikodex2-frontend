@@ -12,7 +12,7 @@
     import Tiles from "$lib/assets/images/page/ramsweeper/tiles.png";
     import Nikos from "$lib/assets/images/page/ramsweeper/niko.png";
     import toast, { Toaster } from "svelte-french-toast";
-  import { mobileCheck } from "$lib/helper/helper";
+    import { mobileCheck } from "$lib/helper/helper";
 
     const maxRamRatio = 0.9;
 
@@ -193,12 +193,7 @@
 
     function btnState(state: keyof typeof nikoMap) {
         if (!resetBtnCanvasCtx || !resetBtnImg) return;
-        resetBtnCanvasCtx.clearRect(
-            0,
-            0,
-            resetBtnCanvas.width,
-            resetBtnCanvas.height,
-        );
+        resetBtnCanvasCtx.clearRect(0, 0, resetBtnCanvas.width, resetBtnCanvas.height);
         resetBtnCanvasCtx.drawImage(
             resetBtnImg,
             nikoMap[state] * nikoMetadata.tileSize[0],
@@ -208,7 +203,7 @@
             0,
             0,
             nikoMetadata.tileSize[0],
-            nikoMetadata.tileSize[1],
+            nikoMetadata.tileSize[1]
         );
     }
 
@@ -236,7 +231,7 @@
 
         let scale = Math.min(
             floorToFactor((viewW - deltaW) / canvasDimension.width, 4),
-            floorToFactor((viewH - deltaH) / canvasDimension.height, 4),
+            floorToFactor((viewH - deltaH) / canvasDimension.height, 4)
         );
 
         settings.scale = scale;
@@ -259,7 +254,7 @@
                     i * tSize[0] + boardOffset[0],
                     j * tSize[0] + boardOffset[1],
                     tSize[0],
-                    tSize[1],
+                    tSize[1]
                 );
                 ctx.drawImage(
                     image,
@@ -270,7 +265,7 @@
                     i * tSize[0] + boardOffset[0],
                     j * tSize[0] + boardOffset[1],
                     tSize[0],
-                    tSize[1],
+                    tSize[1]
                 );
                 if (gameBoardPancake[i][j]) {
                     ctx.drawImage(
@@ -282,7 +277,7 @@
                         i * tSize[0] + boardOffset[0],
                         j * tSize[0] + boardOffset[1],
                         tSize[0],
-                        tSize[1],
+                        tSize[1]
                     );
                 }
             }
@@ -291,16 +286,8 @@
 
     function countAdjacentRam(x: number, y: number) {
         let cnt = 0;
-        for (
-            let i = Math.max(x - 1, 0);
-            i <= Math.min(x + 1, gameState.size[0] - 1);
-            i++
-        ) {
-            for (
-                let j = Math.max(y - 1, 0);
-                j <= Math.min(y + 1, gameState.size[1] - 1);
-                j++
-            ) {
+        for (let i = Math.max(x - 1, 0); i <= Math.min(x + 1, gameState.size[0] - 1); i++) {
+            for (let j = Math.max(y - 1, 0); j <= Math.min(y + 1, gameState.size[1] - 1); j++) {
                 if (gameBoardData[i][j] == BoardTile.ram) cnt++;
             }
         }
@@ -308,8 +295,7 @@
     }
 
     function spreadClear(x: number, y: number) {
-        if (x < 0 || y < 0 || x >= gameState.size[0] || y >= gameState.size[1])
-            return;
+        if (x < 0 || y < 0 || x >= gameState.size[0] || y >= gameState.size[1]) return;
         const cntRam = countAdjacentRam(x, y);
         const neighbor = [
             [-1, 0],
@@ -330,11 +316,7 @@
                 spreadClear(x + n[0], y + n[1]);
             }
         } else {
-            if (
-                gameBoard[x][y] != Tile.button &&
-                gameBoard[x][y] != Tile.clicked
-            )
-                return;
+            if (gameBoard[x][y] != Tile.button && gameBoard[x][y] != Tile.clicked) return;
             clearedTile++;
             gameBoard[x][y] = Tile[String(cntRam) as keyof typeof Tile];
         }
@@ -352,10 +334,7 @@
     }
 
     function checkWin() {
-        if (
-            gameState.size[0] * gameState.size[1] - clearedTile <=
-            gameState.ramCount
-        ) {
+        if (gameState.size[0] * gameState.size[1] - clearedTile <= gameState.ramCount) {
             if (gameState.ramCount == 0) {
                 setAchievement(Achievement.WhereIsMyHerd);
             } else {
@@ -420,10 +399,7 @@
                 gameBoardPancake[x][y] = true;
             }
 
-            if (
-                gameState.ramCount - pancakesLeft >=
-                gameState.size[0] * gameState.size[1]
-            ) {
+            if (gameState.ramCount - pancakesLeft >= gameState.size[0] * gameState.size[1]) {
                 btnState("uhh");
                 switch (preset) {
                     case "easy":
@@ -484,12 +460,7 @@
     function clickDown(ev: MouseEvent) {
         if (!gameState.inProgress) return;
         const [tileX, tileY] = getTilePos(ev);
-        if (
-            tileX < 0 ||
-            tileY < 0 ||
-            tileX >= gameState.size[0] ||
-            tileY >= gameState.size[1]
-        )
+        if (tileX < 0 || tileY < 0 || tileX >= gameState.size[0] || tileY >= gameState.size[1])
             return;
         if (gameBoard[tileX][tileY] != Tile.button) return;
         gameState.selected = [tileX, tileY];
@@ -507,30 +478,19 @@
 
         if (gameState.selected[0] != tileX || gameState.selected[1] != tileY) {
             try {
-                if (
-                    gameBoard[gameState.selected[0]][gameState.selected[1]] !=
-                    Tile.clicked
-                )
-                    return;
-                gameBoard[gameState.selected[0]][gameState.selected[1]] =
-                    Tile.button;
+                if (gameBoard[gameState.selected[0]][gameState.selected[1]] != Tile.clicked) return;
+                gameBoard[gameState.selected[0]][gameState.selected[1]] = Tile.button;
                 return;
             } catch (e) {
                 console.log(e);
             }
         }
-        if (
-            tileX < 0 ||
-            tileY < 0 ||
-            tileX >= gameState.size[0] ||
-            tileY >= gameState.size[1]
-        )
+        if (tileX < 0 || tileY < 0 || tileX >= gameState.size[0] || tileY >= gameState.size[1])
             return;
         await checkAndUpdate(ev.button, tileX, tileY);
         checkWin();
 
-        if (!gameState.haveClickFirst)
-            timeAnim = requestAnimationFrame(countTime);
+        if (!gameState.haveClickFirst) timeAnim = requestAnimationFrame(countTime);
         gameState.haveClickFirst = true;
         selectedPreset = preset;
     }
@@ -555,11 +515,7 @@
             return;
         }
 
-        if (
-            !settings.b ||
-            settings.b <= 0 ||
-            settings.b > settings.w * settings.h * maxRamRatio
-        ) {
+        if (!settings.b || settings.b <= 0 || settings.b > settings.w * settings.h * maxRamRatio) {
             alert("Invalid amount of Ram specified!");
             return;
         }
@@ -576,8 +532,7 @@
         pancakesLeft = gameState.ramCount;
         gameState.haveClickFirst = false;
         canvas.width = tileMetadata.tileSize[0] * gameState.size[0];
-        canvas.height =
-            tileMetadata.tileSize[1] * gameState.size[1] + topBarHeight;
+        canvas.height = tileMetadata.tileSize[1] * gameState.size[1] + topBarHeight;
         gameState.inProgress = true;
         gameBoard = [];
         gameBoardData = [];
@@ -618,7 +573,6 @@
         }
 
         // http://detectmobilebrowsers.com/
-        //@ts-ignore
         mobileMode = mobileCheck();
 
         ctx = canvas.getContext("2d");
@@ -667,9 +621,7 @@
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
                 <option value="hard">Hard</option>
-                <option value="what"
-                    >Good luck :3 (not recommended for weak devices)</option
-                >
+                <option value="what">Good luck :3 (not recommended for weak devices)</option>
                 <option value="custom">Custom...</option>
             </select>
         </label>
@@ -701,9 +653,7 @@
             />
         </label>
     </div>
-    <div
-        class="flex justify-between items-center px-8 text-3xl sm:text-4xl md:text-5xl"
-    >
+    <div class="flex justify-between items-center px-8 text-3xl sm:text-4xl md:text-5xl">
         <p>{pancakesLeft.toString().padStart(3, "0")}</p>
         <button
             class="box-content bg-[#693353] border-4 border-t-[#9e4c7e] border-l-[#9e4c7e] border-b-[#3d1830] border-r-[#3d1830] active:bg-[#3d1830] active:border-t-[#18072b] active:border-l-[#18072b] active:border-b-[#693353] active:border-r-[#693353]"
@@ -719,11 +669,8 @@
         <p>{timePassed.toString().padStart(3, "0")}</p>
     </div>
     <div class="max-w-screen overflow-x-auto">
-        <p class="text-sm">
-            you may need to scroll if your device is small --&gt;
-        </p>
-        <canvas width="360" height="360" bind:this={canvas} class="mx-auto"
-        ></canvas>
+        <p class="text-sm">you may need to scroll if your device is small --&gt;</p>
+        <canvas width="360" height="360" bind:this={canvas} class="mx-auto"></canvas>
     </div>
     <div class="flex gap-4 flex-wrap">
         <button
@@ -742,9 +689,7 @@
 </div>
 
 {#if ready && achievementShow}
-    <div
-        class="fixed w-screen h-screen top-0 left-0 z-5 bg-black/75 flex justify-center"
-    >
+    <div class="fixed w-screen h-screen top-0 left-0 z-5 bg-black/75 flex justify-center">
         <div
             class="border-4 border-(--theme-color) p-4 bg-black flex gap-4 max-w-[1200px] sm:mx-8 my-auto overflow-auto max-h-screen w-full flex-col"
         >
@@ -767,7 +712,7 @@
                 </div>
             </div>
             <div class="flex flex-col gap-4">
-                {#each Object.keys(achievements).map( (v) => Number(v), ) as id (id)}
+                {#each Object.keys(achievements).map((v) => Number(v)) as id (id)}
                     <div class="border-4 border-(--theme-color) p-4">
                         {#if achievements[id].hidden && !hasAchievement(id)}
                             <h2 class="h2-txt-size">
@@ -775,9 +720,7 @@
                                 <em>[hidden]</em>
                             </h2>
                             <p>
-                                <em
-                                    >Details for this achievement will be
-                                    revealed once unlocked.</em
+                                <em>Details for this achievement will be revealed once unlocked.</em
                                 >
                             </p>
                         {:else}

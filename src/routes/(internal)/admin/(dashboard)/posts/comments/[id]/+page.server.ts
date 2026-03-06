@@ -1,5 +1,5 @@
 export const load = async ({ params }) => {
-  return {
-    id: params.id,
-  };
+    return {
+        id: params.id,
+    };
 };

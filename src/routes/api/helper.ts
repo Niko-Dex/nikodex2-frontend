@@ -1,11 +1,17 @@
 import { json } from "@sveltejs/kit";
 
 export function errSrv(e: unknown) {
-    console.log(e)
+    console.log(e);
     if (e instanceof Error) {
-        return json({ error: `Cannot connect or problem while connecting to API server! ${e.message}` }, { status: 500 })
+        return json(
+            { error: `Cannot connect or problem while connecting to API server! ${e.message}` },
+            { status: 500 }
+        );
     } else {
-        return json({ error: `Cannot connect or problem while connecting to API server!` }, { status: 500 })
+        return json(
+            { error: `Cannot connect or problem while connecting to API server!` },
+            { status: 500 }
+        );
     }
 }
 
@@ -17,19 +23,16 @@ interface TokenValidateResponse {
 }
 
 export async function validateTurnstileToken(token: string, secret: string) {
-    const response = await fetch(
-        "https://challenges.cloudflare.com/turnstile/v0/siteverify",
-        {
-            method: "POST",
-            headers: {
-                "content-type": "application/json",
-            },
-            body: JSON.stringify({
-                response: token,
-                secret: secret,
-            }),
+    const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+        method: "POST",
+        headers: {
+            "content-type": "application/json",
         },
-    );
+        body: JSON.stringify({
+            response: token,
+            secret: secret,
+        }),
+    });
 
     const data: TokenValidateResponse = await response.json();
 

@@ -1,7 +1,7 @@
 export interface Blog {
-  id: number;
-  title: string;
-  author: string;
-  content: string;
-  post_datetime: string;
+    id: number;
+    title: string;
+    author: string;
+    content: string;
+    post_datetime: string;
 }
