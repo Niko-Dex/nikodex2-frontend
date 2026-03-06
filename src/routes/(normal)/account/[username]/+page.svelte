@@ -9,7 +9,6 @@
   import type { Niko } from "$lib/types/nikosona";
   import type { Post } from "$lib/types/post";
   import GoBackButton from "$lib/components/GoBackButton.svelte";
-  import ProfilePicture from "$lib/assets/images/page/account/oneshotprofilepicture.png";
   let { data }: PageProps = $props();
   let userNoiks: Niko[] = $state([]);
   let userPosts: Post[] = $state([]);
@@ -43,12 +42,7 @@
     <div class="flex gap-4">
       <GoBackButton _class="w-fit">Go Back</GoBackButton>
       {#if data.currentUser?.id == data.requestedInformation.id}
-        <a class="btn w-fit flex gap-4 group" href="/account">
-          <img
-            src={ProfilePicture}
-            class="group-hover:invert transition"
-            alt="Profile Icon"
-          />
+        <a class="btn text-nowrap w-fit flex gap-4 group" href="/account">
           Manage Account
         </a>
       {/if}

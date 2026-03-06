@@ -1,7 +1,6 @@
 <script lang="ts">
   import TrashIcon from "$lib/assets/images/page/account/trash_icon.png";
   import DeletionSplashes from "$lib/assets/data/deletionSplashes.json";
-  import { onMount } from "svelte";
 
   let {
     id = 0,

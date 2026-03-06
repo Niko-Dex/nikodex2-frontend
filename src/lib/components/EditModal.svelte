@@ -203,7 +203,7 @@
         {:else}
           <p>Abilities</p>
           <div class="h-60 max-h-60 overflow-y-auto flex flex-col gap-2">
-            {#each at as ability, idx (idx)}
+            {#each at as _, idx (idx)}
               <div class="flex flex-row gap-2">
                 <input class="w-full" type="text" bind:value={at[idx].name} />
                 <button class="btn w-fit" onclick={() => removeAbility(idx)}

@@ -32,7 +32,7 @@ export const actions = {
       formData.append("fields[2]", `Full Desc;${data.get("full_desc")}`);
       formData.append(
         "fields[3]",
-        `Is Pattable;${!data.get("is_blacklisted")}`,
+        `Is Pattable;${data.get("is_blacklisted") == "false" ? "patpat :3" : "no patpat..."}`,
       );
 
       const b_res = await fetch(`${env.BOT_SERVER_URL}/audit`, {
