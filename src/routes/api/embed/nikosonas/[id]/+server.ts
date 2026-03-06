@@ -30,7 +30,7 @@ function printText(ctx: CanvasRenderingContext2D, img: Image, text: string, x: n
     for (let idx = 0; idx < upper.length; idx++) {
         const char = upper[idx];
         const maxlen = metadata.maxlen;
-        let charPos = [-1, -1];
+        let charPos = [];
         if (char in font.c) {
             charPos = font.c[char as keyof typeof font.c];
         } else {
