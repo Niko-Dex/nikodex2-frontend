@@ -11,8 +11,9 @@
 
   async function refetchNikos() {
     loaded = false;
+
     apiData = await fetchNikos(data.currentUser?.id ?? -1);
-    loaded = !loaded;
+    loaded = true;
   }
 
   onMount(async () => {
