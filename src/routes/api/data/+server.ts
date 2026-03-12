@@ -9,9 +9,10 @@ async function auditNiko(jsonObj: Niko, title: string) {
     formData.append("msg", title);
     formData.append("fields[n]", "4");
     formData.append("fields[0]", `Name;${jsonObj.name}`);
-    formData.append("fields[1]", `Desc;${jsonObj.description}`);
-    formData.append("fields[2]", `Full desc;${jsonObj.full_desc}`);
-    formData.append("fields[3]", `Is Pattable;${!jsonObj.is_blacklisted}`);
+    formData.append("fields[1]", `Description;${jsonObj.description}`);
+    formData.append("fields[2]", `Full description;${jsonObj.full_desc}`);
+    formData.append("fields[3]", `Author;${jsonObj.author_name} (${jsonObj.author_id})`);
+    formData.append("fields[4]", `Is Pattable;${!jsonObj.is_blacklisted}`);
 
     const b_res = await fetch(`${env.BOT_SERVER_URL}/audit`, {
         method: "POST",
