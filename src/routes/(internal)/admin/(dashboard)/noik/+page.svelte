@@ -5,6 +5,9 @@
     import { SvelteSet } from "svelte/reactivity";
     import type { Niko } from "$lib/types/nikosona";
     import { api, performAction } from "$lib/helper/helper";
+    import PopupBox from "$lib/components/PopupBox.svelte";
+    import type { User } from "$lib/types/user";
+    import toast from "svelte-french-toast";
 
     let apiData: Niko[] = $state([]);
     let maxPages = $state(0);
@@ -19,14 +22,17 @@
     let editImage: Record<number, HTMLInputElement> = $state({});
     let markedDeletionAbilities: Set<number> = new SvelteSet<number>();
 
+    let editNikosonaAuthor: number = $state(NaN);
+    let usernameToSearchFor = $state("");
+    let currentUsers: User[] = $state([]);
+
     function startEdit(row: (typeof apiData)[number]) {
         editMode[row.id] = true;
         oldData[row.id] = { ...row };
     }
 
     async function saveEdit(row: (typeof apiData)[number]) {
-        const { author_id, description, full_desc, id, is_blacklisted, name } =
-            row;
+        const { author_id, description, full_desc, id, is_blacklisted, name } = row;
         const promise = api(`/api/data?id=${id}`, "PUT", {
             name,
             description,
@@ -43,11 +49,7 @@
         if (imageList && imageList.length > 0) {
             const formData = new FormData();
             formData.append("file", imageList[0]);
-            const promiseImage = api(
-                `/api/image?id=${row.id}`,
-                "POST",
-                formData,
-            );
+            const promiseImage = api(`/api/image?id=${row.id}`, "POST", formData);
             await performAction(promiseImage, {
                 loading: "Updating Nikosona's image...",
                 success: "Updated!",
@@ -93,20 +95,16 @@
         if (!editAbilitiesRow) return;
 
         const action = async () => {
-            const savePromises = (editAbilitiesRow?.abilities ?? []).map(
-                (ability) => {
-                    const isNew = isNaN(ability.id);
-                    const url = isNew
-                        ? `/api/data/abilities`
-                        : `/api/data/abilities?id=${ability.id}`;
-                    const method = isNew ? "POST" : "PUT";
+            const savePromises = (editAbilitiesRow?.abilities ?? []).map((ability) => {
+                const isNew = isNaN(ability.id);
+                const url = isNew ? `/api/data/abilities` : `/api/data/abilities?id=${ability.id}`;
+                const method = isNew ? "POST" : "PUT";
 
-                    return api(url, method, {
-                        name: ability.name,
-                        niko_id: ability.niko_id,
-                    });
-                },
-            );
+                return api(url, method, {
+                    name: ability.name,
+                    niko_id: ability.niko_id,
+                });
+            });
 
             const deletePromises = [...markedDeletionAbilities]
                 .filter((id) => !isNaN(id))
@@ -130,18 +128,7 @@
         const url = `/api/data/page?page=${currentPage}&sort_by=oldest_added`;
 
         const promise = api(url).then((data) => {
-            apiData = data.map(
-                (d: Omit<Niko, "author"> & { author_name: string }) => ({
-                    id: d.id,
-                    name: d.name,
-                    author: d.author_name,
-                    full_desc: d.full_desc,
-                    description: d.description,
-                    abilities: d.abilities,
-                    author_id: d.author_id,
-                    is_blacklisted: d.is_blacklisted,
-                }),
-            );
+            apiData = data;
         });
 
         await performAction(promise, {
@@ -190,6 +177,22 @@
 
         btn.disabled = false;
     }
+
+    async function getCurrentUsers() {
+        const apiDataCurrent = fetch(
+            `/api/data/user/search?username=${usernameToSearchFor}&page=${currentPage}`
+        )
+            .then((r) => r.json())
+            .then((r) => {
+                currentUsers = r;
+            });
+        await performAction(apiDataCurrent, {
+            loading: "Loading",
+            success: "Loaded search data!",
+            error: "Error while searching user",
+        });
+    }
+
     onMount(async () => {
         await getMaxPages();
         await getData();
@@ -211,7 +214,6 @@
                     <th class="px-3 py-2">Name</th>
                     <th class="px-3 py-2">Image</th>
                     <th class="px-3 py-2">Author</th>
-                    <th class="px-3 py-2">Author ID</th>
                     <th class="px-3 py-2">Short Description</th>
                     <th class="px-3 py-2">Full Description</th>
                     <th class="px-3 py-2">Abilities</th>
@@ -245,30 +247,27 @@
                                 bind:elm={editImage[noik.id]}
                                 min_width={200}
                             />
-                            <a
-                                href="/api/image?id={noik.id}"
-                                target="_blank"
-                                class="btn w-fit">View image</a
+                            <a href="/api/image?id={noik.id}" target="_blank" class="btn w-fit"
+                                >View image</a
                             >
                         </td>
                         <td class="px-3 py-2">
                             <span class="lg:hidden">Author:</span>
-                            <input
-                                type="text"
-                                disabled={true}
-                                bind:value={noik.author_name}
-                                class="w-full min-w-[100px]"
-                            />
-                        </td>
-                        <td class="px-3 py-2">
-                            <span class="lg:hidden">Author ID:</span>
-                            <input
-                                class="w-full min-w-[100px]"
+                            <button
+                                class="btn min-w-32"
                                 disabled={!editMode[noik.id]}
-                                type="number"
-                                placeholder="placeholder :<"
-                                bind:value={noik.author_id}
-                            />
+                                onclick={() => {
+                                    editNikosonaAuthor = noik.id;
+                                }}>Edit</button
+                            >
+                            <p>
+                                <b
+                                    >{noik.author_name == "" ? "Unknown" : noik.author_name}
+                                    {noik.author_id == undefined
+                                        ? ""
+                                        : "(id " + noik.author_id + ")"}</b
+                                >
+                            </p>
                         </td>
                         <td class="px-3 py-2">
                             <span class="lg:hidden">Short description</span>
@@ -291,10 +290,9 @@
                             <span class="lg:hidden">Abilities:</span>
                             <button
                                 class="btn min-w-20"
+                                disabled={!editMode[noik.id]}
                                 onclick={() => {
-                                    editAbilitiesRow = JSON.parse(
-                                        JSON.stringify(noik),
-                                    );
+                                    editAbilitiesRow = JSON.parse(JSON.stringify(noik));
                                 }}>Edit</button
                             >
                             <p>({noik.abilities.length} abilities)</p>
@@ -350,94 +348,6 @@
             }}>Add Entry</button
         >
     </div>
-    {#if editAbilitiesRow != null}
-        <div
-            class="fixed top-0 left-0 w-screen h-screen flex justify-center bg-black/65 z-10"
-        >
-            <div
-                class="w-full max-w-[1200px] flex flex-col gap-4 m-8 bg-slate-800 max-h-fit p-4 rounded-md"
-            >
-                <div class="flex justify-between items-center">
-                    <p>
-                        Editing {editAbilitiesRow?.name ?? "[unknown]"}'s
-                        Abitilies
-                    </p>
-                    <div>
-                        <button
-                            class="btn min-w-20"
-                            onclick={async () => {
-                                await saveAbilitiesEdit();
-                            }}>Save</button
-                        >
-                        <button
-                            class="btn min-w-20"
-                            onclick={() => {
-                                editAbilitiesRow = null;
-                            }}>Cancel</button
-                        >
-                    </div>
-                </div>
-                <div class="overflow-x-auto flex flex-col gap-4">
-                    <table
-                        class="table-auto text-left rtl:text-right bg-slate-800 text-gray-500 dark:text-gray-400 w-full max-w-[1200px]"
-                    >
-                        <thead
-                            class="text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-                        >
-                            <tr>
-                                <th class="px-3 py-2">Abilities</th>
-                                <th class="px-3 py-2 w-[128px] max-w-[128px]"
-                                    >Action</th
-                                >
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {#each editAbilitiesRow?.abilities ?? [] as ability, idx (idx)}
-                                <tr
-                                    class="text-[16px] odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
-                                >
-                                    <td class="px-3 py-2">
-                                        <input
-                                            type="text"
-                                            bind:value={ability.name}
-                                            class="w-full"
-                                        />
-                                    </td>
-                                    <td class="px-3 py-2">
-                                        <button
-                                            class="hover:cursor-pointer hover:text-red-500"
-                                            onclick={async () => {
-                                                markedDeletionAbilities.add(
-                                                    editAbilitiesRow?.abilities.splice(
-                                                        editAbilitiesRow.abilities.findIndex(
-                                                            (v) =>
-                                                                v.id ==
-                                                                ability.id,
-                                                        ),
-                                                        1,
-                                                    )[0].id ?? NaN,
-                                                );
-                                            }}>[Delete]</button
-                                        >
-                                    </td>
-                                </tr>
-                            {/each}
-                        </tbody>
-                    </table>
-                    <button
-                        class="btn lg:w-60 sticky left-0"
-                        onclick={async () => {
-                            editAbilitiesRow?.abilities.push({
-                                id: NaN,
-                                name: "",
-                                niko_id: editAbilitiesRow.id,
-                            });
-                        }}>Add Ability</button
-                    >
-                </div>
-            </div>
-        </div>
-    {/if}
     <PageChanger
         {maxPages}
         onupdate={async (page) => {
@@ -447,3 +357,140 @@
         disabled={dataErr}
     />
 </div>
+
+{#if editAbilitiesRow != null}
+    <PopupBox expanded={true}>
+        <div class="flex justify-between items-center gap-4">
+            <p>
+                Editing {editAbilitiesRow?.name ?? "[unknown]"}'s Abitilies
+            </p>
+            <div>
+                <button
+                    class="btn min-w-20"
+                    onclick={async () => {
+                        await saveAbilitiesEdit();
+                    }}>Save</button
+                >
+                <button
+                    class="btn min-w-20"
+                    onclick={() => {
+                        editAbilitiesRow = null;
+                    }}>Cancel</button
+                >
+            </div>
+        </div>
+        <div class="overflow-x-auto flex flex-col gap-4">
+            <table
+                class="table-auto text-left rtl:text-right bg-slate-800 text-gray-500 dark:text-gray-400 w-full max-w-[1200px]"
+            >
+                <thead
+                    class="text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                >
+                    <tr>
+                        <th class="px-3 py-2">Abilities</th>
+                        <th class="px-3 py-2 w-[128px] max-w-[128px]">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {#each editAbilitiesRow?.abilities ?? [] as ability, idx (idx)}
+                        <tr
+                            class="text-[16px] odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
+                        >
+                            <td class="px-3 py-2">
+                                <input type="text" bind:value={ability.name} class="w-full" />
+                            </td>
+                            <td class="px-3 py-2">
+                                <button
+                                    class="hover:cursor-pointer hover:text-red-500"
+                                    onclick={async () => {
+                                        markedDeletionAbilities.add(
+                                            editAbilitiesRow?.abilities.splice(
+                                                editAbilitiesRow.abilities.findIndex(
+                                                    (v) => v.id == ability.id
+                                                ),
+                                                1
+                                            )[0].id ?? NaN
+                                        );
+                                    }}>[Delete]</button
+                                >
+                            </td>
+                        </tr>
+                    {/each}
+                </tbody>
+            </table>
+            <button
+                class="btn lg:w-60 sticky left-0"
+                onclick={async () => {
+                    editAbilitiesRow?.abilities.push({
+                        id: NaN,
+                        name: "",
+                        niko_id: editAbilitiesRow.id,
+                    });
+                }}>Add Ability</button
+            >
+        </div>
+    </PopupBox>
+{/if}
+
+{#if !isNaN(editNikosonaAuthor)}
+    <PopupBox expanded={true}>
+        <div class="flex justify-between items-center gap-4">
+            <p>
+                Changing {apiData[editNikosonaAuthor].name ?? "[unknown]"}'s ownership
+            </p>
+            <div>
+                <button
+                    class="btn min-w-20"
+                    onclick={() => {
+                        editNikosonaAuthor = NaN;
+                    }}>Cancel</button
+                >
+            </div>
+        </div>
+        <p>Select a user to change the ownership.</p>
+        <div class="overflow-x-auto flex flex-col gap-4">
+            <div class="w-full flex flex-row gap-4">
+                <input
+                    bind:value={usernameToSearchFor}
+                    class="w-full"
+                    placeholder="Search user by username..."
+                    onchange={async () => {
+                        await getCurrentUsers();
+                    }}
+                />
+                <button class="btn">Search..</button>
+            </div>
+            {#each currentUsers as user (user.id)}
+                <button
+                    class="flex flex-row items-center gap-4 no-underline btn group p-3"
+                    onclick={() => {
+                        let idx = apiData.findIndex((u) => u.id === editNikosonaAuthor);
+                        if (idx !== -1) {
+                            apiData[idx].author_id = user.id;
+                            apiData[idx].author_name = user.username;
+                            editNikosonaAuthor = NaN;
+                        } else {
+                            toast.error("Failed to update author! No ID found for selected user.");
+                        }
+                    }}
+                >
+                    <img
+                        src={`/api/data/user/pfp?id=${user.id}`}
+                        alt="Loading"
+                        class="w-8 h-8 non-pixelated group-hover:outline-2 group-hover:outline-white"
+                        draggable="false"
+                        fetchpriority="low"
+                    />
+                    <h1 class="w-fit break-all">
+                        {user.username}
+                        <p class="italic text-sm">
+                            {user.description}
+                        </p>
+                    </h1>
+                </button>
+            {:else}
+                <p class="text-center"><em>start searching to see users!</em></p>
+            {/each}
+        </div>
+    </PopupBox>
+{/if}
