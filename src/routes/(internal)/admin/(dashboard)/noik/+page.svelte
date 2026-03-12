@@ -483,9 +483,6 @@
                     />
                     <h1 class="w-fit break-all">
                         {user.username}
-                        <p class="italic text-sm">
-                            {user.description}
-                        </p>
                     </h1>
                 </button>
             {:else}
