@@ -57,9 +57,7 @@
             viewBox="0 -960 960 960"
             width="32px"
             fill="#e3e3e3"
-            ><path
-                d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
-            /></svg
+            ><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" /></svg
         >
     </button>
     {#if showTitle}
@@ -79,16 +77,11 @@
 <Transition />
 <Toaster />
 {#if shouldLoadBanner && banner.title != "" && banner.banner_identifier != dismissedBanner}
-    <div
-        class="px-4 py-1 flex sticky gap-4"
-        style="background-color: {banner.banner_color};"
-    >
+    <div class="px-4 py-1 flex sticky gap-4" style="background-color: {banner.banner_color};">
         <div class="flex justify-center w-full">
             <p class="text-center">
                 <b>{banner.title}</b>
-                <a href="#o" onclick={() => (bannerOpen = true)}
-                    ><b>[Learn more]</b></a
-                >
+                <a href="#o" onclick={() => (bannerOpen = true)}><b>[Learn more]</b></a>
             </p>
         </div>
         {#if banner.is_dismissable}
@@ -96,10 +89,7 @@
                 href="#c"
                 class="flex justify-center items-center"
                 onclick={() => {
-                    localStorage.setItem(
-                        "seen_banner",
-                        banner.banner_identifier,
-                    );
+                    localStorage.setItem("seen_banner", banner.banner_identifier);
                     dismissedBanner = banner.banner_identifier;
                 }}><img src={CloseIcon} alt="close" class="w-4 h-4" /></a
             >
@@ -139,9 +129,8 @@
     <div
         class="link gap-2 lg:gap-4 flex-shrink w-full flex-col lg:flex-row lg:justify-end flex lg:overflow-visible"
     >
-        <Link
-            custom_class="flex-1 lg:flex-none border-(--theme-color)"
-            href="/noik">The Niko List</Link
+        <Link custom_class="flex-1 lg:flex-none border-(--theme-color)" href="/noik"
+            >The Niko List</Link
         >
         <Link custom_class="flex-1 lg:flex-none" href="/blog">Blog</Link>
         <Link custom_class="flex-1 lg:flex-none" href="/posts">Posts</Link>
@@ -152,22 +141,14 @@
             </div>
             <span class="lg:hidden">Discord</span>
         </Link>
-        <DropdownMenu
-            title="Change Theme"
-            btn_img={ThemeBtn}
-            width={480}
-            height={360}
-        >
+        <DropdownMenu title="Change Theme" btn_img={ThemeBtn} width={480} height={360}>
             <h1 class="h2-txt-size">Select a color!</h1>
             <div class="flex flex-wrap gap-4 justify-center overflow-auto">
                 {#each Theme.colors as color (color.name)}
                     <button
                         class="btn p-2 lg:max-w-[120px] w-full flex justify-center items-center flex-col"
                         onclick={() => {
-                            document.body.style.setProperty(
-                                "--theme-color",
-                                color.color,
-                            );
+                            document.body.style.setProperty("--theme-color", color.color);
                             localStorage.setItem("color", color.color);
                         }}
                     >
@@ -196,11 +177,7 @@
                         class="w-8 h-8"
                     />
                 {:else}
-                    <img
-                        src={ProfilePictureIcon}
-                        alt="Default user profile"
-                        class="w-8 h-8"
-                    />
+                    <img src={ProfilePictureIcon} alt="Default user profile" class="w-8 h-8" />
                 {/if}
                 <h1 class="h2-txt-size items-center break-all">
                     {currentUser?.username || "User"}
@@ -250,45 +227,38 @@
 <footer class="bg-white text-black p-4 flex justify-between items-center gap-4">
     <div>
         <p>
-            The Nikodex v2 - A project created by the <a
-                href="https://github.com/Niko-Dex">Nikodex contributors</a
+            The Nikodex v2 - A project created by the <a href="https://github.com/Niko-Dex"
+                >Nikodex contributors</a
             > on GitHub. Est. 2025
         </p>
+        <a href="/tos">Terms of Service</a>
 
         <details>
-            <summary
-                >Acknowledgements (for assets not created by the Nikodex
-                contributors)</summary
-            >
+            <summary>Acknowledgements (for assets not created by the Nikodex contributors)</summary>
             <div class="pl-8">
                 <ul class="list-disc">
                     <li>
-                        Background for the Home page, the Niko List page, the
-                        Blog page, the Submit page, and the Error page, along
-                        with the Niko sprites, are taken from the game OneShot
-                        and OneShot WME. All rights for these media belong to
+                        Background for the Home page, the Niko List page, the Blog page, the Submit
+                        page, and the Error page, along with the Niko sprites, are taken from the
+                        game OneShot and OneShot WME. All rights for these media belong to
                         Nightmargin.
                     </li>
                     <li>
-                        All Nikosonas belong to their respective owners and
-                        artists. We, the Nikodex team, are very grateful to be
-                        able to document all of the Nikosonas listed on the
-                        website. All Nikosonas are, and will be fully credited
-                        when you submit one. If you'd like to edit or remove an
-                        entry, you can do so through Nikodex's Discord server,
-                        located at the top.
+                        All Nikosonas belong to their respective owners and artists. We, the Nikodex
+                        team, are very grateful to be able to document all of the Nikosonas listed
+                        on the website. All Nikosonas are, and will be fully credited when you
+                        submit one. If you'd like to edit or remove an entry, you can do so through
+                        Nikodex's Discord server, located at the top.
                     </li>
                     <li>
-                        Terminus TTF font used in the website is licensed under
-                        the SIL Open Font License, downloaded from <a
-                            href="https://files.ax86.net/terminus-ttf/"
+                        Terminus TTF font used in the website is licensed under the SIL Open Font
+                        License, downloaded from <a href="https://files.ax86.net/terminus-ttf/"
                             >https://files.ax86.net/terminus-ttf/</a
                         >
                     </li>
                     <li>
-                        Svelte, TailwindCSS, along with a few libraries and
-                        dependencies, were used in the creation of the
-                        front-end.
+                        Svelte, TailwindCSS, along with a few libraries and dependencies, were used
+                        in the creation of the front-end.
                     </li>
                 </ul>
             </div>
@@ -296,13 +266,7 @@
     </div>
     <div>
         <a href="/ramsweeper" class="block w-[64px] h-[64px]">
-            <img
-                src={Baa}
-                alt="Baaaaa"
-                width="64"
-                height="64"
-                class="no-antialias"
-            />
+            <img src={Baa} alt="Baaaaa" width="64" height="64" class="no-antialias" />
         </a>
     </div>
 </footer>
