@@ -231,7 +231,10 @@
                 >Nikodex contributors</a
             > on GitHub. Est. 2025
         </p>
-        <a href="/tos">Terms of Service</a>
+        <div>
+            <a href="/tos">[Terms of Service]</a>
+            <a href="https://github.com/Niko-Dex/nikodex2-frontend">[Source code]</a>
+        </div>
 
         <details>
             <summary>Acknowledgements (for assets not created by the Nikodex contributors)</summary>
