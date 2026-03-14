@@ -25,6 +25,7 @@
     let editNikosonaAuthor: number = $state(NaN);
     let usernameToSearchFor = $state("");
     let currentUsers: User[] = $state([]);
+    let dummyAccountUsername = $state("");
 
     function startEdit(row: (typeof apiData)[number]) {
         editMode[row.id] = true;
@@ -190,6 +191,21 @@
             loading: "Loading",
             success: "Loaded search data!",
             error: "Error while searching user",
+        });
+    }
+
+    async function createDummyUser() {
+        const apiDataCurrent = fetch(`/api/user/dummy`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username: dummyAccountUsername }),
+        });
+        await performAction(apiDataCurrent, {
+            loading: "Creating",
+            success: "Created dummy user!",
+            error: "Error while creating user",
         });
     }
 
@@ -447,18 +463,20 @@
                 >
             </div>
         </div>
-        <p>Select a user to change the ownership.</p>
         <div class="overflow-x-auto flex flex-col gap-4">
+            <p>Search for existing account to change ownership below</p>
             <div class="w-full flex flex-row gap-4">
                 <input
                     bind:value={usernameToSearchFor}
                     class="w-full"
-                    placeholder="Search user by username..."
-                    onchange={async () => {
-                        await getCurrentUsers();
-                    }}
+                    placeholder="Search user to change ownership"
                 />
-                <button class="btn">Search..</button>
+                <button
+                    class="btn"
+                    onclick={async () => {
+                        await getCurrentUsers();
+                    }}>Search</button
+                >
             </div>
             {#each currentUsers as user (user.id)}
                 <button
@@ -486,8 +504,34 @@
                     </h1>
                 </button>
             {:else}
-                <p class="text-center"><em>start searching to see users!</em></p>
+                <p class="text-center">
+                    <em>type to search for existing accounts</em>
+                </p>
             {/each}
+            <p>Or create a dummy account to give a name to this Nikosona</p>
+            <div class="w-full flex flex-row gap-4">
+                <input
+                    bind:value={dummyAccountUsername}
+                    class="w-full"
+                    placeholder="Enter a name"
+                />
+                <button
+                    class="btn"
+                    onclick={async () => {
+                        await createDummyUser();
+                        usernameToSearchFor = dummyAccountUsername;
+                        await getCurrentUsers();
+                        let idx = apiData.findIndex((u) => u.id === editNikosonaAuthor);
+                        if (idx !== -1) {
+                            apiData[idx].author_id = currentUsers[0].id;
+                            apiData[idx].author_name = currentUsers[0].username;
+                            editNikosonaAuthor = NaN;
+                        } else {
+                            toast.error("Failed to update author! No ID found for selected user.");
+                        }
+                    }}>Create</button
+                >
+            </div>
         </div>
     </PopupBox>
 {/if}
