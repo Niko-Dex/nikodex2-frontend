@@ -1,7 +1,6 @@
 export enum AccountType {
     NORMAL = 0,
     ADMIN = 1,
-    BANNED = 2,
     DUMMY = 3,
 }
 
