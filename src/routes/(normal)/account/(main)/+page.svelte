@@ -5,6 +5,7 @@
     import toast from "svelte-french-toast";
     import { onMount } from "svelte";
     import CategoryComponent from "$lib/components/CategoryComponent.svelte";
+    import { AccountType } from "$lib/types/user";
 
     let new_username = $state("");
     let new_description = $state("");
@@ -33,9 +34,7 @@
         });
 
         await toast.promise(fetchUser, {
-            success: redirect
-                ? "User updated! Please log back in."
-                : "User updated!",
+            success: redirect ? "User updated! Please log back in." : "User updated!",
             loading: "Updating user",
             error: (e) => `Problem while updating user! ${e}`,
         });
@@ -49,15 +48,14 @@
 
 <div class="flex flex-col gap-2">
     <p>Your user ID is: {data.currentUser?.id}</p>
-    {#if data.currentUser?.is_admin}
+    {#if data.currentUser?.account_type === AccountType.ADMIN}
         <p>You are an admin!</p>
     {/if}
     <CategoryComponent categoryName="Bio/About Me">
         <div class="min-w-full">
             <textarea class="w-full" bind:value={new_description}></textarea>
         </div>
-        <button class="btn" onclick={async () => await updateUser(false)}
-            >Update Info</button
+        <button class="btn" onclick={async () => await updateUser(false)}>Update Info</button
         ></CategoryComponent
     >
     <CategoryComponent categoryName="Login Info">
@@ -76,8 +74,6 @@
             <input class="w-full" type="password" bind:value={new_password2} />
         </div>
 
-        <button class="btn" onclick={async () => await updateUser(true)}
-            >Update Info</button
-        >
+        <button class="btn" onclick={async () => await updateUser(true)}>Update Info</button>
     </CategoryComponent>
 </div>

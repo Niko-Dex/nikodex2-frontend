@@ -21,6 +21,7 @@
     import type { Banner } from "$lib/types/banner";
     import CloseIcon from "$lib/assets/images/components/close.png";
     import { onMount } from "svelte";
+    import { AccountType } from "$lib/types/user";
 
     let { children, data }: LayoutProps = $props();
     let banner: Banner = data.banner;
@@ -199,7 +200,7 @@
                 </a>
             {/if}
             <hr />
-            {#if currentUser?.is_admin}
+            {#if currentUser?.account_type === AccountType.ADMIN}
                 <a class="btn w-full" href="/admin/">
                     <p class="w-full">Admin Dashboard</p>
                 </a>

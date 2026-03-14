@@ -3,7 +3,7 @@
     import BanHammer from "$lib/assets/images/page/account/ban_hammer.png";
     import { onMount } from "svelte";
     import toast from "svelte-french-toast";
-    import type { User } from "$lib/types/user";
+    import { AccountType, type User } from "$lib/types/user";
     import { api, performAction } from "$lib/helper/helper";
 
     let totalUsersCount = $state(0);
@@ -27,7 +27,7 @@
     async function getUsers() {
         // api() handles the search params and JSON parsing
         const promise = api(
-            `/api/data/user/search?username=${usernameSearch}&page=${currentPage}`,
+            `/api/data/user/search?username=${usernameSearch}&page=${currentPage}`
         ).then((data) => (currentUsers = data));
 
         await performAction(promise, {
@@ -40,9 +40,7 @@
     async function deleteUser(id: number) {
         if (!confirm("Are you sure you want to delete this user?")) return;
 
-        const promise = api(`/api/user/delete?id=${id}`, "DELETE").then(
-            getUsers,
-        );
+        const promise = api(`/api/user/delete?id=${id}`, "DELETE").then(getUsers);
 
         await performAction(promise, {
             loading: "Deleting User...",
@@ -52,16 +50,9 @@
     }
 
     async function deletePfp(userId: number) {
-        if (
-            !confirm(
-                "Are you sure you want to delete this user's profile picture?",
-            )
-        )
-            return;
+        if (!confirm("Are you sure you want to delete this user's profile picture?")) return;
 
-        const promise = api(`/api/user/delete/pfp?id=${userId}`, "DELETE").then(
-            getUsers,
-        );
+        const promise = api(`/api/user/delete/pfp?id=${userId}`, "DELETE").then(getUsers);
 
         await performAction(promise, {
             loading: "Deleting profile picture...",
@@ -92,7 +83,7 @@
                     <th class="px-3 py-2">USERNAME</th>
                     <th class="px-3 py-2">IMAGE</th>
                     <th class="px-3 py-2">DESCRIPTION</th>
-                    <th class="px-3 py-2">IS_ADMIN</th>
+                    <th class="px-3 py-2">ACCOUNT_TYPE</th>
                     <th class="px-3 py-2">ACTIONS</th>
                 </tr>
             </thead>
@@ -133,18 +124,18 @@
                             <span>{user.description}</span>
                         </td>
                         <td class="px-3 py-2">
-                            <span class="lg:hidden">IS_ADMIN:</span>
-                            <span>{user.is_admin}</span>
+                            <span class="lg:hidden">ACCOUNT_TYPE:</span>
+                            <span>{user.account_type}</span>
                         </td>
                         <td class="px-3 py-2">
                             <span class="lg:hidden">ACTIONS:</span>
-                            {#if !user.is_admin}
+                            {#if user.account_type !== AccountType.ADMIN}
                                 <button
                                     class="btn flex flex-row w-max items-center group"
                                     onclick={async () => {
                                         if (
                                             confirm(
-                                                `Are you sure you want to delete this user: ${user.username}`,
+                                                `Are you sure you want to delete this user: ${user.username}`
                                             )
                                         ) {
                                             await deleteUser(user.id);

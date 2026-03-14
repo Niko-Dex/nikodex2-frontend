@@ -1,6 +1,5 @@
 <script lang="ts">
     import Background from "$lib/assets/images/page/user/world_machine.png";
-    import toast from "svelte-french-toast";
     import { onMount } from "svelte";
     import PageChanger from "$lib/components/PageChanger.svelte";
     import type { User } from "$lib/types/user";
