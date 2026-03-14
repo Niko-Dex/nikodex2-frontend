@@ -3,6 +3,7 @@ import { json } from "@sveltejs/kit";
 import { env } from "$env/dynamic/private";
 import { errSrv } from "../../helper";
 import jwt from "jsonwebtoken";
+import { AccountType } from "$lib/types/user";
 export async function POST({ request, fetch, cookies }) {
     const { username, password } = await request.json();
     try {
@@ -18,8 +19,9 @@ export async function POST({ request, fetch, cookies }) {
         const { access_token } = await res.json();
         try {
             const out = jwt.verify(access_token, env.JWT_SECRET);
+            console.log(out);
             if (typeof out != "string") {
-                if (!out["admin"]) throw new Error();
+                if (out["user_type"] != AccountType.ADMIN) throw new Error();
             } else {
                 throw new Error();
             }
