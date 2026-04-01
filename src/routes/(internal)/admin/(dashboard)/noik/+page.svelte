@@ -22,7 +22,7 @@
     let editImage: Record<number, HTMLInputElement> = $state({});
     let markedDeletionAbilities: Set<number> = new SvelteSet<number>();
 
-    let editNikosonaAuthor: number = $state(NaN);
+    let editNSAuthorRowIdx: number = $state(NaN);
     let usernameToSearchFor = $state("");
     let currentUsers: User[] = $state([]);
     let manualAuthorName = $state("");
@@ -259,7 +259,7 @@
                                 class="btn min-w-32"
                                 disabled={!editMode[noik.id]}
                                 onclick={() => {
-                                    editNikosonaAuthor = noik.id;
+                                    editNSAuthorRowIdx = apiData.findIndex((u) => u.id === noik.id);
                                 }}>Edit</button
                             >
                             <p>
@@ -434,17 +434,17 @@
     </PopupBox>
 {/if}
 
-{#if !isNaN(editNikosonaAuthor)}
+{#if !isNaN(editNSAuthorRowIdx)}
     <PopupBox expanded={true}>
         <div class="flex justify-between items-center gap-4">
             <p>
-                Changing {apiData[editNikosonaAuthor].name ?? "[unknown]"}'s ownership
+                Changing {apiData[editNSAuthorRowIdx].name ?? "[unknown]"}'s ownership
             </p>
             <div>
                 <button
                     class="btn min-w-20"
                     onclick={() => {
-                        editNikosonaAuthor = NaN;
+                        editNSAuthorRowIdx = NaN;
                     }}>Cancel</button
                 >
             </div>
@@ -468,11 +468,11 @@
                 <button
                     class="flex flex-row items-center gap-4 no-underline btn group p-3"
                     onclick={() => {
-                        let idx = apiData.findIndex((u) => u.id === editNikosonaAuthor);
+                        let idx = apiData.findIndex((u) => u.id === editNSAuthorRowIdx);
                         if (idx !== -1) {
                             apiData[idx].author_id = user.id;
                             apiData[idx].author_name = user.username;
-                            editNikosonaAuthor = NaN;
+                            editNSAuthorRowIdx = NaN;
                         } else {
                             toast.error("Failed to update author! No ID found for selected user.");
                         }
@@ -500,10 +500,10 @@
                 <button
                     class="btn"
                     onclick={async () => {
-                        let idx = apiData.findIndex((u) => u.id === editNikosonaAuthor);
+                        let idx = apiData.findIndex((u) => u.id === editNSAuthorRowIdx);
                         apiData[idx].author_id = undefined;
                         apiData[idx].author_name = manualAuthorName;
-                        editNikosonaAuthor = NaN;
+                        editNSAuthorRowIdx = NaN;
                     }}>Submit</button
                 >
             </div>
