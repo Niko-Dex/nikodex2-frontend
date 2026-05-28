@@ -181,9 +181,7 @@
     }
 
     async function getCurrentUsers() {
-        const apiDataCurrent = fetch(
-            `/api/data/user/search?username=${usernameToSearchFor}&page=${currentPage}`
-        )
+        const apiDataCurrent = fetch(`/api/data/user/search?username=${usernameToSearchFor}&page=1`)
             .then((r) => r.json())
             .then((r) => {
                 currentUsers = r;
