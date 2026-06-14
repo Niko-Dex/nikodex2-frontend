@@ -466,10 +466,9 @@
                 <button
                     class="flex flex-row items-center gap-4 no-underline btn group p-3"
                     onclick={() => {
-                        let idx = apiData.findIndex((u) => u.id === editNSAuthorRowIdx);
-                        if (idx !== -1) {
-                            apiData[idx].author_id = user.id;
-                            apiData[idx].author_name = user.username;
+                        if (!isNaN(editNSAuthorRowIdx)) {
+                            apiData[editNSAuthorRowIdx].author_id = user.id;
+                            apiData[editNSAuthorRowIdx].author_name = user.username;
                             editNSAuthorRowIdx = NaN;
                         } else {
                             toast.error("Failed to update author! No ID found for selected user.");
@@ -498,10 +497,13 @@
                 <button
                     class="btn"
                     onclick={async () => {
-                        let idx = apiData.findIndex((u) => u.id === editNSAuthorRowIdx);
-                        apiData[idx].author_id = undefined;
-                        apiData[idx].author_name = manualAuthorName;
-                        editNSAuthorRowIdx = NaN;
+                        if (!isNaN(editNSAuthorRowIdx)) {
+                            apiData[editNSAuthorRowIdx].author_id = undefined;
+                            apiData[editNSAuthorRowIdx].author_name = manualAuthorName;
+                            editNSAuthorRowIdx = NaN;
+                        } else {
+                            toast.error("Failed to update author! No ID found for selected user.");
+                        }
                     }}>Submit</button
                 >
             </div>
