@@ -54,6 +54,9 @@ More info at [Cloudflare Docs for Turnstile](https://developers.cloudflare.com/t
 Create a `.env` file at the root of the directory with the following content
 
 ```.env
+# Port to use in production. 5173 can be used for using the same port as development
+PORT=
+
 # setup with the backend
 
 API_SERVER_URL="<url_of_api_server>" # the backend API server address. in many cases, you shouldn't have to expose the back-end API server, so you can use "http://localhost:8000" or whichever address fastapi give you or you bind using gunicorn
